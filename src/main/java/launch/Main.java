@@ -50,7 +50,7 @@ public class Main {
 					
 					//model is the map from above
 					//package name will be under src/main/java/packagename
-					new ModelAndView(model, "packagename/index.html")
+					new ModelAndView(model, "html/main.html")
 			);
 		});
 		// NOTE: I am trying to find a way to put the html file in a location that is not it the claspath so that we can modify them post release with a recompile
