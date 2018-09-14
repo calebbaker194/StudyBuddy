@@ -11,7 +11,7 @@ import spark.template.velocity.VelocityTemplateEngine;
 public class Main {
 	public static void main(String args[]) throws Exception{
 		
-		/*
+		/**
 		 * This Allows Us to serve static files like .js and .scc files.
 		 * If a file is located at foldername/theme.css
 		 * Then we can link it in the html doc with <link rel="stylesheet" href="theme.css">

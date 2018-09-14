@@ -41,7 +41,7 @@ var room = 'roo';
 // Could prompt for room name:
 // room = prompt('Enter room name:');
 
-var socket = io.connect();
+var socket = new Object();
 
 if (room !== '') {
   socket.emit('create or join', room);
