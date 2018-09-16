@@ -41,6 +41,7 @@ public class Main {
 		 */
 		String s = (String) results.get(0).get("test");
 		
+		System.out.println(s);
 		
 		/**
 		 * This Allows Us to serve static files like .js and .scc files.
