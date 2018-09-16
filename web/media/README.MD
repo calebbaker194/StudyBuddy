@@ -1,0 +1,1 @@
+Here will will store images sounds and anything else that might classify in the media category

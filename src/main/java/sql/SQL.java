@@ -16,7 +16,7 @@ import javax.security.auth.login.FailedLoginException;
  * knowing some of the connection and connection closing syntax
  * Combined with Result list this is very handy to pulling data from Postgresql database
  */
-public class SQL {
+public class SQL{
 	
 	public static final Logger LOGGER = Logger.getLogger(SQL.class.getName());
 	

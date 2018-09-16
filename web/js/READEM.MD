@@ -1,0 +1,1 @@
+This is where we will store external js. If an html page has lots of scripting. we will place it here

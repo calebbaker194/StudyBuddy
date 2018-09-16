@@ -7,9 +7,40 @@ import java.util.Map;
 
 import spark.ModelAndView;
 import spark.template.velocity.VelocityTemplateEngine;
+import sql.ResultList;
+import sql.SQL;
 
 public class Main {
 	public static void main(String args[]) throws Exception{
+		
+		
+		/**
+		 * This is how you connect to the database.
+		 * Zach. Go ahead and change the fields to whatever you have them as on your computer.
+		 * everyone else will set them up like you have yours. The fields are as follows
+		 * Database: "dbname"
+		 * Host: "localhost"
+		 * Port: "5432"
+		 * Username: "uname"
+		 * Password: "passwd"
+		 */
+		SQL.Connect("dbname", "localhost", 5432, "uname", "passwd");
+		
+		
+		/**
+		 * Execute the sql statement and store the results in a ResultList
+		 */
+		ResultList results = SQL.executeQuery("SELECT 'Its Working' AS test");
+		
+		/*
+		 * Get the value of test in row 0. And store it into String. 
+		 * All values in a result set are stored as objects, So you will have to cast them as 
+		 * whatever you know them to be. 
+		 * 
+		 * if you want the fast way to get the first row then use results.get("test");
+		 */
+		String s = (String) results.get(0).get("test");
+		
 		
 		/**
 		 * This Allows Us to serve static files like .js and .scc files.
@@ -17,7 +48,7 @@ public class Main {
 		 * Then we can link it in the html doc with <link rel="stylesheet" href="theme.css">
 		 * folder name is located at the root of the project so StudyBuddy>foldername
 		 */
-		staticFiles.externalLocation("foldername");
+		staticFiles.externalLocation("web/");
 		
 		//to go to a page go to http://127.0.0.1:8080/[page path here]
 		port(8080);
