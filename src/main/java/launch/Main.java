@@ -24,7 +24,7 @@ public class Main {
 		 * Username: "uname"
 		 * Password: "passwd"
 		 */
-		SQL.Connect("dbname", "localhost", 5432, "uname", "passwd");
+		SQL.Connect("StudyBuddy", "localhost", 5432, "postgres", "Lenin.Lover.69_420.");
 		
 		
 		/**
