@@ -10,6 +10,7 @@ import spark.template.velocity.VelocityTemplateEngine;
 import sql.ResultList;
 import sql.SQL;
 
+
 public class Main {
 	public static void main(String args[]) throws Exception{
 		
@@ -59,10 +60,11 @@ public class Main {
 		 * "/" Is the path after https://www.example.com
 		 * req is the request
 		 * res is the response that you will send back.
-		 */
+		 *
 		get("/", (req,res)->{
+			req.cookie("name");
 			return "RAW HTML";
-		});
+		});*/
 		
 		
 		/*
@@ -85,6 +87,17 @@ public class Main {
 					new ModelAndView(model, "html/main.html")
 			);
 		});
-		// NOTE: I am trying to find a way to put the html file in a location that is not it the claspath so that we can modify them post release with a recompile
+		// NOTE: I am trying to find a way to put the html file in a location 
+		//that is not in the classpath so that we can modify 
+		//them post release with a recompile
+		
+		/**
+		 * These route the user to the registration page, and call
+		 * both methods from the Controller class to handle the registration process.
+		 */
+		get("/register", UserRegistrationController.serveRegistrationPage);
+		post("/register", UserRegistrationController.handleRegistrationPost);
+		
+				
 	}
 }

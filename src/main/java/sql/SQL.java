@@ -229,5 +229,271 @@ public class SQL{
 		return r.get(r.get(0).keySet().iterator().next());
 	}
 
+	/*
+	 * Here I am adding some functions to execute basic select and insert queries,
+	 * this will make these types of queries easier to use in our routes
+	 * The methods are overloaded so they can be used for small or large queries.
+	 * -Zac Migues
+	 */
+	
+	/**
+	 * This method executes an INSERT query, used with PUT/POST methods in HTTP
+	 * @param column1 - name of the column where you want the value to go
+	 * @param value1 - the value you want to insert
+	 * @param table - the table containing column1
+	 * @return - Returns the result set
+	 */
+	public static ResultList insert(String column1, String value1, String table) {
+		
+		return executeQuery("INSERT INTO public.\"" + table + "\"(" + column1 + ") VALUES (\'" + value1 + "\');", 1);
+		
+	}
+	
+	/**
+	 * This method executes an INSERT query, used with PUT/POST methods in HTTP
+	 * @param column1-2 : columns receiving data
+	 * @param value1-2 : info to be inserted
+	 * @param table : table containing columns
+	 * @return - returns the result set
+	 */
+	public static ResultList insert(String column1, String column2, String value1, String value2, String table) {
+		
+		return executeQuery("INSERT INTO public.\"" + table + "\" (" + column1 + ", " + column2 + ") VALUES (\'" + value1 + "\', \'" + value2 + "\');", 1);
+		
+	}
+	
+	
+	/**
+	 * This method executes an INSERT query, used with PUT/POST method in HTTP
+	 * @param column1-3 : columns receiving data
+	 * @param value1-3 : info to be inserted
+	 * @param table : table containing columns
+	 * @return : returns result set
+	 */
+	public static ResultList insert(String column1, String column2, String column3, String value1, String value2, String value3, String table) {
+		
+		return executeQuery("INSERT INTO public.\"" + table + "\" (" + column1 + ", " + column2 + ", " + column3 +") VALUES (\'" + value1 + "\', \'" + value2 + "\', \'" + value3 + "\');", 1);
+		
+	}
+	
+	/**
+	 * This method executes an INSERT query, used with PUT/POST method in HTTP
+	 * @param column1-4 : columns receiving data
+	 * @param value1-4 : info to be inserted
+	 * @param table : table containing columns
+	 * @return : returns result set
+	 */
+	public static ResultList insert(String column1, String column2, String column3, String column4, String value1, String value2, String value3, String value4, String table) {
+		
+		return executeQuery("INSERT INTO public.\"" + table + "\" (" + column1 + ", " + column2 + ", " + column3 + ", " + column4 +") VALUES (\'" + value1 + "\', \'" + value2 + "\', \'" + value3 + "\', \'" + value4 + "\');", 1);
+		
+	}
+	
+	/**
+	 * This method executes an INSERT query, used with PUT/POST method in HTTP
+	 * @param column1-5 : columns receiving data
+	 * @param value1-5 : info to be inserted
+	 * @param table : table containing columns
+	 * @return : returns result set
+	 */
+	public static ResultList insert(String column1, String column2, String column3, String column4, String column5, String value1, String value2, String value3, String value4, String value5, String table) {
+		
+		return executeQuery("INSERT INTO public.\"" + table + "\" (" + column1 + ", " + column2 + ", " + column3 + ", " + column4 + ", " + column5 +") VALUES (\'" + value1 + "\', \'" + value2 + "\', \'" + value3 + "\', \'" + value4 + "\', \'" + value5 + "\');", 1);
+		
+	}
+	
+	/**
+	 * This method executes an INSERT query, used with PUT/POST method in HTTP
+	 * @param column1-6 : columns receiving data
+	 * @param value1-6 : info to be inserted
+	 * @param table : table containing columns
+	 * @return : returns result set
+	 */
+	public static ResultList insert(String column1, String column2, String column3, String column4, String column5, String column6, String value1, String value2, String value3, String value4, String value5, String value6, String table) {
+		
+		return executeQuery("INSERT INTO public.\"" + table + "\" (" + column1 + ", " + column2 + ", " + column3 + ", " + column4 + ", " + column5 + ", " + column6 +") VALUES (\'" + value1 + "\', \'" + value2 + "\', \'" + value3 + "\', \'" + value4 + "\', \'" + value5 + "\', \'" + value6 +"\');", 1);
+		
+	}
+	
+	/**
+	 * This method executes an INSERT query, used with PUT/POST method in HTTP
+	 * @param column1-7 : columns receiving data
+	 * @param value1-7 : info to be inserted
+	 * @param table : table containing columns
+	 * @return : returns result set
+	 */
+	public static ResultList insert(String column1, String column2, String column3, String column4, String column5, String column6, String column7, String value1, String value2, String value3, String value4, String value5, String value6, String value7, String table) {
+		
+		return executeQuery("INSERT INTO public.\"" + table + "\" (" + column1 + ", " + column2 + ", " + column3 + ", " + column4 + ", " + column5 + ", " + column6 + ", " + column7 + ") VALUES (\'" + value1 + "\', \'" + value2 + "\', \'" + value3 + "\', \'" + value4 + "\', \'" + value5 + "\', \'" + value6 + "\', \'" + value7 + "\');", 1);
+		
+	}
+	
+	/**
+	 * This method executes an INSERT query, used with PUT/POST method in HTTP
+	 * @param column1-8 : columns receiving data
+	 * @param value1-8 : info to be inserted
+	 * @param table : table containing columns
+	 * @return : returns result set
+	 */
+	public static ResultList insert(String column1, String column2, String column3, String column4, String column5, String column6, String column7, String column8, String value1, String value2, String value3, String value4, String value5, String value6, String value7, String value8, String table) {
+		
+		return executeQuery("INSERT INTO public.\"" + table + "\" (" + column1 + ", " + column2 + ", " + column3 + ", " + column4 + ", " + column5 + ", " + column6 + ", " + column7 + ", " + column8 +") VALUES (\'" + value1 + "\', \'" + value2 + "\', \'" + value3 + "\', \'" + value4 + "\', \'" + value5 + "\', \'" + value6 + "\', \'" + value7 + "\', \'" + value8 + "\');", 1);
+		
+	}
+	
+	/**
+	 * This method executes an INSERT query, used with PUT/POST method in HTTP
+	 * @param column1-9 : columns receiving data
+	 * @param value1-9 : info to be inserted
+	 * @param table : table containing columns
+	 * @return : returns result set
+	 */
+	public static ResultList insert(String column1, String column2, String column3, String column4, String column5, String column6, String column7, String column8, String column9, String value1, String value2, String value3, String value4, String value5, String value6, String value7, String value8, String value9, String table) {
+		
+		return executeQuery("INSERT INTO public.\"" + table + "\" (" + column1 + ", " + column2 + ", " + column3 + ", " + column4 + ", " + column5 + ", " + column6 + ", " + column7 + ", " + column8 + ", " + column9 + ", " +") VALUES (\'" + value1 + "\', \'" + value2 + "\', \'" + value3 + "\', \'" + value4 + "\', \'" + value5 + "\', \'" + value6 + "\', \'" + value7 + "\', \'" + value8 + "\', \'" + value9 + "\');", 1);
+		
+	}
+	
+	/**
+	 * This method executes an INSERT query, used with PUT/POST method in HTTP
+	 * @param column1-10 : columns receiving data
+	 * @param value1-10 : info to be inserted
+	 * @param table : table containing columns
+	 * @return : returns result set
+	 */
+	public static ResultList insert(String column1, String column2, String column3, String column4, String column5, String column6, String column7, String column8, String column9, String column10, String value1, String value2, String value3, String value4, String value5, String value6, String value7, String value8, String value9, String value10, String table) {
+		
+		return executeQuery("INSERT INTO public.\"" + table + "\" (" + column1 + ", " + column2 + ", " + column3 + ", " + column4 + ", " + column5 + ", " + column6 + ", " + column7 + ", " + column8 + ", " + column9 + ", " + column10 + ", " +") VALUES (\'" + value1 + "\', \'" + value2 + "\', \'" + value3 + "\', \'" + value4 + "\', \'" + value5 + "\', \'" + value6 + "\', \'" + value7 + "\', \'" + value8 + "\', \'" + value9 + "\', \'" + value10 + "\');", 1);
+		
+	}
+	
+	/**
+	 * This method executes a SELECT query, used with GET methods in HTTP.
+	 * This is for selecting all the columns in a table only.
+	 * @param table - name of the table containing desired data
+	 * @return - returns the result set
+	 */
+	public static ResultList selectAll(String table) {
+		
+		return executeQuery("SELECT * FROM public.\"" + table + "\";", 0);
+		
+	}
+	
+	/**
+	 * This method executes a SELECT query, used with GET methods in HTTP
+	 * This is for selecting only certain columns in a table
+	 * @param column1 - name of column containing desired data
+	 * @param table - name of table containing column1
+	 * @return - returns the result set
+	 */
+	public static ResultList select(String column1, String table) {
+		
+		return executeQuery("SELECT " + column1 + " FROM public.\"" + table + "\";", 0);
+		
+	}
+	
+	/**
+	 * This method executes a SELECT query, used with GET methods in HTTP
+	 * This is for selecting only certain columns in a table
+	 * @param column1-2 - name of column containing desired data
+	 * @param table - name of table containing column1
+	 * @return - returns the result set
+	 */
+	public static ResultList select(String column1, String column2, String table) {
+		
+		return executeQuery("SELECT " + column1 + ", " + column2 + " FROM public.\"" + table + "\";", 0);
+		
+	}
+	
+	/**
+	 * This method executes a SELECT query, used with GET methods in HTTP
+	 * This is for selecting only certain columns in a table
+	 * @param column1-3 - name of column containing desired data
+	 * @param table - name of table containing column1
+	 * @return - returns the result set
+	 */
+	public static ResultList select(String column1, String column2, String column3, String table) {
+		
+		return executeQuery("SELECT " + column1 + ", " + column2 + ", " + column3 + " FROM public.\"" + table + "\";", 0);
+		
+	}
+	
+	/**
+	 * This method executes a SELECT query, used with GET methods in HTTP
+	 * This is for selecting only certain columns in a table
+	 * @param column1-4 - name of column containing desired data
+	 * @param table - name of table containing column1
+	 * @return - returns the result set
+	 */
+	public static ResultList select(String column1, String column2, String column3, String column4, String table) {
+		
+		return executeQuery("SELECT " + column1 + ", " + column2 + ", " + column3 + ", " + column4 + " FROM public.\"" + table + "\";", 0);
+		
+	}
+	
+	/**
+	 * This method executes a SELECT query, used with GET methods in HTTP
+	 * This is for selecting only certain columns in a table
+	 * @param column1-5 - name of column containing desired data
+	 * @param table - name of table containing column1
+	 * @return - returns the result set
+	 */
+	public static ResultList select(String column1, String column2, String column3, String column4, String column5, String table) {
+		
+		return executeQuery("SELECT " + column1 + ", " + column2 + ", " + column3 + ", " + column4 + ", " + column5 + " FROM public.\"" + table + "\";", 0);
+		
+	}
+	
+	/**
+	 * This method executes a SELECT query, used with GET methods in HTTP
+	 * This is for selecting only certain columns in a table
+	 * @param column1-6 - name of column containing desired data
+	 * @param table - name of table containing column1
+	 * @return - returns the result set
+	 */
+	public static ResultList select(String column1, String column2, String column3, String column4, String column5, String column6, String table) {
+		
+		return executeQuery("SELECT " + column1 + ", " + column2 + ", " + column3 + ", " + column4 + ", " + column5 + ", " + column6 + " FROM public.\"" + table + "\";", 0);
+		
+	}
+	
+	/**
+	 * This method executes a SELECT query, used with GET methods in HTTP
+	 * This is for selecting only certain columns in a table
+	 * @param column1-7 - name of column containing desired data
+	 * @param table - name of table containing column1
+	 * @return - returns the result set
+	 */
+	public static ResultList select(String column1, String column2, String column3, String column4, String column5, String column6, String column7, String table) {
+		
+		return executeQuery("SELECT " + column1 + ", " + column2 + ", " + column3 + ", " + column4 + ", " + column5 + ", " + column6 + ", " + column7 + " FROM public.\"" + table + "\";", 0);
+		
+	}
+	
+	/**
+	 * This method executes a SELECT query, used with GET methods in HTTP
+	 * This is for selecting only certain columns in a table
+	 * @param column1-8 - name of column containing desired data
+	 * @param table - name of table containing column1
+	 * @return - returns the result set
+	 */
+	public static ResultList select(String column1, String column2, String column3, String column4, String column5, String column6, String column7, String column8, String table) {
+		
+		return executeQuery("SELECT " + column1 + ", " + column2 + ", " + column3 + ", " + column4 + ", " + column5 + ", " + column6 + ", " + column7 + ", " + column8 + " FROM public.\"" + table + "\";", 0);
+		
+	}
+	
+	/**
+	 * This method executes a SELECT query, used with GET methods in HTTP
+	 * This is for selecting only certain columns in a table
+	 * @param column1-9 - name of column containing desired data
+	 * @param table - name of table containing column1
+	 * @return - returns the result set
+	 */
+	public static ResultList select(String column1, String column2, String column3, String column4, String column5, String column6, String column7, String column8, String column9, String table) {
+		
+		return executeQuery("SELECT " + column1 + ", " + column2 + ", " + column3 + ", " + column4 + ", " + column5 + ", " + column6 + ", " + column7 + ", " + column8 + ", " + column9 + " FROM public.\"" + table + "\";", 0);
+		
+	}
 	
 }
