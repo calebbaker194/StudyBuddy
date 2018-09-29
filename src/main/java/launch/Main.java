@@ -25,13 +25,13 @@ public class Main {
 		 * Username: "uname"
 		 * Password: "passwd"
 		 */
-		SQL.Connect("StudyBuddy", "localhost", 5432, "postgres", "Lenin.Lover.69_420.");
+		//SQL.Connect("StudyBuddy", "localhost", 5432, "postgres", "Lenin.Lover.69_420.");
 		
 		
 		/**
 		 * Execute the sql statement and store the results in a ResultList
 		 */
-		ResultList results = SQL.executeQuery("SELECT 'Its Working' AS test");
+		//ResultList results = SQL.executeQuery("SELECT 'Its Working' AS test");
 		
 		/*
 		 * Get the value of test in row 0. And store it into String. 
@@ -40,9 +40,9 @@ public class Main {
 		 * 
 		 * if you want the fast way to get the first row then use results.get("test");
 		 */
-		String s = (String) results.get(0).get("test");
+		//String s = (String) results.get(0).get("test");
 		
-		System.out.println(s);
+		//System.out.println(s);
 		
 		/**
 		 * This Allows Us to serve static files like .js and .scc files.
