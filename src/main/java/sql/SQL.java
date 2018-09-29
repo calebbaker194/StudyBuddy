@@ -237,6 +237,23 @@ public class SQL{
 	 */
 	
 	/**
+	 * This method executes an Insert query to the database 
+	 * @param table - the table name
+	 * @param columns - the columns in a CSV strings. like "col1,col2,col3"
+	 * @param values - An array of the values
+	 * @return - The Results of the SQL statment
+	 * @see - Call as insert("table1","col1,col2,col3","val1","val2","val3")
+	 */
+	public static ResultList insert (String table,String columns,String...values) {
+		String q="";
+		for(String v : values) 
+		{
+			q+=v+", ";
+		}
+		return executeQuery("INSERT INTO public.\"" + table + "\" (" + columns + ") VALUES ("+q.substring(0,q.length()-2)+");", 1);
+	}
+	
+	/**
 	 * This method executes an INSERT query, used with PUT/POST methods in HTTP
 	 * @param column1 - name of the column where you want the value to go
 	 * @param value1 - the value you want to insert
