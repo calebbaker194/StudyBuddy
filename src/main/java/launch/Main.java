@@ -25,13 +25,13 @@ public class Main {
 		 * Username: "uname"
 		 * Password: "passwd"
 		 */
-		//SQL.Connect("StudyBuddy", "localhost", 5432, "postgres", "Lenin.Lover.69_420.");
+		SQL.Connect("StudyBuddy", "localhost", 5432, "postgres", "Lenin.Lover.69_420.");
 		
 		
 		/**
 		 * Execute the sql statement and store the results in a ResultList
 		 */
-		//ResultList results = SQL.executeQuery("SELECT 'Its Working' AS test");
+		ResultList results = SQL.executeQuery("SELECT 'Its Working' AS test");
 		
 		/*
 		 * Get the value of test in row 0. And store it into String. 
@@ -40,9 +40,9 @@ public class Main {
 		 * 
 		 * if you want the fast way to get the first row then use results.get("test");
 		 */
-		//String s = (String) results.get(0).get("test");
+		String s = (String) results.get(0).get("test");
 		
-		//System.out.println(s);
+		System.out.println(s);
 		
 		/**
 		 * This Allows Us to serve static files like .js and .scc files.
@@ -91,12 +91,17 @@ public class Main {
 		//that is not in the classpath so that we can modify 
 		//them post release with a recompile
 		
-		/**
-		 * These route the user to the registration page, and call
-		 * both methods from the Controller class to handle the registration process.
-		 */
+		get("/", HomePageController.serveHomePage);
+		
+		//Defining paths for account registration
 		get("/register", UserRegistrationController.serveRegistrationPage);
 		post("/register", UserRegistrationController.handleRegistrationPost);
+		
+		//defining paths for login-logout procedures
+		get("/login", LoginController.serveLoginPage);
+		post("/login", LoginController.handleLoginPost);
+		get("/logout", LoginController.serveLogoutPage);
+		post("/logout", LoginController.handleLogoutPost);
 		
 				
 	}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Study Buddy</title>
+	</head>
+	
+	<body>
+	
+		<h1>Welcome to Study Buddy</h1>
+		<br/>
+		<a href="http://localhost:8080/login">Login/Register</a>
+		<br/><br/>
+		<!-- This loops through the courses map and outputs the coursenames in a drop menu -->
+		<form method="post">
+			<select>
+				#foreach($course in $courses)
+				<option value="$!{$course.get("coursename")}">$course.get("coursename")</option>
+			#end
+			</select>
+			<br/><br/>
+			<input type="submit" name="Start Studying"/>
+		</form>
+	</body>
+</html>

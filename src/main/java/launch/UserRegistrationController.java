@@ -50,12 +50,12 @@ public class UserRegistrationController {
 		String classif = request.queryParams("class");
 		
 		//inserting info in the database
-		ResultList result = SQL.insert("username", "email", "userpassword", "school", 
-				"firstname", "lastname", "classification", uname, email, pword, 
-				school, fname, lname, classif, "UserAccount");
+		ResultList result = SQL.insert("UserAccount", "username, email, userpassword, school, "
+				+ "classification, firstname, lastname", uname, email, pword, school, 
+				classif, fname, lname);
 		
 		//check to see if new record was added successfully
-		if(result.get(0).get("username") != null)
+		if(!result.isEmpty())
 			model.put("msg", successMsg); //allows successMsg object to be rendered by Velocity by typing $msg in the html
 		
 		else

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Login</title>
+	</head>
+	
+	<body>
+
+		<form method="post">
+		
+			#if($authFail)
+				<p>You were not logged in</p>
+			#elseif($authSuccess)
+				<p>You were successfully logged in!</p>
+				<a href="http://localhost:8080/$!{uname}">Go to your page</a>
+				<br/><br/>
+			#elseif($loggedOut)
+				<p>You have logged out!</p>
+			#end
+			
+			Username <br/>		
+			<input type="text" name="username" required/>
+			<br/><br/>
+			Password <br/>
+			<input type="password" name="password" required/>
+			<br/><br/>
+			#if($loginRedirect)
+				<input type="hidden" name="loginRedirect" value="$!{loginRedirect}"/>
+			#end
+			<input type="submit" name="Log In"/>
+			<br/><br/>
+			
+		</form>
+		
+		<p>Not a user?</p>
+		<a href="http://localhost:8080/register">Register here!</a>
+		<br/>
+		<a href="http://localhost:8080/">Home</a>
+
+	</body>
+</html>
