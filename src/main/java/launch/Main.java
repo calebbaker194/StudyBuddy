@@ -103,6 +103,12 @@ public class Main {
 		get("/logout", LoginController.serveLogoutPage);
 		post("/logout", LoginController.handleLogoutPost);
 		
+		path("/:user", () -> {
+			
+			get("/home", UserPageController.serveUserPage);
+			
+		});
+		
 				
 	}
 }
