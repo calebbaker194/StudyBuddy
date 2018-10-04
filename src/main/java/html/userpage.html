@@ -1,10 +1,60 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
-	Welcome to your page ${uname}!
-</body>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Insert title here</title>
+	</head>
+	<style>
+		ul {
+		    list-style-type: none;
+		    margin: 0;
+		    padding: 0;
+		    overflow: hidden;
+		    background-color: #f3f3f3;
+		    border: 1px solid #e7e7e7;
+		    width = 100%;
+		}
+		li {
+		    float: left;
+		}
+		li a {
+		    display: block;
+		    color: #666;
+		    text-align: center;
+		    padding: 14px 16px;
+		    text-decoration: none;
+		}
+		li a:hover:not(.active) {
+		    background-color: #ddd;
+		}
+		li a.active {
+		    color: white;
+		    background-color: #85929E;
+		}
+		h1 {
+			color: #666;
+		}	
+	</style>
+	
+	<body>
+		<ul>
+		  <li><a href="http://localhost:8080/">Home</a></li>
+		  <li><a href="#about">About</a></li>
+		  <li style="float:right"><a class="active" href="#account">Account</a></li>
+		  <li style="float:right"><a href="http://localhost:8080/login">Logout</a></li>
+		</ul>
+		
+		<center>
+			<br>
+			Welcome to your page ${uname}!
+			<br><br><br><br>
+			<p></p>
+		</center>
+	</body>
 </html>
+
+
+
+
+
+

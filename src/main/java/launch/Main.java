@@ -40,8 +40,8 @@ public class Main {
 		 * 
 		 * if you want the fast way to get the first row then use results.get("test");
 		 */
-		String s = (String) results.get(0).get("test");
 		
+		String s = (String) results.get(0).get("test");
 		System.out.println(s);
 		
 		/**
@@ -66,7 +66,16 @@ public class Main {
 			return "RAW HTML";
 		});*/
 		
-		
+		get("/about", (req,res)->{
+			Map<String, Object> model = new HashMap<String, Object>();
+			//This is where the rendering actually happens
+			return new VelocityTemplateEngine().render(
+					
+					//model is the map from above
+					//package name will be under src/main/java/packagename
+					new ModelAndView(model, "html/about.html")
+			);
+		});
 		/*
 		 * Some common Methods for the res
 		 * res.redirect("/");

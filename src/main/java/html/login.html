@@ -4,20 +4,48 @@
 		<meta charset="ISO-8859-1">
 		<title>Login</title>
 	</head>
+	<style>
+	ul {
+	    list-style-type: none;
+	    margin: 0;
+	    padding: 0;
+	    overflow: hidden;
+	    background-color: #f3f3f3;
+	    border: 1px solid #e7e7e7;
+	    width = 100%;
+	}
+	li {
+	    float: left;
+	}
+	li a {
+	    display: block;
+	    color: #666;
+	    text-align: center;
+	    padding: 14px 16px;
+	    text-decoration: none;
+	}
+	li a:hover:not(.active) {
+	    background-color: #ddd;
+	}
+	li a.active {
+	    color: white;
+	    background-color: #85929E;
+	}
+	h1 {
+		color: #666;
+	}
 	
+	</style>
 	<body>
-
-		<form method="post">
+		<ul>
+		  <li><a href="http://localhost:8080/">Home</a></li>
+		  <li><a href="#about">About</a></li>
+		  <li style="float:right"><a class ="active" href="http://localhost:8080/login">Login</a></li>
+		</ul>
+		<br><br>
 		
-			#if($authFail)
-				<p>You were not logged in</p>
-			#elseif($authSuccess)
-				<p>You were successfully logged in!</p>
-				<a href="http://localhost:8080/$!{uname}">Go to your page</a>
-				<br/><br/>
-			#elseif($loggedOut)
-				<p>You have logged out!</p>
-			#end
+		<center>
+		<form method="post">
 			
 			Username <br/>		
 			<input type="text" name="username" required/>
@@ -29,14 +57,31 @@
 				<input type="hidden" name="loginRedirect" value="$!{loginRedirect}"/>
 			#end
 			<input type="submit" name="Log In"/>
+			
 			<br/><br/>
 			
-		</form>
+			#if($authFail)
+				<p><font color="red">Invalid login</font></p>
+				
+			#elseif($authSuccess)
+				<p>You were successfully logged in!</p>
+				<a href="http://localhost:8080/$!{uname}/home">Go to your page</a>
+				<br/><br/>
+				
+				<script>
+					location.href = "http://localhost:8080/$!{uname}/home";
+				</script>
+				
+			#elseif($loggedOut)
+				<p>You have logged out!</p>
+			#end
+			
+		</form><br><br>
 		
 		<p>Not a user?</p>
 		<a href="http://localhost:8080/register">Register here!</a>
 		<br/>
-		<a href="http://localhost:8080/">Home</a>
 
+		</center>
 	</body>
 </html>
