@@ -1,6 +1,9 @@
 package launch;
 
 import spark.*;
+import spark.servlet.SparkApplication;
+import spark.servlet.SparkFilter;
+
 import java.util.*;
 import spark.template.velocity.*;
 import sql.*;
@@ -13,7 +16,7 @@ import sql.*;
  * @author Zac Migues
  *
  */
-public class UserRegistrationController {
+public class UserRegistrationController implements SparkApplication {
 	
 	/**
 	 * Simple route to render the registration form, used with get()
@@ -66,5 +69,10 @@ public class UserRegistrationController {
 				);
 		
 	};
+
+	@Override
+	public void init() {
+		System.out.println("inint now");
+	}
 
 }
