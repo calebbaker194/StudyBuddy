@@ -25,8 +25,17 @@ public class Main {
 		 * Username: "uname"
 		 * Password: "passwd"
 		 */
-		SQL.Connect("StudyBuddy", "localhost", 5432, "postgres", "Lenin.Lover.69_420.");
+		SQL.Connect("StudyBuddy", "localhost", 5432, "studybuddy", "studybuddypass");
 		
+		/*
+		 * -- Role: studybuddy
+		   -- Password: studybuddypass
+		   -- DROP ROLE studybuddy;
+			
+			CREATE ROLE studybuddy LOGIN
+  			ENCRYPTED PASSWORD 'md5d714909662b90e419e13956575e18913'
+  			SUPERUSER INHERIT CREATEDB CREATEROLE REPLICATION;
+		 */
 		
 		/**
 		 * Execute the sql statement and store the results in a ResultList
