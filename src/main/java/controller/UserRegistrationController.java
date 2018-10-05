@@ -1,4 +1,4 @@
-package launch;
+package controller;
 
 import spark.*;
 import spark.servlet.SparkApplication;
