@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import controller.*;
+import singnaling.Signaler;
 import spark.ModelAndView;
 import spark.template.velocity.VelocityTemplateEngine;
 import sql.ResultList;
@@ -26,7 +27,7 @@ public class Main {
 		 * Username: "uname"
 		 * Password: "passwd"
 		 */
-		SQL.Connect("StudyBuddy", "localhost", 5432, "studybuddy", "studybuddypass");
+		//SQL.Connect("StudyBuddy", "localhost", 5432, "studybuddy", "studybuddypass");
 		
 		/*
 		 * -- Role: studybuddy
@@ -41,7 +42,7 @@ public class Main {
 		/**
 		 * Execute the sql statement and store the results in a ResultList
 		 */
-		ResultList results = SQL.executeQuery("SELECT 'Its Working' AS test");
+		//ResultList results = SQL.executeQuery("SELECT 'Its Working' AS test");
 		
 		/*
 		 * Get the value of test in row 0. And store it into String. 
@@ -51,8 +52,8 @@ public class Main {
 		 * if you want the fast way to get the first row then use results.get("test");
 		 */
 		
-		String s = (String) results.get(0).get("test");
-		System.out.println(s);
+		//String s = (String) results.get(0).get("test");
+		//System.out.println(s);
 		
 		/**
 		 * This Allows Us to serve static files like .js and .scc files.
@@ -61,6 +62,10 @@ public class Main {
 		 * folder name is located at the root of the project so StudyBuddy>foldername
 		 */
 		staticFiles.externalLocation("web/");
+		
+		//This starts up the signaling server
+		Signaler sig = new Signaler();
+		sig.start();
 		
 		//to go to a page go to http://127.0.0.1:8080/[page path here]
 		port(8080);

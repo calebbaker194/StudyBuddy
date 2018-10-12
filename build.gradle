@@ -33,6 +33,13 @@ dependencies {
 	compile group: 'org.postgresql', name: 'postgresql', version: '42.1.1'
     
     
+    // https://mvnrepository.com/artifact/org.java-websocket/Java-WebSocket
+	compile group: 'org.java-websocket', name: 'Java-WebSocket', version: '1.3.0'
+    
+    // https://mvnrepository.com/artifact/org.json/json
+	compile group: 'org.json', name: 'json', version: '20170516'
+    
+    
     // This is for the web server Spark built on jetty
     compile group: "com.sparkjava", name: "spark-core", version: "2.7.2"
     // FOR the html render engine
