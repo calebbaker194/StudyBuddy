@@ -9,8 +9,7 @@ import controller.*;
 import singnaling.Signaler;
 import spark.ModelAndView;
 import spark.template.velocity.VelocityTemplateEngine;
-import sql.ResultList;
-import sql.SQL;
+import sql.*;
 
 
 public class Main {
@@ -27,7 +26,7 @@ public class Main {
 		 * Username: "uname"
 		 * Password: "passwd"
 		 */
-		//SQL.Connect("StudyBuddy", "localhost", 5432, "studybuddy", "studybuddypass");
+		SQL.Connect("StudyBuddy", "localhost", 5432, "studybuddy", "studybuddypass");
 		
 		/*
 		 * -- Role: studybuddy
@@ -42,7 +41,8 @@ public class Main {
 		/**
 		 * Execute the sql statement and store the results in a ResultList
 		 */
-		//ResultList results = SQL.executeQuery("SELECT 'Its Working' AS test");
+		ResultList results = SQL.executeQuery("SELECT 'Its Working' AS test");
+		
 		
 		/*
 		 * Get the value of test in row 0. And store it into String. 
@@ -52,16 +52,17 @@ public class Main {
 		 * if you want the fast way to get the first row then use results.get("test");
 		 */
 		
-		//String s = (String) results.get(0).get("test");
-		//System.out.println(s);
+		String s = (String) results.get(0).get("test");
+		System.out.println(s);
 		
 		/**
 		 * This Allows Us to serve static files like .js and .scc files.
 		 * If a file is located at foldername/theme.css
 		 * Then we can link it in the html doc with <link rel="stylesheet" href="theme.css">
 		 * folder name is located at the root of the project so StudyBuddy>foldername
+		 * 
 		 */
-		staticFiles.externalLocation("web/");
+		staticFiles.externalLocation("/web");
 		
 		//This starts up the signaling server
 		Signaler sig = new Signaler();
@@ -108,7 +109,7 @@ public class Main {
 					
 					//model is the map from above
 					//package name will be under src/main/java/packagename
-					new ModelAndView(model, "html/main.html")
+					new ModelAndView(model, "html/test.html")
 			);
 		});
 		// NOTE: I am trying to find a way to put the html file in a location 
@@ -129,7 +130,11 @@ public class Main {
 		
 		path("/:user", () -> {
 			
-			get("/home", UserPageController.serveUserPage);
+			path("/home", () -> {
+				
+				get("/", UserPageController.serveUserPage);
+				
+			});
 			
 		});
 		

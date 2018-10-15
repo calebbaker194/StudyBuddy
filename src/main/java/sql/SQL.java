@@ -39,11 +39,13 @@ public class SQL{
 		flagMap.put("CREATE", 4);
 		flagMap.put("ALTER", 5);
 		flagMap.put("DROP", 6);
+		flagMap.put("PREPARE", 7);
+		flagMap.put("EXECUTE", 8);
 	}
 	
-	private static String connectionString = null;
-	private static String username;
-	private static String password;
+	protected static String connectionString = null;
+	protected static String username;
+	protected static String password;
 	private static String dbTableName = "query";
 
 	/**
@@ -186,6 +188,7 @@ public class SQL{
 		}
 	}
 	
+	
 	/**
 	 * this gives a string representing the active password
 	 * @return this returns the active password.
@@ -245,10 +248,10 @@ public class SQL{
 	 * @see - Call as insert("table1","col1,col2,col3","val1","val2","val3")
 	 */
 	public static ResultList insert (String table,String columns,String...values) {
-		String q="\'";
+		String q="";
 		for(String v : values) 
 		{
-			q+=v+"\', \'";
+			q+=v+", ";
 		}
 		return executeQuery("INSERT INTO public.\"" + table + "\" (" + columns + ") VALUES ("+q.substring(0,q.length()-3)+");", 1);
 	}

@@ -25,9 +25,7 @@ public class HomePageController {
 		
 		model.put("courses", result);
 		
-		return new VelocityTemplateEngine().render(
-					new ModelAndView(model, "html/home.html")
-				);
+		return new VelocityTemplateEngine().render(new ModelAndView(model, "html/home.html"));
 		
 	};
 	

@@ -3,6 +3,80 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Register an Account</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				//hiding these at load of page
+				$("#restOfForm").hide();
+				$("#pwordInfo").hide();
+				$("#checkPword").hide();
+				
+				//This uses regular expressions to check the password for requirements
+				$("#pword").keyup(function(event) {
+					
+					var val = $(this).val();
+					
+					if(val.length < 8) {
+						$("#length").removeClass("valid").addClass("invalid");
+					} else {
+						$("#length").removeClass("invalid").addClass("valid");
+					}
+					
+					if(!val.match(/[a-z]/)) {
+						$("#lcLetter").removeClass("valid").addClass("invalid");
+					} else {
+						$("#lcLetter").removeClass("invalid").addClass("valid");
+					}
+					
+					if(!val.match(/[A-Z]/)) {
+						$("#ucLetter").removeClass("valid").addClass("invalid");
+					} else {
+						$("#ucLetter").removeClass("invalid").addClass("valid");
+					}
+					
+					if(!val.match(/[0-9]/)) {
+						$("#number").removeClass("valid").addClass("invalid");
+					} else {
+						$("#number").removeClass("invalid").addClass("valid");
+					}
+					
+					if(!val.match(/[!,.?_-`~]/)) {
+						$("#punctuation").removeClass("valid").addClass("invalid");
+					} else {
+						$("#punctuation").removeClass("invlaid").addClass("valid");
+					}
+					
+				}).focus(function(){
+					//focus is when the box is clicked, when it is, pwordInfo is shown
+					$("#pwordInfo").show();
+					
+				}).blur(function(){
+					//blur is when the box is deselected. When it is, pwordInfo is hidden
+					$("#pwordInfo").hide();
+				});
+				
+				//this checks if the password re-entry matches
+				$("#confPword").keyup(function(event) {
+					//checking entered infoe
+					var pswd = $("#pword").val();
+					var checkPswd = $(this).val();
+					if(checkPswd.match(pswd)) {
+						$("#checkPword").hide();
+						$("#restOfForm").show();
+					}
+					
+				}).focus(function(){
+					//showing checkPword on field selection
+					$("#checkPword").show();
+					
+				}).blur(function(){
+					//hiding checkPword on field deselection
+					$("#checkPword").hide();
+					
+				});
+				
+			});
+		</script>
 	</head>
 	<style>
 	ul {
@@ -34,18 +108,17 @@
 	h1 {
 		color: #666;
 	}
+	.invalid {color:red}
+	.valid {color:green}
 	
 	</style>
 	<body>
 		<center>
-		
-		
 		<ul>
 		  <li><a href="http://localhost:8080/">Home</a></li>
 		  <li><a href="http://localhost:8080/about">About</a></li>
 		  <li style="float:right"><a href="http://localhost:8080/login">Login</a></li>
 		</ul>
-		
 		
 		
 		<div class="form_container">
@@ -54,33 +127,63 @@
 				
 				<br><br>
 				Username <br/>
-				<input type="text" name="username" required/>
-				<br/><br/>
-				E-mail <br/>
-				<input type="email" name="email" required/>
+				<input type="text" id="uname" name="username" required/>
 				<br/><br/>
 				Password <br/>
-				<input type="password" name="pword" required/>
+				<input type="password" id="pword" name="pword" required/>
 				<br/><br/>
-				School <br/>
-				<input type="text" name="school"/>
+				Confirm Password <br/>
+				<input type="password" id="confPword" name="confPword" required/>
 				<br/><br/>
-				First Name <br/>
-				<input type="text" name="fname"/>
-				<br/><br/>
-				Last Name <br/>
-				<input type="text" name="lname"/>
-				<br/><br/>
-				Classification <br/>
-				<input type="radio" name="class" value="freshman"/>Freshman<br/>
-				<input type="radio" name="class" value="sophomore"/>Sophomore<br/>
-				<input type="radio" name="class" value="junior"/>Junior<br/>
-				<input type="radio" name="class" value="senior"/>Senior<br/><br/>
-				<input type="submit" name="Submit"/><br/><br/>
-			
+				
+				<div id="restOfForm">
+					E-mail <br/>
+					<input type="email" id="email" name="email" required/>
+					<br/><br/>
+					School <br/>
+					<input type="text" name="school"/>
+					<br/><br/>
+					First Name <br/>
+					<input type="text" name="fname"/>
+					<br/><br/>
+					Last Name <br/>
+					<input type="text" name="lname"/>
+					<br/><br/>
+					Classification <br/>
+					<input type="radio" name="class" value="freshman"/>Freshman<br/>
+					<input type="radio" name="class" value="sophomore"/>Sophomore<br/>
+					<input type="radio" name="class" value="junior"/>Junior<br/>
+					<input type="radio" name="class" value="senior"/>Senior<br/><br/>
+					<input type="submit" name="Submit"/><br/><br/>
+					</div>
 			</form>
+			
+			<div id="pwordInfo">
+				<h4>Password must meet the following requirements</h4>
+				<ul>
+					<li id="length" class="invalid">At least 8 characters</li>
+					<li id="lcLetter" class="invalid">At least one lowercase letter</li>
+					<li id="ucLetter" class="invalid">At least one uppercase letter</li>
+					<li id="number" class="invalid">At least one number</li>
+					<li id="punctuation" class="invalid">At least one of: !,.?_-`~</li>
+				</ul>
+			</div>
+			
+			<div id="checkPword">
+				<p>Passwords do not match</p>
+			</div>
 		
 		</div>
+		
+		#if($success)
+			<script>
+				alert("You have successfully registered");
+				location.href = "http://localhost:8080/login"
+			</script>
+		#elseif($fail)
+			<p>Registration failed, try again</p>
+		#end
+		
 		</center>
 	</body>
 </html>

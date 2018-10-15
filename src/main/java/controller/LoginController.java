@@ -47,7 +47,7 @@ public class LoginController {
 		String pword = req.queryParams("password");
 		
 		//checks client info against the database
-		if(!authenticate(uname, pword))
+		if(!PreparedQueries.authenticate(uname, pword))
 			model.put("authFail", true); //used to check for login failure in html
 		else
 			model.put("authSuccess", true); //used to check for login success in html
@@ -92,26 +92,6 @@ public class LoginController {
 		return null;
 		
 	};
-	
-	/**
-	 * This function takes the username and password entered on the login page
-	 * and checks them against the database
-	 * @param uname : username entered by client
-	 * @param pword : password entered by client
-	 * @return : will return true or false
-	 */
-	public static boolean authenticate(String uname, String pword) {
-		
-		ResultList result = SQL.executeQuery("SELECT username, userpassword "
-				+ "FROM public.\"UserAccount\" WHERE username = \'" + uname + "\' AND "
-						+ "userpassword = \'" + pword + "\';");
-		
-		if(!result.isEmpty())
-			return true;
-		else
-			return false;
-		
-	}
 	
 	/**
 	 * This function creates a loggedOut Object which will be used

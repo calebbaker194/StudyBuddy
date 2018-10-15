@@ -64,12 +64,9 @@
 				<p><font color="red">Invalid login</font></p>
 				
 			#elseif($authSuccess)
-				<p>You were successfully logged in!</p>
-				<a href="http://localhost:8080/$!{uname}/home">Go to your page</a>
-				<br/><br/>
-				
 				<script>
-					location.href = "http://localhost:8080/$!{uname}/home";
+					alert("Login Success");
+					location.href = "http://localhost:8080/$!{uname}/home/";
 				</script>
 				
 			#elseif($loggedOut)

@@ -21,7 +21,7 @@ public class UserRegistrationController implements SparkApplication {
 	/**
 	 * Simple route to render the registration form, used with get()
 	 */
-	public static Route serveRegistrationPage = (Request request, Response response) -> {
+	public static Route serveRegistrationPage = (Request req, Response res) -> {
 		
 		Map<String, Object> model = new HashMap<>();
 		
@@ -35,37 +35,29 @@ public class UserRegistrationController implements SparkApplication {
 	 * pulls info entered on serveRegistrationPage and stores in the db.
 	 * Used with post()
 	 */
-	public static Route handleRegistrationPost = (Request request, Response response) -> {
+	public static Route handleRegistrationPost = (Request req, Response res) -> {
 		
 		Map<String, Object> model = new HashMap<>();
 		
-		//messages to be output
-		String successMsg = "Your account has been successfully registered!";
-		String errorMsg = "There was an error :(";
-		
 		//getting user-entered information
-		String uname = request.queryParams("username");
-		String email = request.queryParams("email");
-		String pword = request.queryParams("pword");
-		String school = request.queryParams("school");
-		String fname = request.queryParams("fname");
-		String lname = request.queryParams("lname");
-		String classif = request.queryParams("class");
+		String uname = req.queryParams("username");
+		String email = req.queryParams("email");
+		String pword = req.queryParams("pword");
+		String school = req.queryParams("school");
+		String fname = req.queryParams("fname");
+		String lname = req.queryParams("lname");
+		String classif = req.queryParams("class");
 		
 		//inserting info in the database
-		ResultList result = SQL.insert("UserAccount", "username, email, userpassword, school, "
-				+ "classification, firstname, lastname", uname, email, pword, school, 
-				classif, fname, lname);
+		boolean result = PreparedQueries.registerAccount(uname, pword, email, school, fname, lname, classif);
 		
-		//check to see if new record was added successfully
-		if(!result.isEmpty())
-			model.put("msg", successMsg); //allows successMsg object to be rendered by Velocity by typing $msg in the html
-		
+		if(!result)
+			model.put("fail", result);
 		else
-			model.put("msg", errorMsg); //allows errorMsg object to be rendered by Velocity by typing $msg in the html
+			model.put("success", result);
 		
 		return new VelocityTemplateEngine().render(
-				(new ModelAndView(model, "html/registration_confirm.html"))
+				(new ModelAndView(model, "html/registration.html"))
 				);
 		
 	};
