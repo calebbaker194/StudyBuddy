@@ -109,7 +109,7 @@ public class Main {
 					
 					//model is the map from above
 					//package name will be under src/main/java/packagename
-					new ModelAndView(model, "html/test.html")
+					new ModelAndView(model, "html/main.html")
 			);
 		});
 		// NOTE: I am trying to find a way to put the html file in a location 
@@ -133,6 +133,8 @@ public class Main {
 			path("/home", () -> {
 				
 				get("/", UserPageController.serveUserPage);
+				get("/flashcardwizard", FlashCardController.viewFlashCards);
+				post("/flashcardwizard", FlashCardController.addFlashCard);
 				
 			});
 			

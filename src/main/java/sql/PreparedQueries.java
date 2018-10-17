@@ -36,18 +36,25 @@ public class PreparedQueries extends SQL {
 			pst.setString(1, uname);
 			pst.setString(2, upass);
 			//executing the query
-			ResultSet rs = pst.executeQuery();
-			/*
-			 * next() positions an iterator behind the first row of the result set.
-			 * It returns true if there are more rows, false if there are no more.
-			 * Therefore, if next() returns false on the first try, the query was
-			 * unsuccessful. If next() returns true, then the query found the matching
-			 * data, and the client can be logged in.
-			 */
-			if(!rs.next())
+			try(ResultSet rs = pst.executeQuery()) {
+				/*
+				 * next() positions an iterator behind the first row of the result set.
+				 * It returns true if there are more rows, false if there are no more.
+				 * Therefore, if next() returns false on the first try, the query was
+				 * unsuccessful. If next() returns true, then the query found the matching
+				 * data, and the client can be logged in.
+				 */
+				if(!rs.next())
+					return false;
+				else
+					return true;
+			}
+			catch(SQLException e) {
+				Logger lgr = Logger.getLogger(PreparedQueries.class.getName());
+				lgr.log(Level.SEVERE, e.getMessage(), e);
 				return false;
-			else
-				return true;
+			}
+			
 		}
 		catch(SQLException e) {
 			Logger lgr = Logger.getLogger(PreparedQueries.class.getName());
@@ -91,14 +98,101 @@ public class PreparedQueries extends SQL {
 			pst.setString(5, lname);
 			pst.setString(6, classif);
 			pst.setString(7, school);
-			pst.executeUpdate(); //method used when no return data is expected
-			return true;
+			
+			try {
+				pst.executeUpdate(); //method used when no return data is expected
+				return true;
+			}
+			catch(SQLException e) {
+				Logger lgr = Logger.getLogger(PreparedQueries.class.getName());
+				lgr.log(Level.SEVERE, e.getMessage(), e);
+				return false;
+			}
+			
 		}
 		catch(SQLException e) {
 			Logger lgr = Logger.getLogger(PreparedQueries.class.getName());
 			lgr.log(Level.SEVERE, e.getMessage(), e);
 			return false;
 		}
+	}
+	
+	/**
+	 * Adds a new flash card for a user. This method first queries the database
+	 * to retrieve the user's userid and the courseid of the course the flashcard
+	 * is for. When those have been retrieved, a new flash card will be added to the
+	 * database for the user.
+	 * 
+	 * @param question : the question the flash card asks
+	 * @param answer : the answer to the question
+	 * @param course : the name of the course for the flash card
+	 * @param uname : the username of the client
+	 * @return : returns true if the query was successful, false otherwise.
+	 */
+	public static boolean addFlashCard(String question, String answer, String course, String uname) {
+		
+		String findUIDquery = "SELECT userid FROM public.\"UserAccount\" WHERE username = ?";
+		String findCIDquery = "SELECT courseid FROM public.\"Courses\" WHERE coursename = ?";
+		String addFCquery = "INSERT INTO public.\"FlashCard\"(userid, courseid, question, answer) "
+				+ "VALUES (?, ?, ?, ?)";
+		
+		try(Connection con = DriverManager.getConnection(connectionString, username, password)) {
+			
+			PreparedStatement findUIDpst = con.prepareStatement(findUIDquery);
+			PreparedStatement findCIDpst = con.prepareStatement(findCIDquery);
+			PreparedStatement addFCpst = con.prepareStatement(addFCquery);
+			
+			int userid, courseid;
+			
+			findUIDpst.setString(1, uname);
+			findCIDpst.setString(1, course);
+			
+			try(ResultSet uidPSTres = findUIDpst.executeQuery()) {
+				if(!uidPSTres.next())
+					return false;
+				else
+					userid = uidPSTres.getInt(1);
+			}
+			catch(SQLException e) {
+				Logger lgr = Logger.getLogger(PreparedQueries.class.getName());
+				lgr.log(Level.SEVERE, e.getMessage(), e);
+				return false;
+			}
+			
+			try(ResultSet cidPSTres = findCIDpst.executeQuery()) {
+				if(!cidPSTres.next())
+					return false;
+				else
+					courseid = cidPSTres.getInt(1);
+			}
+			catch(SQLException e) {
+				Logger lgr = Logger.getLogger(PreparedQueries.class.getName());
+				lgr.log(Level.SEVERE, e.getMessage(), e);
+				return false;
+			}
+			
+			addFCpst.setInt(1, userid);
+			addFCpst.setInt(2, courseid);
+			addFCpst.setString(3, question);
+			addFCpst.setString(4, answer);
+			
+			try {
+				addFCpst.executeUpdate();
+				return true;
+			}
+			catch(SQLException e) {
+				Logger lgr = Logger.getLogger(PreparedQueries.class.getName());
+				lgr.log(Level.SEVERE, e.getMessage(), e);
+				return false;
+			}
+			
+		}
+		catch(SQLException e) {
+			Logger lgr = Logger.getLogger(PreparedQueries.class.getName());
+			lgr.log(Level.SEVERE, e.getMessage(), e);
+			return false;
+		}
+		
 	}
 
 }

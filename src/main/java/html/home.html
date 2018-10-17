@@ -52,8 +52,8 @@
 		<form method="post">
 			<select>
 				#foreach($course in $courses)
-				<option value="$!{$course.get("coursename")}">$course.get("coursename")</option>
-			#end
+				<option value="$course.get("coursename")">$course.get("coursename")</option>
+				#end
 			</select>
 			<br/><br/>
 			<input type="submit" name="Start Studying"/>
