@@ -4,10 +4,26 @@
 	<head>
 		<meta charset="ISO-8859-1">
 		<title>Add Flash Card</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script type="text/javascript">
+		
+			$(document).ready(function() {
+				
+				$("#addCard").click(function(event) {
+					
+					$.get("/$!{uname}/home/newcard", function(data, status){
+						$("ul.card").append(data);
+					});
+					
+				});
+				
+			});
+		
+		</script>
 	</head>
 	
 	<style>
-	ul {
+	ul.header {
 	    list-style-type: none;
 	    margin: 0;
 	    padding: 0;
@@ -16,7 +32,7 @@
 	    border: 1px solid #e7e7e7;
 	    width = 100%;
 	}
-	li {
+	li.header {
 	    float: left;
 	}
 	li a {
@@ -41,30 +57,44 @@
 	
 	<body>
 		
-		<ul>
-		  <li><a href="http://localhost:8080/">Home</a></li>
-		  <li><a href="#about">About</a></li>
-		  <li style="float:right"><a class ="active" href="http://localhost:8080/login">Login</a></li>
+		<ul class="header">
+		  <li class="header"><a href="http://localhost:8080/">Home</a></li>
+		  <li class="header"><a href="#about">About</a></li>
+		  <li class="header" style="float:right"><a class ="active" href="http://localhost:8080/login">Login</a></li>
 		</ul>
 		<br/>
 		
 		<form method="post">
 		
-			Question <br/>
-			<input type="text" name="question" id="question" required/>
-			<br/><br/>
-			Answer <br/>
-			<input type="text" name="answer" id="answer" required/>
-			<br/><br/>
+			<div id="gay">
+			</div>
+		
+			
 			<select name="course">
 				#foreach($course in $courses)
 					<option value="$course.get("coursename")">$course.get("coursename")</option>
 				#end
 			</select>
+			Group <input type="text" name="group"/>
+			Description <input type="text" name="group"/>
 			<br/><br/>
+			
+			<div id="cardInput">
+				<ul class="card">
+					<li class="card">
+						Question
+						<input type="text" name="question"/>
+						Answer 
+						<input type="text" name="answer"/>
+					</li>
+				</ul>
+			</div>
+			
 			<input id="submit" type="submit" name="Add Flash Card"/>
 		
 		</form>
+		
+		<button id="addCard">Add another card</button>
 		
 		#if($success)
 			<p>Success</p>

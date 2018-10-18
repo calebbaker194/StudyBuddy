@@ -8,8 +8,14 @@ import java.util.logging.Logger;
  * 
  * @author Zac Migues
  * This class will contain all the parameterized queries
- * that we need.
+ * that we need. This class contains methods to authenticate a user's credentials on a login attempt,
+ * to register a new user account with client-submitted information, and for a client with a user account
+ * to create a flash card.
  *
+ * These queries are paramterized because they handle information submitted by a client,
+ * who has the potential to be malicious. The placeholder values in the queries prevent
+ * SQL injection by using all text entered by the client as the value for the placeholder, rather
+ * concatenating the client's information into the query.
  */
 public class PreparedQueries extends SQL {
 	
@@ -131,22 +137,30 @@ public class PreparedQueries extends SQL {
 	 */
 	public static boolean addFlashCard(String question, String answer, String course, String uname) {
 		
+		//this query gets the userid. The "?" is a placeholder
 		String findUIDquery = "SELECT userid FROM public.\"UserAccount\" WHERE username = ?";
+		//this query gets the courseid. The "?" is a placeholder
 		String findCIDquery = "SELECT courseid FROM public.\"Courses\" WHERE coursename = ?";
+		//this query adds the flash card to the database. the "?" are placeholders
 		String addFCquery = "INSERT INTO public.\"FlashCard\"(userid, courseid, question, answer) "
 				+ "VALUES (?, ?, ?, ?)";
 		
+		//wrapping entire insertion process in try-catch block
 		try(Connection con = DriverManager.getConnection(connectionString, username, password)) {
 			
+			//establishing above queries as prepared statements in Postgres
 			PreparedStatement findUIDpst = con.prepareStatement(findUIDquery);
 			PreparedStatement findCIDpst = con.prepareStatement(findCIDquery);
 			PreparedStatement addFCpst = con.prepareStatement(addFCquery);
 			
+			//declaring variables to hold userid and courseid
 			int userid, courseid;
 			
+			//setting the values of the parameters in both SELECT queries
 			findUIDpst.setString(1, uname);
 			findCIDpst.setString(1, course);
 			
+			//attempting to find the userid. Wrapped in try-catch block
 			try(ResultSet uidPSTres = findUIDpst.executeQuery()) {
 				if(!uidPSTres.next())
 					return false;
@@ -159,6 +173,7 @@ public class PreparedQueries extends SQL {
 				return false;
 			}
 			
+			//attempting to find courseid. Wrapped in try-catch block
 			try(ResultSet cidPSTres = findCIDpst.executeQuery()) {
 				if(!cidPSTres.next())
 					return false;
@@ -171,11 +186,13 @@ public class PreparedQueries extends SQL {
 				return false;
 			}
 			
+			//setting vlaue of placeholders in INSERT query
 			addFCpst.setInt(1, userid);
 			addFCpst.setInt(2, courseid);
 			addFCpst.setString(3, question);
 			addFCpst.setString(4, answer);
 			
+			//attempting to update database. Wrapped in try-catch block
 			try {
 				addFCpst.executeUpdate();
 				return true;

@@ -134,6 +134,7 @@ public class Main {
 				
 				get("/", UserPageController.serveUserPage);
 				get("/flashcardwizard", FlashCardController.viewFlashCards);
+				get("/newcard", FlashCardController.newCardField);
 				post("/flashcardwizard", FlashCardController.addFlashCard);
 				
 			});
