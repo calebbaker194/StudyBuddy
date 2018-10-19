@@ -2,17 +2,17 @@ package controller;
 
 public class FlashCard {
 	
-	private static int userid;
-	private static int courseid;
-	private static String group;
-	private static String description;
-	private static String question;
-	private static String answer;
+	private String username;
+	private String coursename;
+	private String group;
+	private String description;
+	private String question;
+	private String answer;
 	
-	FlashCard(int uid, int cid, String grp, String descrip, String ques, String ans) {
+	FlashCard(String un, String cn, String grp, String descrip, String ques, String ans) {
 		
-		userid = uid;
-		courseid = cid;
+		username = un;
+		coursename = cn;
 		group = grp;
 		description = descrip;
 		question = ques;
@@ -20,37 +20,37 @@ public class FlashCard {
 		
 	}
 	
-	public static int getUserid() {
+	public String getUsername() {
 		
-		return userid;
-		
-	}
-	
-	public static int getCourseid() {
-		
-		return courseid;
+		return username;
 		
 	}
 	
-	public static String getGroup() {
+	public String getCoursename() {
+		
+		return coursename;
+		
+	}
+	
+	public String getGroup() {
 		
 		return group;
 		
 	}
 	
-	public static String getDescription() {
+	public String getDescription() {
 		
 		return description;
 		
 	}
 	
-	public static String getQuestion() {
+	public String getQuestion() {
 		
 		return question;
 		
 	}
 	
-	public static String getAnswer() {
+	public String getAnswer() {
 		
 		return answer;
 		

@@ -7,17 +7,37 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script type="text/javascript">
 		
-			$(document).ready(function() {
+		$(document).ready(function() {
+			
+			var iterator = 0;
+			
+			$("#addCard").click(function(event) {
 				
-				$("#addCard").click(function(event) {
-					
-					$.get("/$!{uname}/home/newcard", function(data, status){
-						$("ul.card").append(data);
-					});
-					
-				});
+				iterator++
+				
+				var para = document.getElementById("card");
+				var list = document.createElement("li");
+				var br = document.createElement("br");
+				list.setAttribute("id", "card1");
+				var node1 = document.createTextNode("Question: ");
+				var node2 = document.createTextNode("Answer:");
+				var question = document.createElement("input");
+				question.setAttribute("type", "text");
+				var quesName = "question" + iterator;
+				question.setAttribute("name", quesName);
+				var answer = document.createElement("input");
+				answer.setAttribute("type","text");
+				var ansName = "answer" + iterator;
+				answer.setAttribute("name", ansName);
+				list.appendChild(node1);
+				list.appendChild(question);
+				list.appendChild(node2);
+				list.appendChild(answer);
+				para.appendChild(list);
 				
 			});
+			
+		});
 		
 		</script>
 	</head>
@@ -76,16 +96,17 @@
 				#end
 			</select>
 			Group <input type="text" name="group"/>
-			Description <input type="text" name="group"/>
+			Description <input type="text" name="description"/>
 			<br/><br/>
+
 			
 			<div id="cardInput">
-				<ul class="card">
+				<ul id="card">
 					<li class="card">
 						Question
-						<input type="text" name="question"/>
+						<input type="text" name="question0"/>
 						Answer 
-						<input type="text" name="answer"/>
+						<input type="text" name="answer0"/>
 					</li>
 				</ul>
 			</div>
@@ -93,8 +114,7 @@
 			<input id="submit" type="submit" name="Add Flash Card"/>
 		
 		</form>
-		
-		<button id="addCard">Add another card</button>
+		<button id="addCard">Add card</button>
 		
 		#if($success)
 			<p>Success</p>

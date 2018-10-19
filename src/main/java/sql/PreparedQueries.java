@@ -3,6 +3,7 @@ package sql;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import controller.FlashCard;
 
 /**
  * 
@@ -135,15 +136,15 @@ public class PreparedQueries extends SQL {
 	 * @param uname : the username of the client
 	 * @return : returns true if the query was successful, false otherwise.
 	 */
-	public static boolean addFlashCard(String question, String answer, String course, String uname) {
+	public static boolean addFlashCard(FlashCard card) {
 		
 		//this query gets the userid. The "?" is a placeholder
 		String findUIDquery = "SELECT userid FROM public.\"UserAccount\" WHERE username = ?";
 		//this query gets the courseid. The "?" is a placeholder
 		String findCIDquery = "SELECT courseid FROM public.\"Courses\" WHERE coursename = ?";
 		//this query adds the flash card to the database. the "?" are placeholders
-		String addFCquery = "INSERT INTO public.\"FlashCard\"(userid, courseid, question, answer) "
-				+ "VALUES (?, ?, ?, ?)";
+		String addFCquery = "INSERT INTO public.\"FlashCard\"(userid, courseid, question, answer, \"group\", description) "
+				+ "VALUES (?, ?, ?, ?, ?, ?)";
 		
 		//wrapping entire insertion process in try-catch block
 		try(Connection con = DriverManager.getConnection(connectionString, username, password)) {
@@ -157,8 +158,8 @@ public class PreparedQueries extends SQL {
 			int userid, courseid;
 			
 			//setting the values of the parameters in both SELECT queries
-			findUIDpst.setString(1, uname);
-			findCIDpst.setString(1, course);
+			findUIDpst.setString(1, card.getUsername());
+			findCIDpst.setString(1, card.getCoursename());
 			
 			//attempting to find the userid. Wrapped in try-catch block
 			try(ResultSet uidPSTres = findUIDpst.executeQuery()) {
@@ -189,8 +190,10 @@ public class PreparedQueries extends SQL {
 			//setting vlaue of placeholders in INSERT query
 			addFCpst.setInt(1, userid);
 			addFCpst.setInt(2, courseid);
-			addFCpst.setString(3, question);
-			addFCpst.setString(4, answer);
+			addFCpst.setString(3, card.getQuestion());
+			addFCpst.setString(4, card.getAnswer());
+			addFCpst.setString(5, card.getGroup());
+			addFCpst.setString(6, card.getDescription());
 			
 			//attempting to update database. Wrapped in try-catch block
 			try {

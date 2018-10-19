@@ -30,16 +30,33 @@ public class FlashCardController {
 		Map<String, Object> model = new HashMap<>();
 		
 		String uname = req.session().attribute("currentUser");
-		String question = req.queryParams("question1");
-		String answer = req.queryParams("answer1");
 		String course = req.queryParams("course");
+		String group = req.queryParams("group");
+		String description = req.queryParams("description");
 		
-		boolean result = PreparedQueries.addFlashCard(question, answer, course, uname);
+		String questionName = "question0";
+		String answerName = "answer0";
 		
-		if(!result)
-			model.put("fail", result);
-		else
-			model.put("success", result);
+		String question = req.queryParams(questionName);
+		String answer = req.queryParams(answerName);
+		boolean result = false;
+		int iterator = 1;
+		
+		do {
+			FlashCard card = new FlashCard(uname, course, group, description, question, answer);
+			result = PreparedQueries.addFlashCard(card);
+			String iter = Integer.toString(iterator);
+			questionName = questionName.replaceAll("[0-9]", iter);
+			answerName = answerName.replaceAll("[0-9]", iter);
+			question = req.queryParams(questionName);
+			answer = req.queryParams(answerName);
+			iterator++;
+			if(!result) {
+				break;
+			}
+			
+		} while(question != null && answer != null);
+		
 		
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "html/flashcard.html"));
 		
