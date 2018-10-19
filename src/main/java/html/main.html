@@ -5,8 +5,37 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.js"></script>
 </head>
 <body>
+<div>
+<video id="localVideo"></video>
+</div>
+<div>
+<video id="remoteVideo"></video>
+</div>
+<div>
+<button onclick="javascript:getRoom()">Get Room</button>
+<button onclick="javascript:enterRoom()">Enter Room</button>
+<input id="roomnumber">
+</div>
 </body>
 <script>
+
+var localVideo;
+var localStream;
+var serverConnection;
+var peerConnection;
+
+window.onload=pageReady;
+
+function getRoom()
+{
+	serverConnection.send("{\"type\":\"GETROOM\"}");
+}
+
+function enterRoom()
+{
+	serverConnection.send("{\"type\":\"ENTERROOM\",\"value\":"+document.getElementById("roomnumber").value+"}");	
+}
+
 function playvideo() {
 	  var video = document.getElementById('video');
 	  var vendorUrl = window.URL || window.webkitURL;
@@ -21,7 +50,7 @@ function playvideo() {
 		  video: true,
 		  audio: false,		  
 	  },  function(stream) {
-		  video.src = vendorUrl.createObjectURL(stream);
+		  video.src = vendorUrl.srcObject = stream;
 		  video.play();
 	  },  function(error) {
 		  // An error occured
@@ -33,9 +62,9 @@ function pageReady() {
     localVideo = document.getElementById('localVideo');
     remoteVideo = document.getElementById('remoteVideo');
 
-    serverConnection = new WebSocket('ws://127.0.0.1:30001');
+    serverConnection = new WebSocket('ws://192.168.0.17:30001');
     serverConnection.onmessage = gotMessageFromServer;
-
+    
     var constraints = {
         video: true,
         audio: true,
@@ -56,7 +85,7 @@ function getUserMediaError(error) {
     console.log(error);
 }
 function start(isCaller) {
-    peerConnection = new RTCPeerConnection(peerConnectionConfig);
+    peerConnection = new RTCPeerConnection();
     peerConnection.onicecandidate = gotIceCandidate;
     peerConnection.onaddstream = gotRemoteStream;
     peerConnection.addStream(localStream);
@@ -88,7 +117,11 @@ function createOfferError(error) {
     console.log(error);
 }
 function gotMessageFromServer(message) {
-    if(!peerConnection) start(false);
+	
+	console.log(message);
+	document.getElementById("roomnumber").value = JSON.parse(message.data).value;
+
+	if(!peerConnection) start(false);
 
     var signal = JSON.parse(message.data);
     if(signal.sdp) {
@@ -100,6 +133,9 @@ function gotMessageFromServer(message) {
     } else if(signal.ice) {
         peerConnection.addIceCandidate(new RTCIceCandidate(signal.ice));
     }
+}
+function createAnswerError(error) {
+	console.log(error);
 }
 </script>
 </html>
