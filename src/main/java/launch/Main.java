@@ -133,9 +133,18 @@ public class Main {
 			path("/home", () -> {
 				
 				get("/", UserPageController.serveUserPage);
-				get("/flashcardwizard", FlashCardController.viewFlashCards);
-				get("/newcard", FlashCardController.newCardField);
-				post("/flashcardwizard", FlashCardController.addFlashCard);
+				
+				path("/flashcardwizard", () -> {
+					
+					get("/", FlashCardController.viewFlashCardGroups);
+					post("/", FlashCardController.deleteFlashCardGroup);
+					get("/groupnamepost", FlashCardController.getGroupName);
+					post("/groupnamepost", FlashCardController.viewFlashCardsPost);
+					get("/view/:group", FlashCardController.viewFlashCards);
+					get("/addnewgroup", FlashCardController.getAddFlashCardForm);
+					post("/addnewgroup", FlashCardController.addFlashCardGroup);
+					
+				});
 				
 			});
 			

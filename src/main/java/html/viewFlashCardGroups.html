@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Flash Card Groups</title>
+	</head>
+	<body>
+	
+		<a href="http://localhost:8080/$!{uname}/home/flashcardwizard/addnewgroup">Add new group</a>
+		<a href="http://localhost:8080/$!{uname}/home/">User Home</a>
+		
+		
+		<div>
+		
+			#foreach($group in $groups)
+				<form method="post">
+					$group.get("group")
+					<input type="hidden" name="group" value="$group.get("group")"/>
+					<input type="submit" name ="submit" value="Delete Group"/>
+				</form>
+				<form action="http://localhost:8080/$!{uname}/home/flashcardwizard/groupnamepost" method="post">
+					<input type="hidden" name="group" value="$group.get("group")"/>
+					<input type="submit" name="submit" value="View Group"/>
+				</form>
+			#end
+		
+		</div>
+
+	</body>
+</html>

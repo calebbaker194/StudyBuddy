@@ -14,6 +14,7 @@ public class UserPageController {
 		
 		LoginController.userLoggedIn(req, res);
 		String uname = req.session().attribute("currentUser");
+		req.session().attribute("addFlashCardResult", null);
 		
 		Map<String, Object> model = new HashMap<>();
 		

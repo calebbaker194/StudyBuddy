@@ -48,7 +48,7 @@ public class ResultList extends ArrayList<HashMap<String,Object>>{
 	 * gets the value of the field specified by prop in the first elemet of the result set
 	 * @param field the column that you want the value from.
 	 */
-	public Object get(String field)
+	public Object getFirst(String field)
 	{
 		if(size()>0)
 			return get(0).get(field);

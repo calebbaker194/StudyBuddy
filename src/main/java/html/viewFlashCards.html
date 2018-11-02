@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>View Card Group</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script>
+			//flash card slideshow script
+			$(document).ready(function() {
+				var slideIndex = 1;
+				//adding questions and answers to arrays
+				var questions = document.getElementsByClassName("cardFront");
+				var answers = document.getElementsByClassName("cardBack");
+				//showing first question and hiding answer
+				showQuestion(slideIndex, questions, answers);
+				$(".cardBack").hide();
+				//function that shows a question and answer set
+				//@params n : the array index
+				//@params q : questions array
+				//@params a : answers array
+				function showQuestion(n, q, a) {
+					if(n > q.length) //these if statements make the slideshow wrap
+						slideIndex = 1;
+					if(n < 1)
+						slideIndex = q.length;
+					for(var i = 0; i < q.length; i++) { //hiding everything
+						q[i].style.display = "none";
+						a[i].style.display = "none";
+					}
+					q[slideIndex - 1].style.display = "block"; //revealing only 1 element
+					a[slideIndex - 1].style.display = "block";
+				}
+				//shows the answer
+				//@params n : the array index
+				//@params q : questions array
+				//@params a : answers array
+				function revealAnswer(n, q, a) {
+					q[n-1].style.display = "none";
+					a[n-1].style.display = "block";
+				}
+				//event listeners for control buttons
+				$(".next").click(function(event) {
+					slideIndex++;
+					showQuestion(slideIndex, questions, answers);
+					$(".cardBack").hide();
+				});
+				
+				$(".previous").click(function(event) {
+					slideIndex--;
+					showQuestion(slideIndex, questions, answers);
+					$(".cardBack").hide();
+				});
+				
+				$(".flip").click(function(event) {
+					revealAnswer(slideIndex, questions, answers);
+				});
+			});	
+		
+		</script>
+	</head>
+	
+	<style>
+	
+		.cardFront, .cardBack {
+			display: none;
+		}
+	
+	</style>
+	
+	<body>
+		<a href="http://localhost:8080/$!{uname}/home/">User Home</a>
+	
+		#foreach ($card in $cards)
+			<div class="cardFront">
+				<p>${card.get("question")}</p>
+			</div>
+			<div class="cardBack">
+				<p>${card.get("answer")}</p>
+			</div>
+		#end
+		<a class="previous">Previous</a>
+		<a class="flip">Reveal Answer</a>
+		<a class="next">Next</a>
+	</body>
+</html>

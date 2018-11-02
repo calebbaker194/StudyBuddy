@@ -229,7 +229,7 @@ public class SQL{
 	public static Object SFQ(String query)
 	{
 		ResultList r = executeQuery(query);
-		return r.get(r.get(0).keySet().iterator().next());
+		return r.getFirst(r.get(0).keySet().iterator().next());
 	}
 
 	/*
