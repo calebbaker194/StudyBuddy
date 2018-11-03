@@ -23,17 +23,11 @@ public class FlashCardController {
 		
 		Map<String, Object> model = new HashMap<>();
 		
-		String uname = req.session().attribute("currentUser");
+		String userid = req.session().attribute("currentUser");
 		
-		model.put("uname", uname);
+		model.put("uid", userid);
 		
-		String findUIDquery = "SELECT userid FROM public.\"UserAccount\" WHERE username = '" + uname + "'";
-		
-		ResultList result = SQL.executeQuery(findUIDquery, 0);
-		
-		int userid = (Integer)result.getFirst("userid");
-		
-		String getFlashCardGroupQuery = "SELECT \"group\" FROM public.\"FlashCard\" WHERE userid = " + userid + " GROUP BY \"group\" ORDER BY \"group\" ASC;";
+		String getFlashCardGroupQuery = "SELECT \"group\" FROM public.\"FlashCard\" WHERE userid = " + Integer.parseInt(userid) + " GROUP BY \"group\" ORDER BY \"group\" ASC;";
 		
 		ResultList cardGroups = SQL.executeQuery(getFlashCardGroupQuery, 0);
 		
@@ -49,17 +43,13 @@ public class FlashCardController {
 	 */
 	public static Route deleteFlashCardGroup = (Request req, Response res) -> {
 		
-		String uname = req.session().attribute("currentUser");
+		String userid = req.session().attribute("currentUser");
 		String groupName = req.queryParams("group");
 		
-		String findUIDquery = "SELECT userid FROM public.\"UserAccount\" WHERE username = '" + uname + "'";
-		ResultList result = SQL.executeQuery(findUIDquery, 0);
-		int userid = (Integer)result.getFirst("userid");
-		
-		String deleteGroupQuery = "DELETE FROM public.\"FlashCard\" WHERE userid = " + userid + " AND \"group\" = '" + groupName + "';";
+		String deleteGroupQuery = "DELETE FROM public.\"FlashCard\" WHERE userid = " + Integer.parseInt(userid) + " AND \"group\" = '" + groupName + "';";
 		ResultList deleteResult = SQL.executeQuery(deleteGroupQuery, 3);
 		
-		res.redirect("http://localhost:8080/" + uname + "/home/flashcardwizard/");
+		res.redirect("http://localhost:8080/" + userid + "/home/flashcardwizard/");
 		return null;
 		
 	};
@@ -76,8 +66,8 @@ public class FlashCardController {
 		
 		model.put("courses", result);
 		
-		String uname = req.session().attribute("currentUser");
-		model.put("uname", uname);
+		String userid = req.session().attribute("currentUser");
+		model.put("uid", userid);
 		
 		Object addResult = req.session().attribute("addFlashCardResult");
 		model.put("result", addResult);
@@ -92,7 +82,8 @@ public class FlashCardController {
 	 */
 	public static Route addFlashCardGroup = (Request req, Response res) -> {
 		//grabbing info
-		String uname = req.session().attribute("currentUser");
+		String userid = req.session().attribute("currentUser");
+		int uid = Integer.parseInt(userid);
 		String course = req.queryParams("course");
 		String group = req.queryParams("group");
 		String description = req.queryParams("description");
@@ -111,7 +102,7 @@ public class FlashCardController {
 			questionName = "question"; //ready to be modified
 			answerName = "answer";
 			//create FlashCard object with entry
-			FlashCard card = new FlashCard(uname, course, group, description, question, answer);
+			FlashCard card = new FlashCard(uid, course, group, description, question, answer);
 			result = PreparedQueries.addFlashCard(card); //add to db
 			String iter = Integer.toString(iterator); 
 			questionName = questionName.concat(iter); //move to next entry
@@ -126,7 +117,7 @@ public class FlashCardController {
 		} while(question != null && answer != null);
 		
 		req.session().attribute("addFlashCardResult", true);
-		res.redirect("http://localhost:8080/" + uname + "/home/flashcardwizard/addnewgroup");
+		res.redirect("http://localhost:8080/" + userid + "/home/flashcardwizard/addnewgroup");
 		return null;
 		
 	};
@@ -137,8 +128,8 @@ public class FlashCardController {
 	public static Route viewFlashCardsPost = (Request req, Response res) -> {
 		String groupName = req.queryParams("group");
 		req.session().attribute("groupName", groupName);
-		String uname = req.session().attribute("currentUser");
-		res.redirect("http://localhost:8080/" + uname + "/home/flashcardwizard/view/" + groupName);
+		String userid = req.session().attribute("currentUser");
+		res.redirect("http://localhost:8080/" + userid + "/home/flashcardwizard/view/" + groupName);
 		return null;
 	};
 	
@@ -149,16 +140,16 @@ public class FlashCardController {
 		Map<String, Object> model = new HashMap<>();
 		
 		String groupName = req.session().attribute("groupName");
-		String uname = req.session().attribute("currentUser");
+		String userid = req.session().attribute("currentUser");
+		int uid = Integer.parseInt(userid);
 		
-		String getCardsQuery = "SELECT question, answer FROM public.\"FlashCard\" AS fc "
-				+ "INNER JOIN public.\"UserAccount\" AS ua ON fc.userid = ua.userid WHERE "
-				+ "ua.username = '" + uname + "' AND fc.\"group\" = '" + groupName + "';";
+		String getCardsQuery = "SELECT question, answer FROM public.\"FlashCard\" WHERE "
+				+ "userid = " + uid + " AND \"group\" = '" + groupName + "';";
 		ResultList result = SQL.executeQuery(getCardsQuery, 0);
 		
 		Collections.shuffle(result);
 		model.put("cards", result);
-		model.put("uname", uname);
+		model.put("uid", userid);
 		
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "html/viewFlashCards.html"));
 	};

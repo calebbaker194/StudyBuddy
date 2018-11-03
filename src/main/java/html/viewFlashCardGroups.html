@@ -6,8 +6,8 @@
 	</head>
 	<body>
 	
-		<a href="http://localhost:8080/$!{uname}/home/flashcardwizard/addnewgroup">Add new group</a>
-		<a href="http://localhost:8080/$!{uname}/home/">User Home</a>
+		<a href="http://localhost:8080/$!{uid}/home/flashcardwizard/addnewgroup">Add new group</a>
+		<a href="http://localhost:8080/$!{uid}/home/">User Home</a>
 		
 		
 		<div>
@@ -18,7 +18,7 @@
 					<input type="hidden" name="group" value="$group.get("group")"/>
 					<input type="submit" name ="submit" value="Delete Group"/>
 				</form>
-				<form action="http://localhost:8080/$!{uname}/home/flashcardwizard/groupnamepost" method="post">
+				<form action="http://localhost:8080/$!{uid}/home/flashcardwizard/groupnamepost" method="post">
 					<input type="hidden" name="group" value="$group.get("group")"/>
 					<input type="submit" name="submit" value="View Group"/>
 				</form>

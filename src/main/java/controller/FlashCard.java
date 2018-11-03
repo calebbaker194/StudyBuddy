@@ -2,16 +2,16 @@ package controller;
 
 public class FlashCard {
 	
-	private String username;
+	private int userid;
 	private String coursename;
 	private String group;
 	private String description;
 	private String question;
 	private String answer;
 	
-	FlashCard(String un, String cn, String grp, String descrip, String ques, String ans) {
+	FlashCard(int un, String cn, String grp, String descrip, String ques, String ans) {
 		
-		username = un;
+		userid = un;
 		coursename = cn;
 		group = grp;
 		description = descrip;
@@ -20,9 +20,9 @@ public class FlashCard {
 		
 	}
 	
-	public String getUsername() {
+	public int getUserid() {
 		
-		return username;
+		return userid;
 		
 	}
 	

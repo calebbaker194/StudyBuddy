@@ -53,8 +53,8 @@ public class LoginController {
 			model.put("authSuccess", true); //used to check for login success in html
 		
 		//adds the attribute currentUser to the session, with its value being the clients username
-		req.session().attribute("currentUser", uname);
-		model.put("uname", req.session().attribute("currentUser"));
+		req.session().attribute("currentUser", PreparedQueries.getUserID(uname));
+		model.put("uid", req.session().attribute("currentUser"));
 		if(req.queryParams("loginRedirect") != null)
 			res.redirect(req.queryParams("loginRedirect"));
 		

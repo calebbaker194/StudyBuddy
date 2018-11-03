@@ -4,7 +4,6 @@ import static spark.Spark.*;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import controller.*;
 import singnaling.Signaler;
 import spark.ModelAndView;
@@ -54,7 +53,6 @@ public class Main {
 		
 		String s = (String) results.get(0).get("test");
 		System.out.println(s);
-		
 		/**
 		 * This Allows Us to serve static files like .js and .scc files.
 		 * If a file is located at foldername/theme.css

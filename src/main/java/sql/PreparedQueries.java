@@ -3,6 +3,9 @@ package sql;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.mindrot.jbcrypt.BCrypt;
+
 import controller.FlashCard;
 
 /**
@@ -32,29 +35,29 @@ public class PreparedQueries extends SQL {
 	public static boolean authenticate(String uname, String upass) {
 		
 		//this is the parameterized query. The ? are placeholders that will be filled
-		String query = "SELECT username, userpassword FROM public.\"UserAccount\" "
-				+ "WHERE username = ? AND userpassword = ?;";
+		String query = "SELECT userpassword FROM public.\"UserAccount\" "
+				+ "WHERE username = ?";
 		
 		//try-with-resources block. Closes the Connection automatically when done.
 		try(Connection con = DriverManager.getConnection(connectionString, username, password)) {
 			//establishing the query as a prepared statement for Postgres
 			PreparedStatement pst = con.prepareStatement(query);
+			
 			//setting the value of the parameters
 			pst.setString(1, uname);
-			pst.setString(2, upass);
 			//executing the query
 			try(ResultSet rs = pst.executeQuery()) {
-				/*
-				 * next() positions an iterator behind the first row of the result set.
-				 * It returns true if there are more rows, false if there are no more.
-				 * Therefore, if next() returns false on the first try, the query was
-				 * unsuccessful. If next() returns true, then the query found the matching
-				 * data, and the client can be logged in.
-				 */
+				
 				if(!rs.next())
 					return false;
-				else
-					return true;
+				else {
+					String dbhash = rs.getString(1);
+					
+					if(BCrypt.checkpw(upass, dbhash))
+						return true;
+					else 
+						return false;
+				}
 			}
 			catch(SQLException e) {
 				Logger lgr = Logger.getLogger(PreparedQueries.class.getName());
@@ -67,6 +70,40 @@ public class PreparedQueries extends SQL {
 			Logger lgr = Logger.getLogger(PreparedQueries.class.getName());
 			lgr.log(Level.SEVERE, e.getMessage(), e);
 			return false;
+		}
+		
+	}
+	
+	public static String getUserID(String uname) {
+		
+		String query = "SELECT userid FROM public.\"UserAccount\" WHERE username = ?";
+		
+		try(Connection con = DriverManager.getConnection(connectionString, username, password)) {
+			PreparedStatement pst = con.prepareStatement(query);
+			
+			pst.setString(1, uname);
+			
+			try(ResultSet rs = pst.executeQuery()) {
+				int uid = 0;
+				if(rs.next()) {
+					uid = rs.getInt("userid");
+				}
+				else {
+					return null;
+				}
+				String userid = Integer.toString(uid);
+				return userid;
+			}
+			catch(SQLException e) {
+				Logger lgr = Logger.getLogger(PreparedQueries.class.getName());
+				lgr.log(Level.SEVERE, e.getMessage(), e);
+				return null;
+			}
+		} 
+		catch(SQLException e) {
+			Logger lgr = Logger.getLogger(PreparedQueries.class.getName());
+			lgr.log(Level.SEVERE, e.getMessage(), e);
+			return null;
 		}
 		
 	}
@@ -97,6 +134,10 @@ public class PreparedQueries extends SQL {
 		try(Connection con = DriverManager.getConnection(connectionString, username, password)) {
 			//establishing the query as a prepared statement for Postgres
 			PreparedStatement pst = con.prepareStatement(query);
+			
+			//encrypt password
+			upass = BCrypt.hashpw(upass, BCrypt.gensalt());
+			
 			//setting the value of the parameters
 			pst.setString(1, uname);
 			pst.setString(2, upass);
@@ -138,8 +179,6 @@ public class PreparedQueries extends SQL {
 	 */
 	public static boolean addFlashCard(FlashCard card) {
 		
-		//this query gets the userid. The "?" is a placeholder
-		String findUIDquery = "SELECT userid FROM public.\"UserAccount\" WHERE username = ?";
 		//this query gets the courseid. The "?" is a placeholder
 		String findCIDquery = "SELECT courseid FROM public.\"Courses\" WHERE coursename = ?";
 		//this query adds the flash card to the database. the "?" are placeholders
@@ -150,29 +189,14 @@ public class PreparedQueries extends SQL {
 		try(Connection con = DriverManager.getConnection(connectionString, username, password)) {
 			
 			//establishing above queries as prepared statements in Postgres
-			PreparedStatement findUIDpst = con.prepareStatement(findUIDquery);
 			PreparedStatement findCIDpst = con.prepareStatement(findCIDquery);
 			PreparedStatement addFCpst = con.prepareStatement(addFCquery);
 			
 			//declaring variables to hold userid and courseid
-			int userid, courseid;
+			int courseid;
 			
 			//setting the values of the parameters in both SELECT queries
-			findUIDpst.setString(1, card.getUsername());
 			findCIDpst.setString(1, card.getCoursename());
-			
-			//attempting to find the userid. Wrapped in try-catch block
-			try(ResultSet uidPSTres = findUIDpst.executeQuery()) {
-				if(!uidPSTres.next())
-					return false;
-				else
-					userid = uidPSTres.getInt(1);
-			}
-			catch(SQLException e) {
-				Logger lgr = Logger.getLogger(PreparedQueries.class.getName());
-				lgr.log(Level.SEVERE, e.getMessage(), e);
-				return false;
-			}
 			
 			//attempting to find courseid. Wrapped in try-catch block
 			try(ResultSet cidPSTres = findCIDpst.executeQuery()) {
@@ -188,7 +212,7 @@ public class PreparedQueries extends SQL {
 			}
 			
 			//setting vlaue of placeholders in INSERT query
-			addFCpst.setInt(1, userid);
+			addFCpst.setInt(1, card.getUserid());
 			addFCpst.setInt(2, courseid);
 			addFCpst.setString(3, card.getQuestion());
 			addFCpst.setString(4, card.getAnswer());
