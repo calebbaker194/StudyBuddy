@@ -46,10 +46,53 @@
 		
 		<center>
 			<br>
-			Welcome to your page ${uname}!
+			Welcome to your page ${uid}!
+			
+			<div>
+				Friend Requests
+				#if ($hasFriendRequests)
+					#foreach ($request in $friendRequests)
+					<form action="http://localhost:8080/$!{uid}/home/confirm/" method="post">
+						$request.get("username");
+						<input type="hidden" name="username" value="$request.get("username")"/>
+						<input type="submit" name="submit" value="Confirm"/>
+					</form>
+					<form action="http://localhost:8080/$!{uid}/home/deny/" method="post">
+						<input type="hidden" name="username" value="$request.get("username")"/>
+						<input type="submit" name="submit" value="Deny"/>
+					</form>
+					#end
+				#elseif ($noFriendRequests)
+					<p>no friend requests</p>
+				#end
+			</div>
+			
+			<div>
+				Friends
+				#if ($hasFriends)
+					#foreach ($friend in $friends)
+					<p>$friend.get("username")</p>
+					#end
+				#elseif ($noFriends)
+					<p>No Friends :(</p>
+				#end
+			</div>
+			
+			<div>
+				Pending Friend Requests
+				#if ($hasPending)
+					#foreach ($pend in $pending)
+					<p>$pend.get("username")</p>
+					#end
+				#elseif ($noPending)
+					<p>No Pending Requests</p>
+				#end
+			</div>
+			
 			<br><br><br><br>
 			<p></p>
-			<a href="http://localhost:8080/$!{uname}/home/flashcardwizard/">Flash Card Wizard</a>
+			<a href="http://localhost:8080/$!{uid}/home/flashcardwizard/">Flash Card Wizard</a>
+			<a href="http://localhost:8080/$!{uid}/home/viewusers">View Users</a>
 		</center>
 	</body>
 </html>

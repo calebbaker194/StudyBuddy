@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>View Users</title>
+	</head>
+	<body>
+		#foreach($user in $users)
+			<form method="post">
+				$user.get("username")
+				<input type="hidden" name="username" value="$user.get("username")"/>
+				<input type="submit" name="submit" value="Add Friend"/>
+			</form>
+		#end
+	</body>
+</html>

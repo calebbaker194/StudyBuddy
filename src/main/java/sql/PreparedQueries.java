@@ -1,8 +1,12 @@
 package sql;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Date;
 
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -127,8 +131,8 @@ public class PreparedQueries extends SQL {
 	{
 		//this is the insertion query. the ? are placeholders that will be filled w/ data
 		String query = "INSERT INTO public.\"UserAccount\"(username, "
-				+ "userpassword, email, firstname, lastname, classification, school) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?);";
+				+ "userpassword, email, firstname, lastname, classification, school, loggedin) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 		
 		//try-with-resources block. Closes the Connection automatically when done.
 		try(Connection con = DriverManager.getConnection(connectionString, username, password)) {
@@ -146,6 +150,7 @@ public class PreparedQueries extends SQL {
 			pst.setString(5, lname);
 			pst.setString(6, classif);
 			pst.setString(7, school);
+			pst.setBoolean(8, true);
 			
 			try {
 				pst.executeUpdate(); //method used when no return data is expected
@@ -211,7 +216,7 @@ public class PreparedQueries extends SQL {
 				return false;
 			}
 			
-			//setting vlaue of placeholders in INSERT query
+			//setting value of placeholders in INSERT query
 			addFCpst.setInt(1, card.getUserid());
 			addFCpst.setInt(2, courseid);
 			addFCpst.setString(3, card.getQuestion());

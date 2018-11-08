@@ -51,7 +51,6 @@ public class FlashCardController {
 		
 		res.redirect("http://localhost:8080/" + userid + "/home/flashcardwizard/");
 		return null;
-		
 	};
 	
 	/**

@@ -20,8 +20,13 @@ public class LoginController {
 	 */
 	public static Route serveLoginPage = (Request req, Response res) -> {
 		
-		Map<String, Object> model = new HashMap<>();
+		if(req.session().attribute("currentUser") != null) {
+			String userid = req.session().attribute("currentUser");
+			res.redirect("http://localhost:8080/" + userid + "/home/");
+			return null;
+		}
 		
+		Map<String, Object> model = new HashMap<>();
 		
 		model.put("loggedOut", removeSessionLogOut(req));
 		model.put("loginRedirect", removeSessionLoginRedirect(req));
@@ -55,6 +60,12 @@ public class LoginController {
 		//adds the attribute currentUser to the session, with its value being the clients username
 		req.session().attribute("currentUser", PreparedQueries.getUserID(uname));
 		model.put("uid", req.session().attribute("currentUser"));
+		
+		String query = "UPDATE public.\"UserAccount\" SET loggedin = true, lastloggedin = DEFAULT "
+				+ "WHERE userid = " + Integer.parseInt(req.session().attribute("currentUser")) + ";";
+		
+		ResultList result = SQL.executeQuery(query, 2);
+		
 		if(req.queryParams("loginRedirect") != null)
 			res.redirect(req.queryParams("loginRedirect"));
 		
@@ -85,12 +96,12 @@ public class LoginController {
 	 * The client will then be redirected to the login page.
 	 */
 	public static Route handleLogoutPost = (Request req, Response res) -> {
-		
+		String query = "UPDATE public.\"UserAccount\" SET loggedin = false";
+		ResultList result = SQL.executeQuery(query, 2);
 		req.session().removeAttribute("currentUser");
 		req.session().attribute("loggedOut", true);
 		res.redirect("/login");
 		return null;
-		
 	};
 	
 	/**

@@ -144,6 +144,13 @@ public class Main {
 					
 				});
 				
+				get("/viewusers", AddFriendController.viewUsers);
+				post("/viewusers", AddFriendController.addFriendPost);
+				get("/deny/", UserPageController.denyFriendRequest);
+				post("/deny/", UserPageController.denyFreindRequestPost);
+				get("/confirm/", UserPageController.confirmFriendRequest);
+				post("/confirm/", UserPageController.confirmFriendRequestPost);
+				
 			});
 			
 		});
