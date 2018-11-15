@@ -69,7 +69,7 @@ public class Main {
 		sig.start();
 		
 		//to go to a page go to http://127.0.0.1:8080/[page path here]
-		port(30001);
+		port(8080);
 		
 		/**
 		 * GET: HTTP Request type
