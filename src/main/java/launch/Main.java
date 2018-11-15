@@ -60,14 +60,16 @@ public class Main {
 		 * folder name is located at the root of the project so StudyBuddy>foldername
 		 * 
 		 */
-		staticFiles.externalLocation("/web");
+		staticFiles.externalLocation("web");
+		
+		secure("web/cert/certificate.pfx", "password", null, null);
 		
 		//This starts up the signaling server
 		Signaler sig = new Signaler();
 		sig.start();
 		
 		//to go to a page go to http://127.0.0.1:8080/[page path here]
-		port(8080);
+		port(30001);
 		
 		/**
 		 * GET: HTTP Request type

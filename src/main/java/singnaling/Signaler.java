@@ -15,7 +15,7 @@ public class Signaler extends WebSocketServer {
     private int myroom;
 
     public Signaler() {
-        super(new InetSocketAddress(30001));
+        super(new InetSocketAddress(30002));
     }
 
     @Override

@@ -38,10 +38,10 @@
 	
 	<body>
 		<ul>
-		  <li><a href="http://localhost:8080/">Home</a></li>
+		  <li><a href="https://localhost:8080/">Home</a></li>
 		  <li><a href="#about">About</a></li>
 		  <li style="float:right"><a class="active" href="#account">Account</a></li>
-		  <li style="float:right"><a href="http://localhost:8080/logout">Logout</a></li>
+		  <li style="float:right"><a href="https://localhost:8080/logout">Logout</a></li>
 		</ul>
 		
 		<center>
@@ -52,12 +52,12 @@
 				Friend Requests
 				#if ($hasFriendRequests)
 					#foreach ($request in $friendRequests)
-					<form action="http://localhost:8080/$!{uid}/home/confirm/" method="post">
+					<form action="https://localhost:8080/$!{uid}/home/confirm/" method="post">
 						$request.get("username");
 						<input type="hidden" name="username" value="$request.get("username")"/>
 						<input type="submit" name="submit" value="Confirm"/>
 					</form>
-					<form action="http://localhost:8080/$!{uid}/home/deny/" method="post">
+					<form action="https://localhost:8080/$!{uid}/home/deny/" method="post">
 						<input type="hidden" name="username" value="$request.get("username")"/>
 						<input type="submit" name="submit" value="Deny"/>
 					</form>
@@ -91,8 +91,8 @@
 			
 			<br><br><br><br>
 			<p></p>
-			<a href="http://localhost:8080/$!{uid}/home/flashcardwizard/">Flash Card Wizard</a>
-			<a href="http://localhost:8080/$!{uid}/home/viewusers">View Users</a>
+			<a href="https://localhost:8080/$!{uid}/home/flashcardwizard/">Flash Card Wizard</a>
+			<a href="https://localhost:8080/$!{uid}/home/viewusers">View Users</a>
 		</center>
 	</body>
 </html>

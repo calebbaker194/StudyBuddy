@@ -42,7 +42,7 @@ public class AddFriendController {
 		
 		ResultList r = SQL.executeQuery(addFriendQuery, 1);
 		
-		res.redirect("http://localhost:8080/" + userid + "/home/viewusers");
+		res.redirect("https://localhost:8080/" + userid + "/home/viewusers");
 		return null;
 		
 	};

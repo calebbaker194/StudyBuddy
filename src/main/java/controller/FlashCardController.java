@@ -49,7 +49,7 @@ public class FlashCardController {
 		String deleteGroupQuery = "DELETE FROM public.\"FlashCard\" WHERE userid = " + Integer.parseInt(userid) + " AND \"group\" = '" + groupName + "';";
 		ResultList deleteResult = SQL.executeQuery(deleteGroupQuery, 3);
 		
-		res.redirect("http://localhost:8080/" + userid + "/home/flashcardwizard/");
+		res.redirect("https://localhost:8080/" + userid + "/home/flashcardwizard/");
 		return null;
 	};
 	
@@ -116,7 +116,7 @@ public class FlashCardController {
 		} while(question != null && answer != null);
 		
 		req.session().attribute("addFlashCardResult", true);
-		res.redirect("http://localhost:8080/" + userid + "/home/flashcardwizard/addnewgroup");
+		res.redirect("https://localhost:8080/" + userid + "/home/flashcardwizard/addnewgroup");
 		return null;
 		
 	};
@@ -128,7 +128,7 @@ public class FlashCardController {
 		String groupName = req.queryParams("group");
 		req.session().attribute("groupName", groupName);
 		String userid = req.session().attribute("currentUser");
-		res.redirect("http://localhost:8080/" + userid + "/home/flashcardwizard/view/" + groupName);
+		res.redirect("https://localhost:8080/" + userid + "/home/flashcardwizard/view/" + groupName);
 		return null;
 	};
 	
