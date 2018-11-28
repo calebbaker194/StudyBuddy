@@ -25,7 +25,7 @@ public class Main {
 		 * Username: "uname"
 		 * Password: "passwd"
 		 */
-		SQL.Connect("StudyBuddy", "localhost", 5432, "studybuddy", "studybuddypass");
+		//SQL.Connect("StudyBuddy", "localhost", 5432, "studybuddy", "studybuddypass");
 		
 		/*
 		 * -- Role: studybuddy
@@ -40,7 +40,7 @@ public class Main {
 		/**
 		 * Execute the sql statement and store the results in a ResultList
 		 */
-		ResultList results = SQL.executeQuery("SELECT 'Its Working' AS test");
+		//ResultList results = SQL.executeQuery("SELECT 'Its Working' AS test");
 		
 		
 		/*
@@ -51,8 +51,8 @@ public class Main {
 		 * if you want the fast way to get the first row then use results.get("test");
 		 */
 		
-		String s = (String) results.get(0).get("test");
-		System.out.println(s);
+		//String s = (String) results.get(0).get("test");
+		//System.out.println(s);
 		/**
 		 * This Allows Us to serve static files like .js and .scc files.
 		 * If a file is located at foldername/theme.css
@@ -68,8 +68,8 @@ public class Main {
 		Signaler sig = new Signaler();
 		sig.start();
 		
-		//to go to a page go to http://127.0.0.1:8080/[page path here]
-		port(8080);
+		//to go to a page go to https://127.0.0.1/[page path here]
+		port(443);
 		
 		/**
 		 * GET: HTTP Request type

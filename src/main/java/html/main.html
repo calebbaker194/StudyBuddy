@@ -15,6 +15,8 @@
 <div>
 <button onclick="javascript:getRoom()">Get Room</button>
 <button onclick="javascript:enterRoom()">Enter Room</button>
+<button onclick="localVideo.play()">Show Local</button>
+<button onclick="remoteVideo.play()">Show Remote</button>
 <input id="roomnumber">
 </div>
 </body>
@@ -63,7 +65,7 @@ function pageReady() {
     localVideo = document.getElementById('localVideo');
     remoteVideo = document.getElementById('remoteVideo');
 
-    serverConnection = new WebSocket('wss://10.26.15.236:30001');
+    serverConnection = new WebSocket('ws://127.0.0.1:30001');
     serverConnection.onmessage = gotMessageFromServer;
     
     var constraints = {
