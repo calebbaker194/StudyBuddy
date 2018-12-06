@@ -2,12 +2,26 @@ package singnaling;
 	
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
+import org.java_websocket.server.DefaultSSLWebSocketServerFactory;
 import org.java_websocket.server.WebSocketServer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import java.util.*;
+
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
 
 public class Signaler extends WebSocketServer {
 
@@ -16,6 +30,48 @@ public class Signaler extends WebSocketServer {
 
     public Signaler() {
         super(new InetSocketAddress(30001));
+        setWebSocketFactory(null);
+     // load up the key store
+     		String STORETYPE = "PKCS12";
+     		String KEYSTORE = "web/cert/certificate.pfx";
+     		String STOREPASSWORD = "password";
+     		String KEYPASSWORD = "password";
+
+     		try
+     		{
+	     		KeyStore ks = KeyStore.getInstance( STORETYPE );
+	     		File kf = new File( KEYSTORE );
+	     		ks.load( new FileInputStream( kf ), STOREPASSWORD.toCharArray() );
+	
+	     		KeyManagerFactory kmf = KeyManagerFactory.getInstance( "SunX509" );
+	     		kmf.init( ks, KEYPASSWORD.toCharArray() );
+	     		TrustManagerFactory tmf = TrustManagerFactory.getInstance( "SunX509" );
+	     		tmf.init( ks );
+	
+	     		SSLContext sslContext = null;
+	     		sslContext = SSLContext.getInstance( "TLS" );
+	     		sslContext.init( kmf.getKeyManagers(), tmf.getTrustManagers(), null );
+	
+	     		setWebSocketFactory( new DefaultSSLWebSocketServerFactory( sslContext ) );
+     		}
+     		catch(IOException e) {
+     			e.printStackTrace();
+     		} catch (KeyStoreException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (CertificateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (KeyManagementException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (UnrecoverableKeyException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
     }
 
     @Override

@@ -65,7 +65,7 @@ function pageReady() {
     localVideo = document.getElementById('localVideo');
     remoteVideo = document.getElementById('remoteVideo');
 
-    serverConnection = new WebSocket('ws://127.0.0.1:30001');
+    serverConnection = new WebSocket('wss://10.26.21.248:30001');
     serverConnection.onmessage = gotMessageFromServer;
     
     var constraints = {

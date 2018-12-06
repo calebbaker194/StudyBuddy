@@ -38,8 +38,8 @@
 	</style>
 	<body>
 		<ul>
-		  <li><a href="https://localhost:8080/">Home</a></li>
-		  <li><a href="https://localhost:8080/about">About</a></li>
+		  <li><a href="/">Home</a></li>
+		  <li><a href="/about">About</a></li>
 		  <li style="float:right"><a class ="active" href="login">Login</a></li>
 		</ul>
 		<br/>
@@ -66,7 +66,7 @@
 			#elseif($authSuccess)
 				<script>
 					alert("Login Success");
-					location.href = "https://localhost:8080/$!{uid}/home/";
+					location.href = "/$!{uid}/home/";
 				</script>
 				
 			#elseif($loggedOut)
@@ -76,7 +76,7 @@
 		</form><br><br>
 		
 		<p>Not a user?</p>
-		<a href="http://localhost:8080/register">Register here!</a>
+		<a href="/register">Register here!</a>
 		<br/>
 
 		</center>
