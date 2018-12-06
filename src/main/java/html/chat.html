@@ -5,20 +5,112 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
+	<style>
+	ul {
+	    list-style-type: none;
+	    margin: 0;
+	    padding: 0;
+	    overflow: hidden;
+	    background-color: #f3f3f3;
+	    border: 1px solid #e7e7e7;
+	    width = 100%;
+	}
+	li {
+	    float: left;
+	}
+	li a {
+	    display: block;
+	    color: #666;
+	    text-align: center;
+	    padding: 14px 16px;
+	    text-decoration: none;
+	}
+	li a:hover:not(.active) {
+	    background-color: #ddd;
+	}
+	li a.active {
+	    color: white;
+	    background-color: #85929E;
+	}
+	h1 {
+		color: #666;
+	}
+	
+	#left {
+      background-color: gray;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 15%;
+    }
+    
+    video {
+      width: 100%;
+      height: 100%;
+    }
+    
+	#right {
+      background-color: gray;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 15%;
+    }
+    
+	#bottom {
+      background-color: gray;
+      height: 10%;
+      position: absolute;
+      bottom: 0;
+	  left: 15%;
+      width: 70%;
+    }
+    
+	#main {
+      background-color: light-gray;
+      height: 90%;
+      position: absolute;
+      top: 0;
+	  left: 15%;
+      width: 70%;
+	}
+	
+	#remote {
+      background-color: white;
+      height: 200px;
+      position: absolute;
+      bottom: 15%;
+	  left: 60%;
+      width: 290px;
+	 }
+	
+	</style>
 <body>
-<div>
-<video id="localVideo"></video>
-</div>
-<div>
-<video id="remoteVideo"></video>
-</div>
-<div>
-<button onclick="javascript:getRoom()">Get Room</button>
-<button onclick="javascript:enterRoom()">Enter Room</button>
-<button onclick="localVideo.play()">Show Local</button>
-<button onclick="remoteVideo.play()">Show Remote</button>
-<input id="roomnumber">
-</div>
+	<ul>
+	  <li><a href="/">Home</a></li>
+	  <li><a href="/about">About</a></li>
+	  <li style="float:right"><a class ="active" href="login">Login</a></li>
+	</ul>
+	<br/>
+	
+	
+	<div id="left">
+	</div>
+	<div id="right">
+	</div>
+	<div id="bottom">
+		<button onclick="search()">Search</button>
+	</div>
+	<div id="main">
+		<video id="remoteVideo"></video>
+	</div>
+	<div id="remote">
+		<video id="localVideo"></video>
+	</div>
+	<div>
+	</div>
 </body>
 <script>
 
@@ -26,8 +118,15 @@ var localVideo;
 var localStream;
 var serverConnection;
 var peerConnection;
+var roomNumber = -1;
 
 window.onload=pageReady;
+
+function search()
+{
+	localVideo.play()
+	serverConnection.send("{\"type\":\"ENTERQUEUE\"}");
+}
 
 function getRoom()
 {
@@ -65,7 +164,7 @@ function pageReady() {
     localVideo = document.getElementById('localVideo');
     remoteVideo = document.getElementById('remoteVideo');
 
-    serverConnection = new WebSocket('wss://10.26.21.248:30001');
+    serverConnection = new WebSocket('wss://studybuddy.pittsburgsteel.com:30001');
     serverConnection.onmessage = gotMessageFromServer;
     
     var constraints = {
@@ -114,6 +213,7 @@ function gotIceCandidate(event) {
 function gotRemoteStream(event) {
     console.log('got remote stream');
     remoteVideo.src = window.URL.createObjectURL(event.stream);
+    remoteVideo.play()
 }
 
 function createOfferError(error) {
@@ -121,8 +221,21 @@ function createOfferError(error) {
 }
 function gotMessageFromServer(message) {
 	
+	if(message.data == "INITCALL") {
+		start(true);
+		return;
+	}
+	else if(message.data == "CALLREADY") {
+		
+		return;
+	}
+	else if(message.data.startsWith("SETROOM")) {
+		roomNumber = parseInt(message.data.substring(7))
+		return
+	}
+	
+	
 	console.log(message);
-	document.getElementById("roomnumber").value = JSON.parse(message.data).value;
 
 	if(!peerConnection) start(false);
 

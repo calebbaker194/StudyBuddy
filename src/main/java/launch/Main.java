@@ -42,7 +42,7 @@ public class Main {
 		secure("web/cert/certificate.pfx", "password", null, null);
 		
 		//This starts up the signaling server
-		Signaler sig = new Signaler();
+		Signaler sig = Signaler.getInstance();
 		sig.start();
 		
 		//to go to a page go to https://127.0.0.1/[page path here]
@@ -74,6 +74,8 @@ public class Main {
 		 * res.redirect("/");
 		 */
 		
+		ChatController.startQueue();
+		
 		//This example shows how to render an html page
 		get("/render", (req,res)->{
 			
@@ -104,7 +106,7 @@ public class Main {
 		post("/login", LoginController.handleLoginPost);
 		get("/logout", LoginController.serveLogoutPage);
 		post("/logout", LoginController.handleLogoutPost);
-		
+		get("/chat",ChatController.openChat);
 		path("/:user", () -> {
 			
 			path("/home", () -> {

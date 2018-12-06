@@ -7,6 +7,8 @@ import org.java_websocket.server.WebSocketServer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import controller.ChatController;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -25,10 +27,19 @@ import javax.net.ssl.TrustManagerFactory;
 
 public class Signaler extends WebSocketServer {
 
-    private static Map<Integer,Set<WebSocket>> Rooms = new HashMap<>();
-    private int myroom;
-
-    public Signaler() {
+    private Map<Integer,Set<WebSocket>> Rooms = new HashMap<>();
+    private Map<Integer,Integer> hash = new HashMap<>();
+    private static Signaler instance = null;
+    public static Signaler getInstance()
+    {
+    	if(instance == null)
+    	{
+    		instance = new Signaler();
+    	}
+    	return instance;
+    }
+    
+    private Signaler() {
         super(new InetSocketAddress(30001));
         setWebSocketFactory(null);
      // load up the key store
@@ -86,28 +97,20 @@ public class Signaler extends WebSocketServer {
         try {
             JSONObject obj = new JSONObject(message);
             String msgtype = obj.getString("type");
+            int roomNumber = -1;
+            try {
+            	roomNumber = Integer.parseInt(obj.getString("room"));
+            }catch(JSONException e) {}
             switch (msgtype) {
-                case "GETROOM":
-                    myroom = generateRoomNumber();
-                    s = new HashSet<>();
-                    s.add(conn);
-                    Rooms.put(myroom, s);
-                    System.out.println("Generated new room: " + myroom);
-                    conn.send("{\"type\":\"GETROOM\",\"value\":" + myroom + "}");
-                    break;
-                case "ENTERROOM":
-                    myroom = obj.getInt("value");
-                    System.out.println("New client entered room " + myroom);
-                    s = Rooms.get(myroom);
-                    s.add(conn);
-                    Rooms.put(myroom, s);
-                    break;
+                case "ENTERQUEUE":
+                	ChatController.addToQueue(conn);
+                	break;
                 default:
-                    sendToAll(conn, message);
+                    sendToAll(conn,roomNumber, message);
                     break;
             }
         } catch (JSONException e) {
-            sendToAll(conn, message);
+        	sendToAll(conn,hash.get(conn.getRemoteSocketAddress().hashCode()),message);
         }
         System.out.println();
     }
@@ -119,15 +122,30 @@ public class Signaler extends WebSocketServer {
 
     @Override
     public void onError(WebSocket conn, Exception exc) {
-        System.out.println("Error happened: " + exc);
+        exc.printStackTrace();
     }
 
-    private int generateRoomNumber() {
+    public int generateRoomNumber() {
         return new Random(System.currentTimeMillis()).nextInt();
     }
 
-    private void sendToAll(WebSocket conn, String message) {
-        Iterator it = Rooms.get(myroom).iterator();
+    public void createRoom(int roomNumber) {
+        Set<WebSocket>  s = new HashSet<>();
+        Rooms.put(roomNumber, s);
+    }
+    
+    public void addToRoom(int roomNumber, WebSocket connection)
+    {
+    	System.out.println("Adding "+ connection +" To Room:"+ roomNumber);
+    	Set<WebSocket> s = Rooms.get(roomNumber);
+    	hash.put(connection.getRemoteSocketAddress().hashCode(), roomNumber);
+    	s.add(connection);
+    	Rooms.put(roomNumber, s);
+    }
+    
+    private void sendToAll(WebSocket conn,int roomNumber, String message) {
+    	System.out.println(message);
+        Iterator it = Rooms.get(roomNumber).iterator();
         while (it.hasNext()) {
             WebSocket c = (WebSocket)it.next();
             if (c != conn) c.send(message);
