@@ -22,7 +22,7 @@ public class LoginController {
 		
 		if(req.session().attribute("currentUser") != null) {
 			String userid = req.session().attribute("currentUser");
-			res.redirect("https://localhost:8080/" + userid + "/home/");
+			res.redirect("https://localhost/" + userid + "/home/");
 			return null;
 		}
 		

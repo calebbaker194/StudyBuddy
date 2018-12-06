@@ -42,8 +42,8 @@ public class Main {
 		secure("web/cert/certificate.pfx", "password", null, null);
 		
 		//This starts up the signaling server
-		Signaler sig = new Signaler();
-		sig.start();
+		//Signaler sig = new Signaler();
+		//sig.start();
 		
 		//to go to a page go to https://127.0.0.1/[page path here]
 		port(443);
