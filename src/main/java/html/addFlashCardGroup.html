@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta charset="ISO-8859-1">
 		<title>Add Flash Card</title>
+		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script type="text/javascript">
 		
@@ -38,41 +38,95 @@
 			});
 			
 		});
-		
+	
 		</script>
 	</head>
-	
 	<style>
-	ul.header {
-	    list-style-type: none;
-	    margin: 0;
-	    padding: 0;
-	    overflow: hidden;
-	    background-color: #f3f3f3;
-	    border: 1px solid #e7e7e7;
-	    width = 100%;
-	}
-	li.header {
-	    float: left;
-	}
-	li a {
-	    display: block;
-	    color: #666;
-	    text-align: center;
-	    padding: 14px 16px;
-	    text-decoration: none;
-	}
-	li a:hover:not(.active) {
-	    background-color: #ddd;
-	}
-	li a.active {
-	    color: white;
-	    background-color: #85929E;
-	}
-	h1 {
-		color: #666;
-	}
-	
+		body {
+		      margin: 0;
+		      padding: 0;
+		      background-color: #373737;
+		}
+		
+		ul {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			background-color: #1E1E1E;
+		   
+			width = 100%;
+		}
+		li {
+			float: left;
+		}
+		li a {
+			display: block;
+			color: #BFBFBF;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+		}
+		
+		li a:hover:not(.active) {
+			color: #C8C8C8;
+			background-color: #444444;
+		}
+		li a.active {
+			color: white;
+			background-color: #595959;
+		}
+		
+		.box {
+		    background-color: #4c4c4c;
+		    width: 35%;
+		    height: 100px;
+		    padding: 0px;
+		    margin: 25px;
+		    border-radius: 0px;
+		}
+		
+		.returnButton {
+			background-color: #637a9e;
+		    border: none;
+		    color: white;
+		    padding: 15px 25px;
+		    text-align: center;
+		    font-size: 16px;
+		    cursor: pointer;
+		    width: 200px;
+		    position: fixed;
+		    bottom: 10px;
+		    float: left;
+		    left: 10px;
+		}
+				
+		.xbutton {
+			background-color: #637a9e;
+		    border: none;
+		    color: white;
+		    padding: 15px 25px;
+		    text-align: center;
+		    font-size: 16px;
+		    cursor: pointer;
+		    width: 50%;
+		    height: 50px;
+		    transition: width 0.5s;
+		}
+						
+		.returnButton:hover{
+			background-color: #4d5e7a;
+		}
+		.button:hover{
+			background-color: #4d5e7a;
+			width: 75%;
+		}
+				
+		topbarimage{
+			position: relative;
+			top: -46px;
+			z-index: 1;
+		}
 	</style>
 	
 	<body>
@@ -82,25 +136,21 @@
 		  <li class="header"><a href="#about">About</a></li>
 		  <li class="header" style="float:right"><a class ="active" href="/login">Login</a></li>
 		</ul>
-		<br/>
 		
 		<a href="/$!{uid}/home/">User Home</a>	
-	
 		#if($result)
 			<p>group successfully added</p>
 		#end
 		
 		<form method="post">
-		
-			<div>
-			</div>
-		
-			
+			<!--
 			<select name="course">
 				#foreach($course in $courses)
 					<option value="$course.get("coursename")">$course.get("coursename")</option>
 				#end
 			</select>
+			-->
+			
 			Group <input type="text" name="group"/>
 			Description <input type="text" name="description"/>
 			<br/><br/>
@@ -118,8 +168,9 @@
 			</div>
 			
 			<input id="submit" type="submit" name="Add Flash Card"/>
-		
 		</form>
+		-->
+
 		<button id="addCard">Add card</button>
 		
 		#if($success)
@@ -129,5 +180,4 @@
 		#end
 		
 	</body>
-	
 </html>

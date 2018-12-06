@@ -82,7 +82,7 @@ public class UserPageController {
 		
 		ResultList result = SQL.executeQuery(confirmRequestQuery, 2);
 		
-		res.redirect("https://localhost:8080/" + userid + "/home/");
+		res.redirect("https://localhost/" + userid + "/home/");
 		return null;
 	};
 	
@@ -106,7 +106,7 @@ public class UserPageController {
 		
 		ResultList result = SQL.executeQuery(denyQuery, 3);
 		
-		res.redirect("https://localhost:8080/" + userid + "/home/");
+		res.redirect("https://localhost/" + userid + "/home/");
 		return null;
 	};
 
