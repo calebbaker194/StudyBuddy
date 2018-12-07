@@ -32,10 +32,7 @@ public class AddFriendController {
 		String username = req.queryParams("username");
 		String userid = req.session().attribute("currentUser");
 		
-		String query = "SELECT userid FROM public.\"UserAccount\" WHERE username = '" + username + "'";
-		ResultList result = SQL.executeQuery(query, 0);
-		
-		String uid = result.getFirst("userid").toString();
+		String uid = PreparedQueries.getUserID(username);
 		
 		String addFriendQuery = "INSERT INTO public.\"Friend\" (friend_request_sender, friend_request_receiver) "
 				+ "VALUES (" + Integer.parseInt(userid) + ", " + Integer.parseInt(uid) + ");";
@@ -43,7 +40,7 @@ public class AddFriendController {
 		ResultList r = SQL.executeQuery(addFriendQuery, 1);
 		
 		res.redirect("https://localhost/" + userid + "/home/viewusers");
-		return null;
+		return res;
 		
 	};
 

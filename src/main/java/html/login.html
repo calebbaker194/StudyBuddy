@@ -61,7 +61,7 @@
 				<br/><br/>
 				#if($loginRedirect)
 					<input type="hidden" name="loginRedirect" value="$!{loginRedirect}"/>
-				#end				
+								
 				<br/><br/>
 				
 			#elseif($authSuccess)
@@ -69,7 +69,7 @@
 					alert("Login Success");
 					location.href = "/$!{uid}/home/";
 				</script>
-				
+			#end
 			</form>
 		
 		

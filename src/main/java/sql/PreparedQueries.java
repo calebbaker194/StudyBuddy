@@ -1,12 +1,9 @@
 package sql;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.Date;
+import java.util.*;
 
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -33,8 +30,8 @@ public class PreparedQueries extends SQL {
 	 * 
 	 * @param uname : the client's username
 	 * @param upass : the client's password
-	 * @return : returns true if the query returns a result, returns false
-	 * 			 if the query returns nothing or if there is an error
+	 * @return : returns true if the entered password matches the hash
+	 * 			 in the db
 	 */
 	public static boolean authenticate(String uname, String upass) {
 		
@@ -78,6 +75,12 @@ public class PreparedQueries extends SQL {
 		
 	}
 	
+	/**
+	 * This method retrieves a user's id number given their username.
+	 * 
+	 * @param uname : client's username
+	 * @return : A string with the client's user id number.
+	 */
 	public static String getUserID(String uname) {
 		
 		String query = "SELECT userid FROM public.\"UserAccount\" WHERE username = ?";
@@ -171,58 +174,31 @@ public class PreparedQueries extends SQL {
 	}
 	
 	/**
-	 * Adds a new flash card for a user. This method first queries the database
-	 * to retrieve the user's userid and the courseid of the course the flashcard
-	 * is for. When those have been retrieved, a new flash card will be added to the
-	 * database for the user.
+	 * Adds a new flash card for a user. Retrieves flash card info
+	 * from the card object and constructs an insertion query.
 	 * 
-	 * @param question : the question the flash card asks
-	 * @param answer : the answer to the question
-	 * @param course : the name of the course for the flash card
-	 * @param uname : the username of the client
+	 * @param card : a FlashCard object with all the necessary info
 	 * @return : returns true if the query was successful, false otherwise.
 	 */
 	public static boolean addFlashCard(FlashCard card) {
 		
-		//this query gets the courseid. The "?" is a placeholder
-		String findCIDquery = "SELECT courseid FROM public.\"Courses\" WHERE coursename = ?";
 		//this query adds the flash card to the database. the "?" are placeholders
-		String addFCquery = "INSERT INTO public.\"FlashCard\"(userid, courseid, question, answer, \"group\", description) "
-				+ "VALUES (?, ?, ?, ?, ?, ?)";
+		String addFCquery = "INSERT INTO public.\"FlashCard\"(userid, question, answer, \"group\", description, datecreated) "
+				+ "VALUES (?, ?, ?, ?, ?, DEFAULT)";
 		
 		//wrapping entire insertion process in try-catch block
 		try(Connection con = DriverManager.getConnection(connectionString, username, password)) {
 			
 			//establishing above queries as prepared statements in Postgres
-			PreparedStatement findCIDpst = con.prepareStatement(findCIDquery);
+			//PreparedStatement findCIDpst = con.prepareStatement(findCIDquery);
 			PreparedStatement addFCpst = con.prepareStatement(addFCquery);
-			
-			//declaring variables to hold userid and courseid
-			int courseid;
-			
-			//setting the values of the parameters in both SELECT queries
-			findCIDpst.setString(1, card.getCoursename());
-			
-			//attempting to find courseid. Wrapped in try-catch block
-			try(ResultSet cidPSTres = findCIDpst.executeQuery()) {
-				if(!cidPSTres.next())
-					return false;
-				else
-					courseid = cidPSTres.getInt(1);
-			}
-			catch(SQLException e) {
-				Logger lgr = Logger.getLogger(PreparedQueries.class.getName());
-				lgr.log(Level.SEVERE, e.getMessage(), e);
-				return false;
-			}
 			
 			//setting value of placeholders in INSERT query
 			addFCpst.setInt(1, card.getUserid());
-			addFCpst.setInt(2, courseid);
-			addFCpst.setString(3, card.getQuestion());
-			addFCpst.setString(4, card.getAnswer());
-			addFCpst.setString(5, card.getGroup());
-			addFCpst.setString(6, card.getDescription());
+			addFCpst.setString(2, card.getQuestion());
+			addFCpst.setString(3, card.getAnswer());
+			addFCpst.setString(4, card.getGroup());
+			addFCpst.setString(5, card.getDescription());
 			
 			//attempting to update database. Wrapped in try-catch block
 			try {
@@ -242,6 +218,89 @@ public class PreparedQueries extends SQL {
 			return false;
 		}
 		
+	}
+	
+	/**
+	 * Deletes a group of flash cards. Prevents secondary SQL Injection
+	 * 
+	 * @param group : group name of flash cards
+	 * @param userid : user who is deleting flash cards
+	 * @return : true if successful, false otherwise
+	 */
+	public static boolean deleteCardGroup(String group, int userid) {
+		
+		String deleteGroupQuery = "DELETE FROM public.\"FlashCard\" WHERE userid = ? AND \"group\" = ?;";
+		
+		try(Connection con = DriverManager.getConnection(connectionString, username, password)) {
+			
+			PreparedStatement pst = con.prepareStatement(deleteGroupQuery);
+			pst.setInt(1, userid);
+			pst.setString(2, group);
+			
+			try {
+				
+				pst.executeUpdate();
+				return true;
+				
+			} catch(SQLException e) {
+				Logger lgr = Logger.getLogger(PreparedQueries.class.getName());
+				lgr.log(Level.SEVERE, e.getMessage(), e);
+				return false;
+			}
+			
+		} catch(SQLException e) {
+			Logger lgr = Logger.getLogger(PreparedQueries.class.getName());
+			lgr.log(Level.SEVERE, e.getMessage(), e);
+			return false;
+		}
+	}
+	
+	/**
+	 * Retrieves a users's flash cards using their id and a group name
+	 * 
+	 * @param userid : client's id number
+	 * @param group : group name of flash cards desired
+	 * @return : a ResultList object constructed from the query results
+	 * 			 if successful, null otherwise.
+	 */
+	public static ResultList getFlashCards(int userid, String group) {
+		
+		String getCardsQuery = "SELECT question, answer FROM public.\"FlashCard\" WHERE userid = ? AND \"group\" = ?;";
+		
+		try(Connection con = DriverManager.getConnection(connectionString, username, password)) {
+			
+			PreparedStatement pst = con.prepareStatement(getCardsQuery);
+			pst.setInt(1, userid);
+			pst.setString(2, group);
+			
+			try(ResultSet rs = pst.executeQuery()) {
+				
+				List<HashMap<String, Object>> results = new ArrayList<HashMap<String, Object>>();
+				HashMap<String, Object> row;
+				
+				ResultSetMetaData rm = rs.getMetaData();
+				int columns = rm.getColumnCount();
+				
+				while(rs.next()) {
+					row = new HashMap<String, Object>(columns);
+					for(int i = 1; i <= columns; i++) {
+						row.put(rm.getColumnName(i), rs.getObject(i));
+					}
+					results.add(row);
+				}
+				
+				return new ResultList(results);
+			} catch(SQLException e) {
+				Logger lgr = Logger.getLogger(PreparedQueries.class.getName());
+				lgr.log(Level.SEVERE, e.getMessage(), e);
+				return null;
+			}
+			
+		} catch(SQLException e) {
+			Logger lgr = Logger.getLogger(PreparedQueries.class.getName());
+			lgr.log(Level.SEVERE, e.getMessage(), e);
+			return null;
+		}
 	}
 
 }

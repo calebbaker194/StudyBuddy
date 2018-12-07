@@ -73,17 +73,16 @@ public class UserPageController {
 	
 	public static Route confirmFriendRequestPost = (Request req, Response res) -> {
 		
-		String username = req.queryParams("username");
+		String uid = PreparedQueries.getUserID(req.queryParams("username"));
 		String userid = req.session().attribute("currentUser");
 		
 		String confirmRequestQuery = "UPDATE public.\"Friend\" SET friend_request_confirmed = true "
-				+ "WHERE friend_request_sender = (SELECT userid FROM public.\"UserAccount\" "
-				+ "WHERE username = '" + username + "') AND friend_request_receiver = " + userid + ";";
+				+ "WHERE friend_request_sender = " + Integer.parseInt(uid) + "AND friend_request_receiver = " + Integer.parseInt(userid) + ";";
 		
 		ResultList result = SQL.executeQuery(confirmRequestQuery, 2);
 		
 		res.redirect("https://localhost/" + userid + "/home/");
-		return null;
+		return res;
 	};
 	
 	public static Route confirmFriendRequest = (Request req, Response res) -> {
@@ -99,15 +98,15 @@ public class UserPageController {
 	public static Route denyFreindRequestPost = (Request req, Response res) -> {
 		
 		String userid = req.session().attribute("currentUser");
-		
+		String uid = PreparedQueries.getUserID(req.queryParams("username"));
+
 		String denyQuery = "DELETE FROM public.\"Friend\" " + 
-				"WHERE friend_request_sender = (SELECT userid FROM public.\"UserAccount\" "
-				+ "WHERE username = '" + req.queryParams("username") + "');";
+				"WHERE friend_request_sender = " + Integer.parseInt(uid) + ";";
 		
 		ResultList result = SQL.executeQuery(denyQuery, 3);
 		
 		res.redirect("https://localhost/" + userid + "/home/");
-		return null;
+		return res;
 	};
 
 }

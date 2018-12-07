@@ -132,9 +132,9 @@
 	<body>
 		
 		<ul class="header">
-		  <li class="header"><a href="/">Home</a></li>
+		  <li class="header"><a href="https://localhost/">Home</a></li>
 		  <li class="header"><a href="#about">About</a></li>
-		  <li class="header" style="float:right"><a class ="active" href="/login">Login</a></li>
+		  <li class="header" style="float:right"><a class ="active" href="https://localhost/login">Login</a></li>
 		</ul>
 		
 		<a href="/$!{uid}/home/">User Home</a>	
@@ -143,14 +143,9 @@
 		#end
 		
 		<form method="post">
-			<!--
-			<select name="course">
-				#foreach($course in $courses)
-					<option value="$course.get("coursename")">$course.get("coursename")</option>
-				#end
-			</select>
-			-->
-			
+		
+			<div>
+			</div>
 			Group <input type="text" name="group"/>
 			Description <input type="text" name="description"/>
 			<br/><br/>
@@ -169,15 +164,7 @@
 			
 			<input id="submit" type="submit" name="Add Flash Card"/>
 		</form>
-		-->
-
-		<button id="addCard">Add card</button>
-		
-		#if($success)
-			<p>Success</p>
-		#elseif($fail)
-			<p>Failure</p>
-		#end
+		<button id="addCard">Add Card</button>
 		
 	</body>
 </html>

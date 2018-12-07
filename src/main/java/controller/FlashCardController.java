@@ -45,12 +45,13 @@ public class FlashCardController {
 		
 		String userid = req.session().attribute("currentUser");
 		String groupName = req.queryParams("group");
+		String msg = "Failed to delete group";
 		
-		String deleteGroupQuery = "DELETE FROM public.\"FlashCard\" WHERE userid = " + Integer.parseInt(userid) + " AND \"group\" = '" + groupName + "';";
-		ResultList deleteResult = SQL.executeQuery(deleteGroupQuery, 3);
+		if(!PreparedQueries.deleteCardGroup(groupName, Integer.parseInt(userid)))
+			req.session().attribute("failure", msg);
 		
 		res.redirect("https://localhost/" + userid + "/home/flashcardwizard/");
-		return null;
+		return res;
 	};
 	
 	/**
@@ -60,10 +61,9 @@ public class FlashCardController {
 		
 		Map<String, Object> model = new HashMap<>();
 		
-		ResultList result = SQL.executeQuery("SELECT coursename FROM public.\"Courses\""
-				+ "ORDER BY \"coursename\" ASC;", 0);
-		
-		model.put("courses", result);
+		if(req.session().attribute("failure") != null) {
+			model.put("failed", req.session().attribute("failure"));
+		}
 		
 		String userid = req.session().attribute("currentUser");
 		model.put("uid", userid);
@@ -79,11 +79,13 @@ public class FlashCardController {
 	/**
 	 * adds the entered flash cards into the database
 	 */
+	/**
+	 * adds the entered flash cards into the database
+	 */
 	public static Route addFlashCardGroup = (Request req, Response res) -> {
 		//grabbing info
 		String userid = req.session().attribute("currentUser");
 		int uid = Integer.parseInt(userid);
-		String course = req.queryParams("course");
 		String group = req.queryParams("group");
 		String description = req.queryParams("description");
 		
@@ -101,7 +103,7 @@ public class FlashCardController {
 			questionName = "question"; //ready to be modified
 			answerName = "answer";
 			//create FlashCard object with entry
-			FlashCard card = new FlashCard(uid, course, group, description, question, answer);
+			FlashCard card = new FlashCard(uid, group, description, question, answer);
 			result = PreparedQueries.addFlashCard(card); //add to db
 			String iter = Integer.toString(iterator); 
 			questionName = questionName.concat(iter); //move to next entry
@@ -117,7 +119,7 @@ public class FlashCardController {
 		
 		req.session().attribute("addFlashCardResult", true);
 		res.redirect("https://localhost/" + userid + "/home/flashcardwizard/addnewgroup");
-		return null;
+		return res;
 		
 	};
 	
@@ -142,9 +144,7 @@ public class FlashCardController {
 		String userid = req.session().attribute("currentUser");
 		int uid = Integer.parseInt(userid);
 		
-		String getCardsQuery = "SELECT question, answer FROM public.\"FlashCard\" WHERE "
-				+ "userid = " + uid + " AND \"group\" = '" + groupName + "';";
-		ResultList result = SQL.executeQuery(getCardsQuery, 0);
+		ResultList result = PreparedQueries.getFlashCards(uid, groupName);
 		
 		Collections.shuffle(result);
 		model.put("cards", result);
