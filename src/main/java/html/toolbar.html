@@ -1,0 +1,71 @@
+<!DOCTYPE html> 
+<html> 
+	<head> 
+		<meta charset="ISO-8859-1"> 
+		<title>Insert title here</title> 
+		 
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+		<script src="js/jquery-ui-1.12.1.custom/jquery-ui.js"></script> 
+		<script> 
+			$(document).ready(function() { 				 
+				$("#flash-card-div").hide(); 
+				 
+				$("#flash-card-bttn").button(); 
+				$("#draw-tool-bttn").button(); 
+				$("#document-view-bttn").button(); 
+				 
+				$("#flash-card-bttn").click(function(event) { 
+					$("#flash-card-div").show(); 
+					$("#flash-card-div").load("/toolbarcardviewer") 
+				}); 
+				
+				$("#flash-card-div").draggable().resizable();
+			}); 
+		</script> 
+		<style> 
+	 
+		ul { 
+	    	list-style-type: none; 
+	    	margin: 0; 
+	    	padding: 0; 
+	    	overflow: hidden; 
+	    	background-color: #f3f3f3; 
+	    	border: 1px solid #e7e7e7; 
+	    	width = 100%; 
+		} 
+		li { 
+	    	float: left; 
+		} 
+		 
+		#flash-card-div { 
+			width: 300px; 
+			height: 300px; 
+			padding: 0.5em; 
+		} 
+	 
+	</style>
+	<link type="text/css" href="js/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet">
+	</head> 
+	 
+	 
+	 
+	<body> 
+	 
+		<div id="toolbar"> 
+			<ul id="tools"> 
+				<li> 
+					<button id="flash-card-bttn">Flash Cards</button> 
+				</li> 
+				<li> 
+					<button id="draw-tool-bttn">Draw Tool</button> 
+				</li> 
+				<li> 
+					<button id="document-view-bttn">Documents</button> 
+				</li> 
+			</ul> 
+		</div> 
+		 
+		<div id="flash-card-div" class="ui-widget-content"> 
+		</div> 
+	</body> 
+</html>

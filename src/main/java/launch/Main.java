@@ -2,6 +2,7 @@ package launch;
 
 import static spark.Spark.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import controller.*;
@@ -35,8 +36,31 @@ public class Main {
 			CREATE ROLE studybuddy LOGIN
   			ENCRYPTED PASSWORD 'md5d714909662b90e419e13956575e18913'
   			SUPERUSER INHERIT CREATEDB CREATEROLE REPLICATION;
-		 */	
-	
+		 */
+		
+		/**
+		 * Execute the sql statement and store the results in a ResultList
+		 */
+		//ResultList results = SQL.executeQuery("SELECT 'Its Working' AS test");
+		
+		
+		/*
+		 * Get the value of test in row 0. And store it into String. 
+		 * All values in a result set are stored as objects, So you will have to cast them as 
+		 * whatever you know them to be. 
+		 * 
+		 * if you want the fast way to get the first row then use results.get("test");
+		 */
+		
+		//String s = (String) results.get(0).get("test");
+		//System.out.println(s);
+		/**
+		 * This Allows Us to serve static files like .js and .scc files.
+		 * If a file is located at foldername/theme.css
+		 * Then we can link it in the html doc with <link rel="stylesheet" href="theme.css">
+		 * folder name is located at the root of the project so StudyBuddy>foldername
+		 * 
+		 */
 		staticFiles.externalLocation("web");
 		
 		secure("web/cert/certificate.pfx", "password", null, null);
@@ -136,6 +160,52 @@ public class Main {
 			
 		});
 		
-				
+		get("/toolbar", (req, res)->{
+			Map<String, Object> model = new HashMap<>();
+			return new VelocityTemplateEngine().render(new ModelAndView(model, "html/toolbar.html"));
+		});
+		
+		get("/toolbarcardviewer", (req, res)->{
+			Map<String, Object> model = new HashMap<>();
+			
+			String userid = req.session().attribute("currentUser");
+			
+			model.put("uid", userid);
+			
+			String getFlashCardGroupQuery = "SELECT \"group\" FROM public.\"FlashCard\" WHERE userid = " + Integer.parseInt(userid) + " GROUP BY \"group\" ORDER BY \"group\" ASC;";
+			
+			ResultList cardGroups = SQL.executeQuery(getFlashCardGroupQuery, 0);
+			
+			model.put("groups", cardGroups);
+			
+			return new VelocityTemplateEngine().render(new ModelAndView(model, "html/toolbarcardsviewer.html"));
+		});
+		
+		post("/cardgrouppost", (req, res)->{
+			String group = req.queryParams("group");
+			req.session().attribute("groupName", group);
+			res.redirect("/toolbar");
+			return res;
+		});
+		
+		get("/cardslideshow", (req, res)->{
+			Map<String, Object> model = new HashMap<>();
+			
+			String groupName = req.session().attribute("groupName");
+			String userid = req.session().attribute("currentUser");
+			
+			ResultList result = PreparedQueries.getFlashCards(Integer.parseInt(userid), groupName);
+			
+			Collections.shuffle(result);
+			model.put("cards", result);
+			model.put("uid", userid);
+			
+			return new VelocityTemplateEngine().render(new ModelAndView(model, "html/toolbarCardSlideShow.html"));
+		});
+		
+		get("/draw", (req, res)->{
+			Map<String, Object> model = new HashMap<>();
+			return new VelocityTemplateEngine().render(new ModelAndView(model, "html/drawtool.html"));
+		});
 	}
 }

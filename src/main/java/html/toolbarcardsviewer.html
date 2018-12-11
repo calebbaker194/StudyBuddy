@@ -1,0 +1,37 @@
+<!DOCTYPE html> 
+<html> 
+	<head> 
+		<meta charset="ISO-8859-1"> 
+		<title>Flash Card Groups</title> 
+		<link href="js/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet"> 
+	</head> 
+	<body> 
+		<button id="close">Close Window</button>
+		<div> 
+				#foreach($group in $groups) 
+					<button class="card-group" value="$group.get("group")">$group.get("group")</button>				 
+				#end 
+		</div> 
+ 
+	</body> 
+    <script src="js/jquery-ui-1.12.1.custom/external/jquery/jquery.js"></script> 
+	<script src="js/jquery-ui-1.12.1.custom/jquery-ui.js"></script> 
+	<script> 
+		$(document).ready(function() { 
+			$(".card-group").click(function() { 
+				var group = $(this).val(); 
+				$.ajax({ 
+					method: "POST", 
+					url: "/cardgrouppost", 
+					data: {group: group} 
+				}).done(function(msg) { 
+					$("#flash-card-div").empty(); 
+					$("#flash-card-div").load("/cardslideshow"); 
+				}); 
+			});
+			$("#close").click(function() {
+				$("#flash-card-div").hide();
+			});
+		}); 
+	</script>
+</html>
