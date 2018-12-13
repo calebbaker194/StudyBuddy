@@ -11,7 +11,7 @@
 		div {
 		    background-color: #fcfcfc;
 		    width: 400px;
-			border: 5px solid #1E1E1E;
+			border: 3px solid #1E1E1E;
 		    padding: 25px;
 		    margin: 25px;
 		    position: relative;
@@ -41,44 +41,42 @@
 	</style>
 	<body>
 		<ul>
-		  <li><a href="/about">About</a></li>
 		  <li><a href="/">Home</a></li>
+		  <li><a href="/about">About</a></li>
 		  <li style="float:right"><a class ="active" href="login">Login</a></li>
 		</ul>
 		
 		<center>
-		<topbarimage><img src="media/topbarlogo4.jpg"></topbarimage>
-		
-		<div>
-			<h1 style="text-align:center;">Study Buddy</h1>
-			<p style="text-align:center;">Enter your username & password to login</p>
+			<topbarimage><img src="media/topbarlogo4.jpg"></topbarimage>
 			
-			<form method="post" id="login">
-				<br/>		
-				<input type="text" name="username" placeholder="Username" maxlength="40" size="43" required/>
-				<br/><br/>
-				<input type="password" name="password" placeholder="Password" size ="43" required/>
-				<br/><br/>
+			<div>
+				<h1 style="text-align:center;">Study Buddy</h1>
+				<p style="text-align:center;">Enter your username & password to login</p>
+				
+				<form method="post" id="login">
+					<br/>		
+					<input type="text" name="username" placeholder="Username" maxlength="40" size="43" required/>
+					<br/><br/>
+					<input type="password" name="password" placeholder="Password" size ="43" required/>
+					<br/><br/>
+									
+					<br/><br/>
+					
+				#if($authSuccess)
+					<script>
+						alert("Login Success");
+						location.href = "/$!{uid}/home/";
+					</script>
+				#end	
+				</form>
+			
 				#if($loginRedirect)
 					<input type="hidden" name="loginRedirect" value="$!{loginRedirect}"/>
-								
-				<br/><br/>
-				
-			#elseif($authSuccess)
-				<script>
-					alert("Login Success");
-					location.href = "/$!{uid}/home/";
-				</script>
-			#end
-			</form>
-		
-		
-			<button type="submit" form="login" value="Submit" class="button">Login</button>
-			<br><br>
-			<br/>
-		<a href="/register">Register here!</a>
-
-		</div>
+				#end
+			
+				<button type="submit" form="login" value="Submit" class="button">Login</button>
+				<a href="/register"><button style="position: relative; top:5px"class="button">Register</button></a>
+			</div>
 		</center>
 	</body>
 </html>

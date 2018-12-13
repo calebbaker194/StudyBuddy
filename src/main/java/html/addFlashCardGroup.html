@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="ISO-8859-1">
 		<title>Add Flash Card</title>
-		
+		<link href='/css/stylesheet.css' rel='stylesheet'/>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script type="text/javascript">
 		
@@ -19,20 +19,20 @@
 				var list = document.createElement("li");
 				var br = document.createElement("br");
 				list.setAttribute("id", "card1");
-				var node1 = document.createTextNode("Question: ");
-				var node2 = document.createTextNode("Answer:");
+				
 				var question = document.createElement("input");
 				question.setAttribute("type", "text");
+				question.setAttribute("placeholder", "Question");
 				var quesName = "question" + iterator;
 				question.setAttribute("name", quesName);
 				var answer = document.createElement("input");
 				answer.setAttribute("type","text");
+				answer.setAttribute("placeholder", "Answer");
 				var ansName = "answer" + iterator;
 				answer.setAttribute("name", ansName);
-				list.appendChild(node1);
 				list.appendChild(question);
-				list.appendChild(node2);
 				list.appendChild(answer);
+				list.appendChild(br);
 				para.appendChild(list);
 				
 			});
@@ -42,47 +42,14 @@
 		</script>
 	</head>
 	<style>
-		body {
-		      margin: 0;
-		      padding: 0;
-		      background-color: #373737;
-		}
-		
-		ul {
-			list-style-type: none;
-			margin: 0;
-			padding: 0;
-			overflow: hidden;
-			background-color: #1E1E1E;
-		   
-			width = 100%;
-		}
-		li {
-			float: left;
-		}
-		li a {
-			display: block;
-			color: #BFBFBF;
-			text-align: center;
-			padding: 14px 16px;
-			text-decoration: none;
-		}
-		
-		li a:hover:not(.active) {
-			color: #C8C8C8;
-			background-color: #444444;
-		}
-		li a.active {
-			color: white;
-			background-color: #595959;
-		}
 		
 		.box {
 		    background-color: #4c4c4c;
-		    width: 35%;
-		    height: 100px;
+		    width: 620px;
+		    width: 100%;
+		    height: 45px;
 		    padding: 0px;
-		    margin: 25px;
+		    margin: 0px;
 		    border-radius: 0px;
 		}
 		
@@ -99,9 +66,10 @@
 		    bottom: 10px;
 		    float: left;
 		    left: 10px;
+		    z-index:5;
 		}
 				
-		.xbutton {
+		.button {
 			background-color: #637a9e;
 		    border: none;
 		    color: white;
@@ -109,24 +77,33 @@
 		    text-align: center;
 		    font-size: 16px;
 		    cursor: pointer;
-		    width: 50%;
+		    width: 300px;
 		    height: 50px;
-		    transition: width 0.5s;
 		}
 						
 		.returnButton:hover{
 			background-color: #4d5e7a;
+			z-index:5;
 		}
 		.button:hover{
 			background-color: #4d5e7a;
+		}
+	
+		.big{
+			width: 50%;
+			transition: width 0.5s;
+		}
+		
+		.big:hover{
 			width: 75%;
 		}
-				
-		topbarimage{
+		
+		input[type="text"], textarea {
 			position: relative;
-			top: -46px;
-			z-index: 1;
+			font-size: 25px;
+			top: 10px;
 		}
+			
 	</style>
 	
 	<body>
@@ -134,37 +111,66 @@
 		<ul class="header">
 		  <li class="header"><a href="/">Home</a></li>
 		  <li class="header"><a href="#about">About</a></li>
-		  <li class="header" style="float:right"><a class ="active" href="/login">Login</a></li>
+		  <li class="header" style="float:right"><a class ="active" href="/login">Account</a></li>
 		</ul>
 		
-		<a href="/$!{uid}/home/">User Home</a>	
-		#if($result)
-			<p>group successfully added</p>
+		<center>
+			<topbarimage><img src="/media/topbarlogo4.jpg"></topbarimage><br/>
+			<input class="button big" id="submit" type="submit" name="Create Flashcard" value="Create"/>
+			<br><br>
+			
+			<div class="box">
+				<input type="text" style="font-size: 16px" size="20" name="group" placeholder="Title"/>
+				<input type="text" style="font-size: 16px" size="45" name="description" placeholder="Description"/>
+			</div>
+			<br><br><br>
+		
+			<a href="https://localhost/$!{uid}/home/"><button class="returnButton">Return to Account</button></a>
+			
+			#if($result)
+				<p>group successfully added</p>
+			#end
+			
+			
+			<button class="button" id="addCard">Add card</button>
+			<br><br>
+			
+			<form method="post">
+				<!--
+				<select name="course">
+					#foreach($course in $courses)
+						<option value="$course.get("coursename")">$course.get("coursename")</option>
+					#end
+				</select>
+				-->
+				
+				<div id="cardInput">
+					<ul id="card" 
+					style="list-style-type: none;
+					margin: 0;
+					padding: 0;
+					overflow: hidden;
+					background-color: #4c4c4c;
+				   
+					width = 100%;
+					float: none;">
+					
+						<li class="card" style="width:100%">
+							<input type="text" name="question0" placeholder="Question"/>
+							<input type="text" name="answer0" placeholder="Answer"/>
+						</li>
+					</ul>
+				</div>
+				
+			</form>
+		</center>
+		
+		#if($success)
+			<p>Success</p>
+		#elseif($fail)
+			<p>Failure</p>
 		#end
-		
-		<form method="post">
-		
-			<div>
-			</div>
-			Group <input type="text" name="group"/>
-			Description <input type="text" name="description"/>
-			<br/><br/>
-
-			
-			<div id="cardInput">
-				<ul id="card">
-					<li class="card">
-						Question
-						<input type="text" name="question0"/>
-						Answer 
-						<input type="text" name="answer0"/>
-					</li>
-				</ul>
-			</div>
-			
-			<input id="submit" type="submit" name="Add Flash Card"/>
-		</form>
-		<button id="addCard">Add Card</button>
+		<br><br><br><br><br><br><br>
 		
 	</body>
 </html>

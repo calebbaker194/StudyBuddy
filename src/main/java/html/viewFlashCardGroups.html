@@ -1,44 +1,12 @@
 <!DOCTYPE html>
 <html>
 	<head>
+	
+		<link href='/css/stylesheet.css' rel='stylesheet'/>
 		<meta charset="ISO-8859-1">
 		<title>Flash Card Groups</title>
 	</head>
 	<style>
-		body {
-		      margin: 0;
-		      padding: 0;
-		      background-color: #373737;
-		}
-		
-		ul {
-			list-style-type: none;
-			margin: 0;
-			padding: 0;
-			overflow: hidden;
-			background-color: #1E1E1E;
-		   
-			width = 100%;
-		}
-		li {
-			float: left;
-		}
-		li a {
-			display: block;
-			color: #BFBFBF;
-			text-align: center;
-			padding: 14px 16px;
-			text-decoration: none;
-		}
-		
-		li a:hover:not(.active) {
-			color: #C8C8C8;
-			background-color: #444444;
-		}
-		li a.active {
-			color: white;
-			background-color: #595959;
-		}
 		
 		.box {
 		    background-color: #4c4c4c;
@@ -127,17 +95,16 @@
 	</style>
 	<body>
 		<ul>
-		  <li><a href="/">Home</a></li>
-		  <li><a href="/about">About</a></li>
-		  <li style="float:right"><a href="/login">Login</a></li>
+		  <li><a href="https://localhost/">Home</a></li>
+		  <li><a href="https://localhost/about">About</a></li>
+		  <li style="float:right"><a href="https://localhost/login" class="active">Account</a></li>
 		</ul>
 		
 		<a href="/$!{uid}/home/"><button class="returnButton">Return to Account</button></a>
 		
 		<center>
-			<topbarimage><img src="media/topbarlogo4.jpg"></topbarimage>
-			<br>
-			<a href="/$!{uid}/home/flashcardwizard/addnewgroup"><button class="button">Create Flashcard</button></a>
+			<topbarimage><img src="/media/topbarlogo4.jpg"></topbarimage><br>
+			<a href="https://localhost/$!{uid}/home/flashcardwizard/addnewgroup"><button class="button">Create Flashcard</button></a>
 		
 		
 		
@@ -153,12 +120,12 @@
 					<div class ="split right">
 						<form action="/$!{uid}/home/flashcardwizard/groupnamepost" method="post">
 							<input type="hidden" name="group" value="$group.get("group")"/>
-							<input type="submit" name="submit" value="View Group"/>
+							<input type="submit" name="submit" value="View"/>
 						</form>
 						
 						<form method="post">
 							<input type="hidden" name="group" value="$group.get("group")"/>
-							<input type="submit" name ="submit" value="Delete Group"/>
+							<input type="submit" name ="submit" value="Delete"/>
 						</form>
 					</div>
 				</div>

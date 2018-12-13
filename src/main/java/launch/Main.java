@@ -93,6 +93,16 @@ public class Main {
 					new ModelAndView(model, "html/about.html")
 			);
 		});
+		get("/chat", (req,res)->{
+			Map<String, Object> model = new HashMap<String, Object>();
+			//This is where the rendering actually happens
+			return new VelocityTemplateEngine().render(
+					
+					//model is the map from above
+					//package name will be under src/main/java/packagename
+					new ModelAndView(model, "html/chat.html")
+			);
+		});
 		/*
 		 * Some common Methods for the res
 		 * res.redirect("/");
