@@ -141,6 +141,19 @@ function search()
 	serverConnection.send("{\"type\":\"ENTERQUEUE\"}");
 }
 
+function addFriend() {
+	
+}
+
+function nextCard(card) {
+	console.log(card);
+	sendChannel.send("{\"type\":\"nextCard\", \"data\":\""+card+"\"}");
+}
+
+function showAnswer(ans) {
+	sendChannel.send("{\"type\":\"showAns\", \"data\":\""+ans+"\"}")
+}
+
 function playvideo() {
 	  var video = document.getElementById('video');
 	  var vendorUrl = window.URL || window.webkitURL;
@@ -241,6 +254,12 @@ function chatMessage(event) {
 	if(message.type == "release") {
 		paint = false;
 		draw();
+	}
+	if(message.type == "nextCard") {
+		console.log(message.data.getElementsByTagName('p')[0].innerHTML)
+	}
+	if(message.type == "showAns") {
+		console.log(message.data.getElementsByTagName('p')[0].innerHTML)
 	}
 }
 function gotIceCandidate(event) {
