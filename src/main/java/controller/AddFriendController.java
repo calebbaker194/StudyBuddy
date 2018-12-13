@@ -7,26 +7,6 @@ import sql.*;
 
 public class AddFriendController {
 	
-	public static Route viewUsers = (Request req, Response res) -> {
-		
-		Map<String, Object> model = new HashMap<>();
-		
-		String userid = req.session().attribute("currentUser");
-		
-		String query = "SELECT username FROM public.\"UserAccount\" "
-				+ "WHERE userid NOT IN (SELECT friend_request_receiver FROM public.\"Friend\" "
-				+ "WHERE friend_request_sender = " + Integer.parseInt(userid) + ") "
-				+ "AND userid NOT IN (SELECT friend_request_sender FROM public.\"Friend\" "
-				+ "WHERE friend_request_receiver = " + Integer.parseInt(userid) + ") "
-				+ "AND userid != " + Integer.parseInt(userid) + ";";
-		
-		ResultList result = SQL.executeQuery(query, 0);
-		model.put("users", result);
-		
-		return new VelocityTemplateEngine().render(new ModelAndView(model, "html/viewusers.html"));
-		
-	};
-	
 	public static Route addFriendPost = (Request req, Response res) -> {
 		
 		String username = req.queryParams("username");
@@ -39,7 +19,7 @@ public class AddFriendController {
 		
 		ResultList r = SQL.executeQuery(addFriendQuery, 1);
 		
-		res.redirect("https://localhost/" + userid + "/home/viewusers");
+		res.redirect(userid + "/home/viewusers");
 		return res;
 		
 	};

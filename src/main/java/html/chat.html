@@ -1,12 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head> 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<!--  <script src="/js/vue.js"></script> -->
-	
-	<link rel='stylesheet' type='text/css' href='css/stylesheet.css'/>
-	<link rel='stylesheet' type='text/css' href='css/chat.css'/>
+<link rel='stylesheet' type='text/css' href='css/chat.css'/>
+<!--   <link rel='stylesheet' type='text/css' href='css/stylesheet.css'/> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<script src="/js/vue.js"></script>
+<script> 
+			$(document).ready(function() { 				 
+				$("#flash-card-div").hide(); 
+				$("#canvasDiv").hide();
+				$(".color-bttn").hide();
+				$("#close-draw").hide();
+				
+				$("#draw-tool-bttn").click(function() {
+					$("#canvasDiv").show();
+					$(".color-bttn").show();
+					$("#close-draw").show();
+				});
+				 
+				$("#flash-card-bttn").click(function(event) { 
+					$("#flash-card-div").show(); 
+					$("#flash-card-div").load("/toolbarcardviewer") 
+				}); 
+				
+				$("#close-draw").click(function(event) {
+					$("#canvasDiv").hide();
+					$(".color-bttn").hide();
+					$("#close-draw").hide();
+				});
+				
+				$("#flash-card-div").draggable().resizable();
+			}); 
+		</script> 
 </head>
 <style>
 	.chatbox{
@@ -117,7 +144,7 @@
 					<button class="color" value="eraser">Clear</button>
 				</li>
 				<li> 
-					<button id="document-view-bttn">Documents</button> 
+					<button id="close-draw">Close Draw</button> 
 				</li> 
 			</ul> 
 		</div> 
@@ -133,7 +160,7 @@
 
 	<div class="chatbox">
 		<div class="message-holder">
-			<div v-for="message in messages" class="message">{{message}}</div>
+		<div v-for="message in messages" class="message">{{message}}</div>
 		</div>
 	</div>
 	
@@ -154,7 +181,8 @@
 	<div class="interactbox">
 		<inputText><video id="remoteVideo"></video></inputText>
 		<canvas id="canvas"></canvas>
-		
+	</div>
+	<div id="remote">
 		<video id="localVideo"></video>
 	</div>
 	
@@ -165,7 +193,7 @@
 <script src="js/drawtool.js"></script>
 
 <script>
-/*
+
 const app = new Vue({
 	el: '#right',
 	data: {
@@ -174,9 +202,10 @@ const app = new Vue({
 	created () {
 	},
 	
-})*/
+})
 
 var localVideo;
+var recvChannel;
 var sendChannel;
 var localStream;
 var serverConnection;
@@ -185,7 +214,7 @@ var roomNumber = -1;
 
 function sendChat() {
 	var chattext = document.getElementById("chatbox");
-	dataChannel.send(chattext.value);
+	dataChannel.send("{\"type\":\"message\", \"data\":\""+chattext.value+"\", \"from\":\""+"this"+"\"}");
 }
 
 window.onload=pageReady;
@@ -194,6 +223,19 @@ function search()
 {
 	localVideo.play()
 	serverConnection.send("{\"type\":\"ENTERQUEUE\"}");
+}
+
+function addFriend() {
+	
+}
+
+function nextCard(card) {
+	console.log(card);
+	sendChannel.send("{\"type\":\"nextCard\", \"data\":\""+card+"\"}");
+}
+
+function showAnswer(ans) {
+	sendChannel.send("{\"type\":\"showAns\", \"data\":\""+ans+"\"}")
 }
 
 function playvideo() {
@@ -281,8 +323,28 @@ function openChat(event) {
 }
 
 function chatMessage(event) {
-	console.log(event.data);
-	app.messages.push(event.data);
+	var message = JSON.parse(event.data);
+	console.log(message)
+	if(message.type == "draw") {
+		addClick(message.mouseX, message.mouseY, message.paint);
+		draw();
+	}
+	if(message.type == "message") {
+		var thisMes = new Object();
+		thisMes.data = message.data;
+		thisMes.from = message.from;
+		app.messages.push(thisMes);
+	}
+	if(message.type == "release") {
+		paint = false;
+		draw();
+	}
+	if(message.type == "nextCard") {
+		console.log(message.data.getElementsByTagName('p')[0].innerHTML)
+	}
+	if(message.type == "showAns") {
+		console.log(message.data.getElementsByTagName('p')[0].innerHTML)
+	}
 }
 function gotIceCandidate(event) {
     if(event.candidate != null) {
@@ -292,7 +354,7 @@ function gotIceCandidate(event) {
 
 function gotRemoteStream(event) {
     console.log('got remote stream');
-    remoteVideo.src = window.URL.createObjectURL(event.stream);
+    remoteVideo.srcObject  = event.stream;
     remoteVideo.play()
    
     dataChannel = peerConnection.createDataChannel("Chat")

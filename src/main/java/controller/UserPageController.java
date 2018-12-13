@@ -16,11 +16,13 @@ public class UserPageController {
 		
 		LoginController.userLoggedIn(req, res);
 		String userid = req.session().attribute("currentUser");
+		int uid = Integer.parseInt(userid);
+		String username = PreparedQueries.getUsername(uid);
 		req.session().attribute("addFlashCardResult", null);
 		
 		Map<String, Object> model = new HashMap<>();
 		
-		model.put("uid", userid);
+		model.put("uid", username);
 		
 		String getFriendRequestsQuery = "SELECT username FROM public.\"UserAccount\" AS ua " + 
 				"INNER JOIN public.\"Friend\" AS f ON ua.userid = f.friend_request_sender " + 
@@ -81,7 +83,7 @@ public class UserPageController {
 		
 		ResultList result = SQL.executeQuery(confirmRequestQuery, 2);
 		
-		res.redirect("https://localhost/" + userid + "/home/");
+		res.redirect(userid + "/home/");
 		return res;
 	};
 	
@@ -105,7 +107,7 @@ public class UserPageController {
 		
 		ResultList result = SQL.executeQuery(denyQuery, 3);
 		
-		res.redirect("https://localhost/" + userid + "/home/");
+		res.redirect(userid + "/home/");
 		return res;
 	};
 

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="StudyBuddy" company="" webLink="http://" view-date="2018-03-17" view-index="0" gantt-divider-location="395" resource-divider-location="300" version="2.8.6" locale="en_US">
+    <description/>
+    <view zooming-state="default:2" id="gantt-chart">
+        <field id="tpd3" name="Name" width="205" order="0"/>
+        <field id="tpd4" name="Begin date" width="86" order="1"/>
+        <field id="tpd5" name="End date" width="85" order="2"/>
+        <option id="color.recent"><![CDATA[#ff0000 #ff0033 #0066ff #990099 #33ff00 #00ffff #cc00cc #33ff33 #66ff00 #ccccff]]></option>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Name" width="210" order="0"/>
+        <field id="1" name="Default role" width="86" order="1"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/>
+            <only-show-weekends value="false"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+        </taskproperties>
+        <task id="6" name="Analysis Docs" color="#ff0033" meeting="false" start="2018-03-19" duration="13" complete="100" thirdDate="2018-03-19" thirdDate-constraint="0" priority="4" expand="true">
+            <notes><![CDATA[data flow diagrams, Use Case Diagrams, ER diagrams, etc.]]></notes>
+            <depend id="116" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="116" name="Analysis Review" color="#0066ff" meeting="true" start="2018-04-05" duration="0" complete="0" thirdDate="2018-03-26" thirdDate-constraint="0" expand="true"/>
+        <task id="0" name="Design Documents" color="#cc00cc" meeting="false" start="2018-04-09" duration="17" complete="100" thirdDate="2018-04-09" thirdDate-constraint="0" priority="2" expand="true">
+            <notes><![CDATA[Database Model, Design Class Diagrams, Sequence Diagrams]]></notes>
+            <depend id="28" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="3" name="Design Webpages" color="#cc00cc" meeting="false" start="2018-04-09" duration="17" complete="100" thirdDate="2018-04-09" thirdDate-constraint="0" priority="2" expand="true">
+            <notes><![CDATA[Color scheme, layout of homepage, ui design, etc.]]></notes>
+            <depend id="28" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="28" name="Design Review" color="#0066ff" meeting="true" start="2018-05-02" duration="0" complete="25" thirdDate="2018-04-05" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[All objects, functions, etc have been roughed out and are ready to refined and built.]]></notes>
+        </task>
+        <task id="7" name="Obtain Web Hosting" color="#ff0033" meeting="false" start="2018-04-16" duration="5" complete="100" thirdDate="2018-04-16" thirdDate-constraint="0" priority="4" expand="true">
+            <depend id="19" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="19" name="Put DB and Homepage together" color="#ff0000" meeting="false" start="2018-04-23" duration="2" complete="100" thirdDate="2018-04-23" thirdDate-constraint="0" priority="4" expand="true">
+            <notes><![CDATA[Putting Webpages, database together]]></notes>
+            <depend id="58" type="2" difference="0" hardness="Strong"/>
+            <depend id="149" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="58" name="Working Website" color="#0033ff" meeting="true" start="2018-04-25" duration="0" complete="0" thirdDate="2018-04-04" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[Website is up and running. Project foundation is ready to be built on.]]></notes>
+        </task>
+        <task id="149" name="Create Pages" color="#ff0033" meeting="false" start="2018-04-25" duration="3" complete="100" thirdDate="2018-04-25" thirdDate-constraint="0" priority="4" expand="true">
+            <notes><![CDATA[Make Login and create account pages work]]></notes>
+            <depend id="154" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="154" name="Prepare Presentation" color="#ff0000" meeting="false" start="2018-04-30" duration="3" complete="100" thirdDate="2018-04-30" thirdDate-constraint="0" priority="4" expand="true">
+            <depend id="62" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="62" name="Present Prototype" color="#0066ff" meeting="true" start="2018-05-03" duration="0" complete="0" thirdDate="2018-05-03" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[Prototype is ready to be presented.]]></notes>
+        </task>
+        <task id="66" name="Summer Break" color="#ccccff" meeting="false" start="2018-05-17" duration="72" complete="0" thirdDate="2018-05-07" thirdDate-constraint="0" priority="0" expand="true"/>
+        <task id="93" name="Scope Reveiw and Revision" color="#ff0033" meeting="false" start="2018-08-27" duration="10" complete="0" thirdDate="2018-08-27" thirdDate-constraint="0" priority="4" expand="true">
+            <notes><![CDATA[Working off of the prototype, we will determine if we have room to add more functions or not.]]></notes>
+            <depend id="95" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="95" name="Final Scope" color="#0066ff" meeting="true" start="2018-09-10" duration="0" complete="0" thirdDate="2018-09-10" thirdDate-constraint="0" expand="true"/>
+        <task id="23" name="Video Chat" color="#ff0033" meeting="false" start="2018-08-27" duration="5" complete="0" thirdDate="2018-09-03" thirdDate-constraint="0" priority="4" expand="true">
+            <notes><![CDATA[Build the video chat function, most important part of project.]]></notes>
+            <depend id="24" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="24" name="Screen Mirroring" color="#ff0033" meeting="false" start="2018-09-03" duration="10" complete="0" thirdDate="2018-04-16" thirdDate-constraint="0" priority="4" expand="true">
+            <notes><![CDATA[Building the screen mirroring function, probably the toughest part of the project, and one of the project's main features.]]></notes>
+            <depend id="27" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="27" name="Working Screen Mirroring" color="#0066ff" meeting="true" start="2018-09-17" duration="0" complete="0" thirdDate="2018-05-07" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[Screen Mirroring is basically the flagship portion of the website
+]]></notes>
+        </task>
+        <task id="22" name="Text Chat" color="#ff0000" meeting="false" start="2018-09-03" duration="5" complete="0" thirdDate="2018-03-29" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[Build the text chat function]]></notes>
+        </task>
+        <task id="68" name="&quot;Friending&quot; Function" color="#33ff00" meeting="false" start="2018-08-27" duration="5" complete="0" thirdDate="2018-08-27" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[Build the "Friending Function" letting users with accounts save people they would want to study with again.]]></notes>
+            <depend id="70" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="70" name="Integration Testing" color="#00ffff" meeting="false" start="2018-09-03" duration="5" complete="0" thirdDate="2018-09-03" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[Integrate "Friending" functionality to the website.]]></notes>
+        </task>
+        <task id="71" name="Administration Bots" color="#66ff00" meeting="false" start="2018-09-03" duration="5" complete="0" thirdDate="2018-09-03" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[Building a bot that will monitor text chat for slurs, and a reporting system.]]></notes>
+            <depend id="72" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="72" name="Integration Testing" color="#00ffff" meeting="false" start="2018-09-10" duration="5" complete="0" thirdDate="2018-09-10" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[Incorporating the admin functions to the website]]></notes>
+        </task>
+        <task id="73" name="Text Chat Saving" color="#33ff00" meeting="false" start="2018-09-10" duration="5" complete="0" thirdDate="2018-09-10" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[Building the function that allows users to save text-chats to their accounts for future review]]></notes>
+            <depend id="74" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="74" name="Integration Testing" color="#00ffff" meeting="false" start="2018-09-17" duration="5" complete="0" thirdDate="2018-09-17" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[Incorporating the Text Chat Saving function to the website]]></notes>
+        </task>
+        <task id="75" name="Flash Card Function" color="#cc00cc" meeting="false" start="2018-09-17" duration="10" complete="0" thirdDate="2018-09-17" thirdDate-constraint="0" priority="2" expand="true">
+            <notes><![CDATA[Building the Flash Card Function, which will allow users to creat their own flash cards, save themt o their account, and then use them while in a video chat or on their own.]]></notes>
+            <depend id="76" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="76" name="Integration Testing" color="#00ffff" meeting="false" start="2018-10-01" duration="5" complete="0" thirdDate="2018-10-01" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[Incorporating the Flash Card functionality into the website]]></notes>
+            <depend id="98" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="98" name="Working Flash Cards" color="#0066ff" meeting="true" start="2018-10-08" duration="0" complete="0" thirdDate="2018-10-08" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[Flash Cards is another big part of the project and also probably a tough coding challenge]]></notes>
+        </task>
+        <task id="78" name="Group Video Chat" color="#33ff33" meeting="false" start="2018-10-01" duration="5" complete="0" thirdDate="2018-10-01" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[Building Group Video Chat function, allows users with mutual "friends" to create a group video chat.]]></notes>
+            <depend id="79" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="79" name="Integration Testing" color="#00ffff" meeting="false" start="2018-10-08" duration="5" complete="0" thirdDate="2018-10-08" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[Incorporating Group Video Chat into the website
+]]></notes>
+        </task>
+        <task id="80" name="Document Sharing and Editing" color="#990099" meeting="false" start="2018-10-08" duration="10" complete="0" thirdDate="2018-10-08" thirdDate-constraint="0" priority="2" expand="true">
+            <notes><![CDATA[Allows users to upload documents to their profile, and while in video chat, they can view the document, edit it, and share it with other users.]]></notes>
+            <depend id="81" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="81" name="Integration Testing" color="#00ffff" meeting="false" start="2018-10-22" duration="5" complete="0" thirdDate="2018-10-22" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[Incorporating the Document Sharing function into the website]]></notes>
+            <depend id="101" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="101" name="Working Doc Sharing" color="#0066ff" meeting="true" start="2018-10-29" duration="0" complete="0" thirdDate="2018-10-29" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[Doc Sharing is another fucntion that will be difficult to build]]></notes>
+        </task>
+        <task id="119" name="Create User Manual" color="#990099" meeting="false" start="2018-10-29" duration="20" complete="0" thirdDate="2018-10-29" thirdDate-constraint="0" priority="2" expand="true">
+            <notes><![CDATA[Tell everyone how the website works]]></notes>
+            <depend id="122" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="122" name="User Manual Complete" color="#0066ff" meeting="true" start="2018-11-26" duration="0" complete="0" thirdDate="2018-11-26" thirdDate-constraint="0" expand="true"/>
+        <task id="104" name="Additional Functions" color="#33ff00" meeting="false" start="2018-10-29" duration="20" complete="0" thirdDate="2018-10-29" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[Building and integrating any additonal functions we have decided to add.]]></notes>
+            <depend id="105" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="105" name="Final Integration Test" color="#00ffff" meeting="false" start="2018-11-26" duration="5" complete="0" thirdDate="2018-11-26" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[Making sure everything works properly and doesn't crash.]]></notes>
+        </task>
+        <task id="108" name="Finalize UI" color="#33ff00" meeting="false" start="2018-11-19" duration="10" complete="0" thirdDate="2018-11-19" thirdDate-constraint="0" expand="true">
+            <notes><![CDATA[Make the website as sleek and pretty as possible.]]></notes>
+            <depend id="113" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="113" name="Project Complete" color="#0066ff" meeting="true" start="2018-12-03" duration="0" complete="0" thirdDate="2018-12-03" thirdDate-constraint="0" expand="true"/>
+        <task id="125" name="Present Project" color="#ff0000" meeting="false" start="2018-12-03" duration="5" complete="0" thirdDate="2018-12-03" thirdDate-constraint="0" priority="4" expand="true"/>
+    </tasks>
+    <resources/>
+    <allocations/>
+    <vacations/>
+    <previous/>
+    <roles roleset-name="Default"/>
+    <roles>
+        <role id="1" name="Project Manager"/>
+    </roles>
+</project>
