@@ -198,8 +198,16 @@ function openChat(event) {
 }
 
 function chatMessage(event) {
-	console.log(event.data);
-	app.messages.push(event.data);
+	var message = JSON.parse(event.data);
+	console.log(message)
+	if(message.type == "draw"){
+		addClick(message.mouseX, message.mouseY, message.paint);	
+	}
+	if(message.type == "message"){
+		var thisMes = new Object();
+		thisMes.data = message.data;
+		thisMes.from = message.from;
+	}
 }
 function gotIceCandidate(event) {
     if(event.candidate != null) {
