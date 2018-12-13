@@ -201,7 +201,8 @@ function chatMessage(event) {
 	var message = JSON.parse(event.data);
 	console.log(message)
 	if(message.type == "draw"){
-		addClick(message.mouseX, message.mouseY, message.paint);	
+		addClick(message.mouseX, message.mouseY, message.paint);
+		draw();
 	}
 	if(message.type == "message"){
 		var thisMes = new Object();
