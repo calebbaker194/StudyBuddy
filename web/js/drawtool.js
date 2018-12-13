@@ -62,6 +62,7 @@ var clickX = [], //arrays to hold positions
 	    mouseY = ((e.changedTouches ? e.changedTouches[0].clientY : e.clientY) - rect.top) * scaleY;
 		
 		addClick(mouseX, mouseY, false);
+		sendChannel("{\"mouseX\":"+mouseX+" ,\"mouseY\":"+mouseY+", \"paint\":false}");
 		paint = true;
 		draw();
 	},
@@ -75,6 +76,7 @@ var clickX = [], //arrays to hold positions
 	    mouseY = ((e.changedTouches ? e.changedTouches[0].clientY : e.clientY) - rect.top) * scaleY;
 		
 		if(paint) {
+			sendChannel.send("{\"mouseX\":"+mouseX+" ,\"mouseY\":"+mouseY+", \"paint\":false}");
 			addClick(mouseX, mouseY, true);
 			draw();
 		}
