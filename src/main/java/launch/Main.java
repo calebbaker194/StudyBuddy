@@ -158,9 +158,6 @@ public class Main {
 					post("/addnewgroup", FlashCardController.addFlashCardGroup);
 					
 				});
-				
-				get("/viewusers", AddFriendController.viewUsers);
-				post("/viewusers", AddFriendController.addFriendPost);
 				get("/deny/", UserPageController.denyFriendRequest);
 				post("/deny/", UserPageController.denyFreindRequestPost);
 				get("/confirm/", UserPageController.confirmFriendRequest);
@@ -213,9 +210,6 @@ public class Main {
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "html/toolbarCardSlideShow.html"));
 		});
 		
-		get("/draw", (req, res)->{
-			Map<String, Object> model = new HashMap<>();
-			return new VelocityTemplateEngine().render(new ModelAndView(model, "html/drawtool.html"));
-		});
+		post("/addfriend", AddFriendController.addFriendPost);
 	}
 }
