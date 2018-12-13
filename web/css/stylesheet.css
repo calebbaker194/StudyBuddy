@@ -16,6 +16,16 @@ ul {
 li {
 	float: left;
 }
+
+.card {
+ width: 100%;
+ margin: 5px;
+}
+
+.card input {
+ margin-left: 5px;
+ margin-right: 5px;
+}
 li a {
 	display: block;
 	color: #BFBFBF;

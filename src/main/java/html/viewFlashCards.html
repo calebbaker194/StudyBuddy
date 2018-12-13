@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<link href='/css/stylesheet.css' rel='stylesheet'/>
 		<meta charset="ISO-8859-1">
 		<title>View Card Group</title>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -64,22 +65,61 @@
 		.cardFront, .cardBack {
 			display: none;
 		}
+		
+		
+		.b{
+			background-color: #637a9e;
+		    border: none;
+		    color: white;
+		    padding: 15px 25px;
+		    text-align: center;
+		    font-size: 16px;
+		    cursor: pointer;
+		    width: 200px;
+		    height: 50px;
+		   
+		}
+		.b:hover{
+			background-color: #4d5e7a;
+		}
+		
+		
+		.box{
+			background-color: #fcfcfc;
+		    width: 400px;
+			border: 3px solid #1E1E1E;
+		    padding: 25px;
+		    margin: 25px;
+		    position: relative;
+		    border-radius: 10px;
+		}
+
 	
 	</style>
 	
 	<body>
-		<a href="/$!{uid}/home/">User Home</a>
-	
-		#foreach ($card in $cards)
-			<div class="cardFront">
-				<p>${card.get("question")}</p>
+		<ul>
+		  <li><a href="/">Home</a></li>
+		  <li><a href="/about">About</a></li>
+		  <li style="float:right"><a href="/login" class="active">Account</a></li>
+		</ul>
+		<center>
+			<topbarimage><img src="/media/topbarlogo4.jpg"></topbarimage>
+			
+			<div class="box">
+				#foreach ($card in $cards)
+					<div class="cardFront">
+						<p>${card.get("question")}</p>
+					</div>
+					<div class="cardBack">
+						<p>${card.get("answer")}</p>
+					</div>
+				#end
 			</div>
-			<div class="cardBack">
-				<p>${card.get("answer")}</p>
-			</div>
-		#end
-		<a class="previous">Previous</a>
-		<a class="flip">Reveal Answer</a>
-		<a class="next">Next</a>
+			
+			<a class="previous b">Previous</a>
+			<a class="flip b">Reveal Answer</a>
+			<a class="next b">Next</a>
+		</center>
 	</body>
 </html>
