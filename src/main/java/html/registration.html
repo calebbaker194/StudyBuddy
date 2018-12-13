@@ -1,56 +1,24 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<link rel='stylesheet' type='text/css' href='css/stylesheet.css'/>
 		<meta charset="utf-8">
-		<title>Register an Account</title>
+		<title>Register</title>
 	</head>
 	<style>
-	ul {
-	    list-style-type: none;
-	    margin: 0;
-	    padding: 0;
-	    overflow: hidden;
-	    background-color: #f3f3f3;
-	    border: 1px solid #e7e7e7;
-	    width = 100%;
-	}
-	li {
-	    float: left;
-	}
-	
-	ul2 {
-		list-style-type: none;
-	    margin: 0;
-	    padding: 0;
-	    overflow: hidden;
-	    background-color: #f3f3f3;
-	    border: 1px solid #e7e7e7;
-	    width = 50%;
-	}
-	li2 {
-	    float: center;
-	}
-	
-	
-	li a {
-	    display: block;
-	    color: #666;
-	    text-align: center;
-	    padding: 14px 16px;
-	    text-decoration: none;
-	}
-	li a:hover:not(.active) {
-	    background-color: #ddd;
-	}
-	li a.active {
-	    color: white;
-	    background-color: #85929E;
-	}
-	h1 {
-		color: #666;
-	}
-	.invalid {color:red}
-	.valid {color:green}
+		
+		.box {
+		    background-color: #fcfcfc;
+		    width: 400px;
+			border: 3px solid #1E1E1E;
+		    padding: 25px;
+		    margin: 25px;
+		    position: relative;
+		}
+		
+		
+		.invalid {color:red}
+		.valid {color:green}
 	
 	</style>
 	<body>
@@ -61,61 +29,66 @@
 		  <li style="float:right"><a href="/login">Login</a></li>
 		</ul>
 		
+		<center>
+			<topbarimage><img src="media/topbarlogo4.jpg"></topbarimage>
+		<br>
 		
-		<div class="form_container">
-		
-			<form method="post">
-				
-				<br><br>
-				Username <br/>
-				<input type="text" id="uname" name="username" required/>
-				<br/><br/>
-				Password <br/>
-				<input type="password" id="pword" name="pword" required/>
-				<br/><br/>
-				Confirm Password <br/>
-				<input type="password" id="confPword" name="confPword" required/>
-				<br/><br/>
-				
-				<div id="restOfForm">
-					E-mail <br/>
-					<input type="email" id="email" name="email" required/>
-					<br/><br/>
-					School <br/>
-					<input type="text" name="school"/>
-					<br/><br/>
-					First Name <br/>
-					<input type="text" name="fname"/>
-					<br/><br/>
-					Last Name <br/>
-					<input type="text" name="lname"/>
-					<br/><br/>
-					Classification <br/>
-					<input type="radio" name="class" value="freshman"/>Freshman<br/>
-					<input type="radio" name="class" value="sophomore"/>Sophomore<br/>
-					<input type="radio" name="class" value="junior"/>Junior<br/>
-					<input type="radio" name="class" value="senior"/>Senior<br/><br/>
-					<input type="submit" name="Submit"/><br/><br/>
-					</div>
-			</form>
+		<div class="box">
+			<div class="form_container">
 			
-			<div id="pwordInfo">
-				<h4>Password must meet the following requirements</h4>
-				<center>
-				<ul2>
-					<li2 id="length" class="invalid">At least 8 characters</li><br><br>
-					<li2 id="lcLetter" class="invalid">At least one lowercase letter</li><br><br>
-					<li2 id="ucLetter" class="invalid">At least one uppercase letter</li><br><br>
-					<li2 id="number" class="invalid">At least one number</li><br><br>
-					<li2 id="punctuation" class="invalid">At least one of: !,.?_-`~</li>
-				</ul2>
-				</center>
-			</div>
+				<form method="post">
+					
+					<br><br>
+					Username <br/>
+					<input type="text" id="uname" name="username" required/>
+					<br/><br/>
+					Password <br/>
+					<input type="password" id="pword" name="pword" required/>
+					<br/><br/>
+					Confirm Password <br/>
+					<input type="password" id="confPword" name="confPword" required/>
+					<br/><br/>
+					
+					<div id="restOfForm">
+						E-mail <br/>
+						<input type="email" id="email" name="email" required/>
+						<br/><br/>
+						School <br/>
+						<input type="text" name="school"/>
+						<br/><br/>
+						First Name <br/>
+						<input type="text" name="fname"/>
+						<br/><br/>
+						Last Name <br/>
+						<input type="text" name="lname"/>
+						<br/><br/>
+						Classification <br/>
+						<input type="radio" name="class" value="freshman"/>Freshman<br/>
+						<input type="radio" name="class" value="sophomore"/>Sophomore<br/>
+						<input type="radio" name="class" value="junior"/>Junior<br/>
+						<input type="radio" name="class" value="senior"/>Senior<br/><br/>
+						<input type="submit" name="Submit"/><br/><br/>
+						</div>
+				</form>
+				
+				<div id="pwordInfo">
+					<h4>Password must meet the following requirements</h4>
+					<center>
+					<ul2>
+						<li2 id="length" class="invalid">At least 8 characters</li><br><br>
+						<li2 id="lcLetter" class="invalid">At least one lowercase letter</li><br><br>
+						<li2 id="ucLetter" class="invalid">At least one uppercase letter</li><br><br>
+						<li2 id="number" class="invalid">At least one number</li><br><br>
+						<li2 id="punctuation" class="invalid">At least one of: !,.?_-`~</li>
+					</ul2>
+					</center>
+				</div>
+				
+				<div id="checkPword">
+					<p>Passwords do not match</p>
+				</div>
 			
-			<div id="checkPword">
-				<p>Passwords do not match</p>
 			</div>
-		
 		</div>
 		
 		#if($success)
