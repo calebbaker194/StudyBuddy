@@ -93,6 +93,7 @@ const app = new Vue({
 })
 
 var localVideo;
+var recvChannel;
 var sendChannel;
 var localStream;
 var serverConnection;
@@ -208,7 +209,7 @@ function gotIceCandidate(event) {
 
 function gotRemoteStream(event) {
     console.log('got remote stream');
-    remoteVideo.src = window.URL.createObjectURL(event.stream);
+    remoteVideo.srcObject  = event.stream;
     remoteVideo.play()
    
     dataChannel = peerConnection.createDataChannel("Chat")
