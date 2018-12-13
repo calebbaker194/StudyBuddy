@@ -50,7 +50,7 @@ public class FlashCardController {
 		if(!PreparedQueries.deleteCardGroup(groupName, Integer.parseInt(userid)))
 			req.session().attribute("failure", msg);
 		
-		res.redirect("https://localhost/" + userid + "/home/flashcardwizard/");
+		res.redirect(userid + "/home/flashcardwizard/");
 		return res;
 	};
 	
@@ -118,7 +118,7 @@ public class FlashCardController {
 		} while(question != null && answer != null);
 		
 		req.session().attribute("addFlashCardResult", true);
-		res.redirect("https://localhost/" + userid + "/home/flashcardwizard/addnewgroup");
+		res.redirect(userid + "/home/flashcardwizard/addnewgroup");
 		return res;
 		
 	};
@@ -130,7 +130,7 @@ public class FlashCardController {
 		String groupName = req.queryParams("group");
 		req.session().attribute("groupName", groupName);
 		String userid = req.session().attribute("currentUser");
-		res.redirect("https://localhost/" + userid + "/home/flashcardwizard/view/" + groupName);
+		res.redirect(userid + "/home/flashcardwizard/view/" + groupName);
 		return null;
 	};
 	
