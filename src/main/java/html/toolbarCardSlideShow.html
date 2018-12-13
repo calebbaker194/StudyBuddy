@@ -27,6 +27,7 @@
 						q[i].style.display = "none";
 						a[i].style.display = "none";
 					}
+					sendChannel.send("{\"type\":\"nextCard\",\"data\":\""+a[slideIndex-1]+"\"}");
 					q[slideIndex - 1].style.display = "block"; //revealing only 1 element
 					a[slideIndex - 1].style.display = "block";
 				}
@@ -37,6 +38,7 @@
 				function revealAnswer(n, q, a) {
 					q[n-1].style.display = "none";
 					a[n-1].style.display = "block";
+					sendChannel.send("{\"type\":\"showAns\",\"data\":\""+a[n-1]+"\"}");
 				}
 				//event listeners for control buttons
 				$(".next").click(function(event) {

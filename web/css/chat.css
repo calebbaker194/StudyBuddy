@@ -2,30 +2,20 @@
 
 	#canvas{
 		width: 100%;
-		height: 10%;
+		height: 100%;
 		position: relative;
 		top: 0;
 		background-color: white;
 	}
 
 	#remoteVideo{
-		width: 50%;
+		width: 100%;
 		height: 100%;
 		position: absolute;
 		bottom: 0;
 		left: 0;
 		background-color: blue;
 	}
-	
-	video {
-      width: 50%;
-      height: 100%;
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      background-color: red;
-    }
-	
 	
 	#remoteVideo{
 		z-index: 0;
@@ -38,9 +28,10 @@
 	#remote {
       background-color: white;
       height: 200px;
-      position: relative;
+      position: absolute;
+      z-index: 100;
       bottom: 15%;
-	  left: 60%;
+	  right: 0;
       width: 290px;
 	 }
 	 

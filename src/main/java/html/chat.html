@@ -37,6 +37,20 @@
 		</script> 
 </head>
 <style>
+	.left {
+		position: fixed;
+		left: 55%;
+		width: 40%;
+		top: 60px;
+		z-index: 50000;
+		height: 80px;
+	}
+	#toolbar {
+		width: 50%;
+		height: 50%;
+		z-index: 50001;
+	}
+
 	.chatbox{
 		background-color: #4c4c4c;
 		border-radius: 10px;
@@ -45,6 +59,11 @@
 		left: 10%;
 		position: fixed;
 		top: 130px;
+	}
+	.inner{
+		position: relative;
+		width: 100%;
+		height: 100%;
 	}
 	
 	.interactbox{
@@ -114,9 +133,15 @@
 		<topbarimage><img src="media/topbarlogo4.jpg"></topbarimage>
 	</center>
 
-	<div id="left">
+	<div class="left">
 		<div id="toolbar"> 
 			<ul id="tools"> 
+				<li>
+					<button id="flash-card-bttn">Flash Cards</button>
+				</li>
+				<li>
+					<button id="draw-tool-bttn">Draw Tool</button>
+				</li>
 				<li class="color-bttn">
 					<button class="color" value="#ff3300">Red</button>
 				</li>
@@ -144,7 +169,7 @@
 	
 
 
-	<div class="chatbox">
+	<div id="chatbox" class="chatbox">
 		<div class="message-holder">
 		<div v-for="message in messages" class="message">{{message}}</div>
 		</div>
@@ -176,12 +201,15 @@
 	
 	
 	<div class="interactbox">
-		<inputText><video id="remoteVideo"></video></inputText>
-		<canvas id="canvas"></canvas>
+		<div style="height: 100%">
+			<video id="remoteVideo"></video>
+			<canvas id="canvas"></canvas>
+			<div id="remote">
+				<video width="290px" height="200px;" id="localVideo"></video>
+			</div>
+		</div>
 	</div>
-	<div id="remote">
-		<video id="localVideo"></video>
-	</div>
+
 	
 </body>
 
@@ -192,7 +220,7 @@
 <script>
 
 const app = new Vue({
-	el: '#right',
+	el: '#chatbox',
 	data: {
 		messages: [],
 	},
@@ -262,7 +290,7 @@ function pageReady() {
     localVideo = document.getElementById('localVideo');
     remoteVideo = document.getElementById('remoteVideo');
 	console.log("Begin Connection");
-    serverConnection = new WebSocket('wss://studybuddy.pittsburgsteel.com:30001');
+    serverConnection = new WebSocket('wss://127.0.0.1:30001');
     console.log("Connecting");
     serverConnection.onmessage = gotMessageFromServer;
     
@@ -337,10 +365,10 @@ function chatMessage(event) {
 		draw();
 	}
 	if(message.type == "nextCard") {
-		console.log(message.data.getElementsByTagName('p')[0].innerHTML)
+		console.log(message.data.innerHTML);
 	}
 	if(message.type == "showAns") {
-		console.log(message.data.getElementsByTagName('p')[0].innerHTML)
+		console.log(message.data.innerHTML);
 	}
 }
 function gotIceCandidate(event) {
