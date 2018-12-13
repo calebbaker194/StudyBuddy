@@ -6,23 +6,65 @@
 		<title>Account</title>
 	</head>
 	<style>
+		.box{
+			width: 25%;
+			background-color: #4c4c4c;
+			border-radius: 10px;
+			clear: both;
+			position: relative;
+		}
+		
+		.header{
+			width: 100%;
+			background-color: #282828;
+			height: 30px;
+			clear: both;
+			position: relative;
+			top: 0px;
+		}
+		
+		p{
+			color: #cccccc;
+		}
+		
+		h4{
+			color: white;
+			position: relative;
+			top: 5px;
+		}
+		
+		
+		button{
+			background-color: #637a9e;
+		    color: white;
+		    border:none;
+		    padding: 15px 25px;
+		    text-align: center;
+		    font-size: 16px;
+		    cursor: pointer;
+		    width: 200px;
+		    position: fixed;
+		    bottom: 10px;
+		    float: left;
+		    left: 10px;
+		}
+		
+		button:hover{
+			background-color: #4d5e7a;
+		}
 		
 	</style>
 	
 	<body>
 		<ul>
 		  <li><a href="/">Home</a></li>
-		  <li><a href="#about">About</a></li>
+		  <li><a href="/about">About</a></li>
 		  <li style="float:right"><a class="active" href="#account">Account</a></li>
 		  <li style="float:right"><a href="/logout">Logout</a></li>
 		</ul>
-		<center>
-		<topbarimage><img src="/media/topbarlogo4.jpg"></topbarimage>
-		</center>
 		
 		<center>
-			<br>
-			Welcome to your page ${uid}!
+			<topbarimage><img src="/media/topbarlogo4.jpg"></topbarimage>
 			
 			<h4>Welcome to your page ${username}!</h4><br>
 			
@@ -46,10 +88,15 @@
 				#elseif ($noFriendRequests)
 					<p>no friend requests</p>
 				#end
+				<br>
 			</div>
+			<br>
 			
-			<div>
-				Friends
+			<div class="box">
+				<div class="header">
+					<h4>Friends</h4>
+				</div>
+
 				#if ($hasFriends)
 					#foreach ($friend in $friends)
 					<p>$friend.get("username")</p>
@@ -57,10 +104,15 @@
 				#elseif ($noFriends)
 					<p>No Friends :(</p>
 				#end
+				<br>
 			</div>
+			<br>
 			
-			<div>
-				Pending Friend Requests
+			<div class="box">
+				<div class="header">
+					<h4>Sent Friend Requests</h4>
+				</div>
+				
 				#if ($hasPending)
 					#foreach ($pend in $pending)
 					<p>$pend.get("username")</p>
@@ -68,12 +120,12 @@
 				#elseif ($noPending)
 					<p>No Pending Requests</p>
 				#end
+				<br>
 			</div>
-			
+
 			<br><br><br><br>
-			<p></p>
-			<a href="/$!{uid}/home/flashcardwizard/">Flash Card Wizard</a>
-			<a href="/$!{uid}/home/viewusers">View Users</a>
+
+			<a href="/$!{uid}/home/flashcardwizard/"><button class="button">Flash Card Wizard</button></a>
 		</center>
 	</body>
 </html>

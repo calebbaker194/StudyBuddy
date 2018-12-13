@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head> 
 <link rel='stylesheet' type='text/css' href='css/chat.css'/>
 <!--   <link rel='stylesheet' type='text/css' href='css/stylesheet.css'/> -->
@@ -36,15 +35,84 @@
 			}); 
 		</script> 
 </head>
+<style>
+	.chatbox{
+		background-color: #4c4c4c;
+		border-radius: 10px;
+		width: 39%;
+		height: 65%;
+		left: 10%;
+		position: fixed;
+		top: 130px;
+	}
+	
+	.interactbox{
+		background-color: #4c4c4c;
+		border-radius: 10px;
+		width: 39%;
+		height: 65%;
+		right: 10%;
+		position: fixed;
+		top: 130px;
+	}
+	
+	.chatbar{
+		background-color: #4c4c4c;
+		border-radius: 10px;
+		width: 80%;
+		left: 10%;
+		height: 40px;
+		position: fixed;
+		bottom: 15px;
+	}
+	
+	.webcam {
+	   	background-color: #637a9e;
+	    border: none;
+	    color: white;
+	    padding: 15px 25px;
+	    text-align: center;
+	    font-size: 16px;
+	    cursor: pointer;
+	    width: 200px;
+	    height: 50px;
+	    position: fixed;
+	    left: 10%;
+	    top: 60px;
+	    border-radius: 10px;
+	}
+	
+	.webcam:hover{
+		background-color: #4d5e7a;
+	}
+	
+	.textbox{
+		background-color: #637a9e;
+		width: 80%;
+		height: 90%;
+		top: 5%;
+		border-radius: 10px;
+	}
+	
+	.inputText{
+		background-color: #777777;
+	}
+	
+	::placeholder{
+		color: white;
+	}
+
+</style>
 <body>
 	<ul>
 	  <li><a href="/">Home</a></li>
 	  <li><a href="/about">About</a></li>
-	  <li style="float:right"><a class ="active" href="login">Login</a></li>
+	  <li style="float:right"><a href="login">Account</a></li>
 	</ul>
-	<br/>
-	
-	
+	<center>
+		<topbarimage><img src="media/topbarlogo4.jpg"></topbarimage>
+	</center>
+
 	<div id="left">
 		<div id="toolbar"> 
 			<ul id="tools"> 
@@ -78,36 +146,52 @@
 				<li> 
 					<button id="close-draw">Close Draw</button> 
 				</li> 
-				
 			</ul> 
 		</div> 
 		 
 		<div id="flash-card-div" class="ui-widget-content"> 
-		</div> 
+		</div>
+		
 		<div id="canvasDiv">
 		</div>
 	</div>
-	<div id="right">
+	
+
+
+	<div class="chatbox">
 		<div class="message-holder">
 		<div v-for="message in messages" class="message"><div class="from">{{message.from}}</div><div class="message">{{message.data}}</div></div>
 		</div>
-		<input type="text" id="chatbox">
+	</div>
+	
+	
+	<div class="chatbar">
+		<input 
+		style="background-color: #777777; border:none; width: 90%; height: 60%; position: relative; top:20%; left: 2%;" 
+		placeholder="Type here" type="text" id="chatbox">
+		
+		
 		<input type="submit" onclick="sendChat()" value="Send">
 	</div>
-	<div id="bottom">
-		<button onclick="search()">Search</button>
-	</div>
-	<div id="main">
-		<video id="remoteVideo"></video>
+	
+	
+	<button class="webcam" onclick="search()">Share Video</button>
+	
+	
+	<div class="interactbox">
+		<inputText><video id="remoteVideo"></video></inputText>
 		<canvas id="canvas"></canvas>
 	</div>
 	<div id="remote">
 		<video id="localVideo" controls muted></video>
 	</div>
-	<div>
-	</div>
+	
 </body>
-<script src="js/drawtool.js"></script> 
+
+
+
+<script src="js/drawtool.js"></script>
+
 <script>
 
 const app = new Vue({
@@ -325,4 +409,5 @@ function createAnswerError(error) {
 	console.log(error);
 }
 </script>
+
 </html>

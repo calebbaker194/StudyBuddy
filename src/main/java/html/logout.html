@@ -1,15 +1,52 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<link rel='stylesheet' type='text/css' href='css/stylesheet.css'/>
 		<meta charset="ISO-8859-1">
-		<title>Log Out</title>
+		<title>Study Buddy</title>
 	</head>
+	<style>
+		input {
+		   	background-color: #637a9e;
+		    border: none;
+		    color: white;
+		    padding: 15px 25px;
+		    text-align: center;
+		    font-size: 16px;
+		    cursor: pointer;
+		    width: 300px;
+		    height: 50px;  
+		}
+		input:hover {
+		   background-color: #4d5e7a;
+		}
+		h2{
+			color: white;
+		}
+		
+	</style>
 	
 	<body>
-		Do you want to logout, $user
-		<form method="post">
-			<input type="submit" name="logout"/>
-		</form>
-		<a href="/">Home</a>
+		<ul>
+		  <li style="float:right"><a href="/login">Account</a></li>
+		  <li><a href="/">Home</a></li>
+		  <li><a href="/about">About</a></li>
+		 </ul>
+		
+		<center>
+			<topbarimage><img src="media/topbarlogo4.jpg"></topbarimage>
+	
+			<h2>Are you sure you want to</h2>
+			<form method="post">
+				<input type="submit" name="logout" value="Logout"/>
+			</form>
+		</center>
 	</body>
 </html>
+
+
+
+
+
+
+
