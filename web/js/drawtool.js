@@ -86,6 +86,7 @@ var clickX = [], //arrays to hold positions
 	
 	release = function(e) {
 		paint = false;
+		sendChannel.send("{\"type\":\"release\"");
 		draw();
 	},
 	

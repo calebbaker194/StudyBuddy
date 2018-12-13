@@ -200,14 +200,18 @@ function openChat(event) {
 function chatMessage(event) {
 	var message = JSON.parse(event.data);
 	console.log(message)
-	if(message.type == "draw"){
+	if(message.type == "draw") {
 		addClick(message.mouseX, message.mouseY, message.paint);
 		draw();
 	}
-	if(message.type == "message"){
+	if(message.type == "message") {
 		var thisMes = new Object();
 		thisMes.data = message.data;
 		thisMes.from = message.from;
+	}
+	if(message.type == "release") {
+		paint = false;
+		draw();
 	}
 }
 function gotIceCandidate(event) {
