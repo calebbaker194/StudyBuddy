@@ -52,8 +52,12 @@ public class LoginController {
 		String pword = req.queryParams("password");
 		
 		//checks client info against the database
-		if(!PreparedQueries.authenticate(uname, pword))
+		if(!PreparedQueries.authenticate(uname, pword)) {
 			model.put("authFail", true); //used to check for login failure in html
+			return new VelocityTemplateEngine().render(
+					new ModelAndView(model, "html/login.html")
+					);
+		}
 		else
 			model.put("authSuccess", true); //used to check for login success in html
 		

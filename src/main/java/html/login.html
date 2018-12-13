@@ -67,6 +67,8 @@
 						alert("Login Success");
 						location.href = "/$!{uid}/home/";
 					</script>
+				#elseif($authFail)
+					<p>Failure<p>
 				#end	
 				</form>
 			
