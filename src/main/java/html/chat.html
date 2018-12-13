@@ -61,7 +61,7 @@
 	</div>
 	<div id="right">
 		<div class="message-holder">
-		<div v-for="message in messages" class="message">{{message}}</div>
+		<div v-for="message in messages" class="message"><div class="from">{{message.from}}</div><div class="message">{{message.data}}</div></div>
 		</div>
 		<input type="text" id="chatbox">
 		<input type="submit" onclick="sendChat()" value="Send">
@@ -208,6 +208,7 @@ function chatMessage(event) {
 		var thisMes = new Object();
 		thisMes.data = message.data;
 		thisMes.from = message.from;
+		app.messages.push(thisMes);
 	}
 	if(message.type == "release") {
 		paint = false;
