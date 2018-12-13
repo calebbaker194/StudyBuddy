@@ -115,6 +115,40 @@ public class PreparedQueries extends SQL {
 		
 	}
 	
+	public static String getUsername(int uid) {
+		
+		String query = "SELECT username FROM public.\"UserAccount\" WHERE userid = ?";
+		
+		try(Connection con = DriverManager.getConnection(connectionString, username, password)) {
+			PreparedStatement pst = con.prepareStatement(query);
+			
+			pst.setInt(1, uid);
+			
+			try(ResultSet rs = pst.executeQuery()) {
+				String username;
+				if(rs.next()) {
+					username = rs.getString("username");
+				}
+				else {
+					return null;
+				}
+				
+				return username;
+			}
+			catch(SQLException e) {
+				Logger lgr = Logger.getLogger(PreparedQueries.class.getName());
+				lgr.log(Level.SEVERE, e.getMessage(), e);
+				return null;
+			}
+		} 
+		catch(SQLException e) {
+			Logger lgr = Logger.getLogger(PreparedQueries.class.getName());
+			lgr.log(Level.SEVERE, e.getMessage(), e);
+			return null;
+		}
+		
+	}
+	
 	/**
 	 * 
 	 * This function inserts client submitted info into the UserAccount table,
