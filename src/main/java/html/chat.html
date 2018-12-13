@@ -1,232 +1,125 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<link rel='stylesheet' type='text/css' href='css/stylesheet.css'/>
 <link rel='stylesheet' type='text/css' href='css/chat.css'/>
 <!--   <link rel='stylesheet' type='text/css' href='css/stylesheet.css'/> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script src="/js/vue.js"></script>
-<script> 
-			$(document).ready(function() { 				 
-				$("#flash-card-div").hide(); 
-				$("#canvasDiv").hide();
-				$(".color-bttn").hide();
-				$("#close-draw").hide();
-				
-				$("#draw-tool-bttn").click(function() {
-					$("#canvasDiv").show();
-					$(".color-bttn").show();
-					$("#close-draw").show();
-				});
-				 
-				$("#flash-card-bttn").click(function(event) { 
-					$("#flash-card-div").show(); 
-					$("#flash-card-div").load("/toolbarcardviewer") 
-				}); 
-				
-				$("#close-draw").click(function(event) {
-					$("#canvasDiv").hide();
-					$(".color-bttn").hide();
-					$("#close-draw").hide();
-				});
-				
-				$("#flash-card-div").draggable().resizable();
-			}); 
-		</script> 
+<script>
+                        $(document).ready(function() {                          
+                                $("#flash-card-div").hide();
+                                $("#canvasDiv").hide();
+                                $(".color-bttn").hide();
+                                $("#close-draw").hide();
+
+                                $("#draw-tool-bttn").click(function() {
+                                        $("#canvasDiv").show();
+                                        $(".color-bttn").show();
+                                        $("#close-draw").show();
+                                });
+
+                                $("#flash-card-bttn").click(function(event) {
+                                        $("#flash-card-div").show();
+                                        $("#flash-card-div").load("/toolbarcardviewer")
+                                });
+
+                                $("#close-draw").click(function(event) {
+                                        $("#canvasDiv").hide();
+                                        $(".color-bttn").hide();
+                                        $("#close-draw").hide();
+                                });
+
+                                $("#flash-card-div").draggable().resizable();
+                        });
+                </script>
 </head>
-<style>
-	.left {
-		position: fixed;
-		left: 55%;
-		width: 40%;
-		top: 60px;
-		z-index: 50000;
-		height: 80px;
-	}
-	#toolbar {
-		width: 50%;
-		height: 50%;
-		z-index: 50001;
-	}
-
-	.chatbox{
-		background-color: #4c4c4c;
-		border-radius: 10px;
-		width: 39%;
-		height: 65%;
-		left: 10%;
-		position: fixed;
-		top: 130px;
-	}
-	.inner{
-		position: relative;
-		width: 100%;
-		height: 100%;
-	}
-	
-	.interactbox{
-		background-color: #4c4c4c;
-		border-radius: 10px;
-		width: 39%;
-		height: 65%;
-		right: 10%;
-		position: fixed;
-		top: 130px;
-	}
-	
-	.chatbar{
-		background-color: #4c4c4c;
-		border-radius: 10px;
-		width: 80%;
-		left: 10%;
-		height: 40px;
-		position: fixed;
-		bottom: 15px;
-	}
-	
-	.webcam {
-	   	background-color: #637a9e;
-	    border: none;
-	    color: white;
-	    padding: 15px 25px;
-	    text-align: center;
-	    font-size: 16px;
-	    cursor: pointer;
-	    width: 200px;
-	    height: 50px;
-	    position: fixed;
-	    left: 10%;
-	    top: 60px;
-	    border-radius: 10px;
-	}
-	
-	.webcam:hover{
-		background-color: #4d5e7a;
-	}
-	
-	.textbox{
-		background-color: #637a9e;
-		width: 80%;
-		height: 90%;
-		top: 5%;
-		border-radius: 10px;
-	}
-	
-	.inputText{
-		background-color: #777777;
-	}
-	
-	::placeholder{
-		color: white;
-	}
-
-</style>
 <body>
-	<ul>
-	  <li><a href="/">Home</a></li>
-	  <li><a href="/about">About</a></li>
-	  <li style="float:right"><a href="login">Account</a></li>
-	</ul>
-	<center>
-		<topbarimage><img src="media/topbarlogo4.jpg"></topbarimage>
-	</center>
-
-	<div class="left">
-		<div id="toolbar"> 
-			<ul id="tools"> 
-				<li>
-					<button id="flash-card-bttn">Flash Cards</button>
-				</li>
-				<li>
-					<button id="draw-tool-bttn">Draw Tool</button>
-				</li>
-				<li class="color-bttn">
-					<button class="color" value="#ff3300">Red</button>
-				</li>
-				<li class="color-bttn">
-					<button class="color" value="#ffffff">White</button>
-				</li>
-				<li class="color-bttn">
-					<button class="color" value="#00cc00">Green</button>
-				</li>
-				<li class="color-bttn">
-					<button class="color" value="eraser">Clear</button>
-				</li>
-				<li> 
-					<button id="close-draw">Close Draw</button> 
-				</li> 
-			</ul> 
-		</div> 
-		 
-		<div id="flash-card-div" class="ui-widget-content"> 
-		</div>
-		
-		<div id="canvasDiv">
-		</div>
-	</div>
-	
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/about">About</a></li>
+          <li style="float:right"><a class ="active" href="login">Login</a></li>
+        </ul>
+        <br/>
 
 
-	<div id="chatbox" class="chatbox">
-		<div class="message-holder">
-		<div v-for="message in messages" class="message">{{message}}</div>
-		</div>
-	</div>
-	
-	
-	<div class="chatbar">
-		<input 
-		style="background-color: #777777; border:none; width: 89%; height: 60%; position: relative; top:0%; left: 2%; color:white" 
-		placeholder="Type here" type="text" id="chatbox">
-		
-		
-		<input type="submit" onclick="sendChat()" value="Send"
-		style="border:none;
-		background-color: #637a9e;
-		color: white;
-		height: 100%;
-		width: 10%;
-		top: 0%;
-		position: relative;
-		left: 20px;
-		"
-		
-		>
-	</div>
-	
-	
-	<button class="webcam" onclick="search()">Share Video</button>
-	
-	
-	<div class="interactbox">
-		<div style="height: 100%">
-			<video id="remoteVideo"></video>
-			<canvas id="canvas"></canvas>
-			<div id="remote">
-				<video width="290px" height="200px;" id="localVideo"></video>
-			</div>
-		</div>
-	</div>
+        <div id="left">
+                <div id="toolbar">
+                        <ul id="tools">
+                                <li>
+                                        <button id="flash-card-bttn">Flash Cards</button>
+                                </li>
+                                <li>
+                                        <button id="draw-tool-bttn">Draw Tool</button>
+                                </li>
+                                <li class="color-bttn">
+                                        <button class="color" value="#ff3300">Red</button>
+                                </li>
+                                <li class="color-bttn">
+                                        <button class="color" value="#ffffff">White</button>
+                                </li>
+                                <li class="color-bttn">
+                                        <button class="color" value="#ff9933">Orange</button>
+                                </li>
+                                <li class="color-bttn">
+                                        <button class="color" value="#ffff00">Yellow</button>
+                                </li>
+                                <li class="color-bttn">
+                                        <button class="color" value="#00cc00">Green</button>
+                                </li>
+                                <li class="color-bttn">
+                                        <button class="color" value="#9900cc">Purple</button>
+                                </li>
+                                <li class="color-bttn">
+                                        <button class="color" value="eraser">Clear</button>
+                                </li>
+                                <li>
+                                        <button id="close-draw">Close Draw</button>
+                                </li>
 
-	
+                        </ul>
+                </div>
+
+                <div id="flash-card-div" class="ui-widget-content">
+                </div>
+                <div id="canvasDiv">
+                </div>
+        </div>
+        <div id="right">
+                <div class="message-holder">
+                <div v-for="message in messages" class="message"><div
+class="from">{{message.from}}</div><div
+class="message">{{message.data}}</div></div>
+                </div>
+                <input type="text" id="chatbox">
+                <input type="submit" onclick="sendChat()" value="Send">
+        </div>
+        <div id="bottom">
+                <button onclick="search()">Search</button>
+        </div>
+        <div id="main">
+                <video id="remoteVideo"></video>
+                <canvas id="canvas"></canvas>
+        </div>
+        <div id="remote">
+                <video id="localVideo" controls muted></video>
+        </div>
+        <div>
+        </div>
 </body>
-
-
-
 <script src="js/drawtool.js"></script>
-
 <script>
 
 const app = new Vue({
-	el: '#chatbox',
-	data: {
-		messages: [],
-	},
-	created () {
-	},
-	
+        el: '#right',
+        data: {
+                messages: [],
+        },
+        created () {
+        },
+
 })
 
 var localVideo;
@@ -238,69 +131,72 @@ var peerConnection;
 var roomNumber = -1;
 
 function sendChat() {
-	var chattext = document.getElementById("chatbox");
-	dataChannel.send("{\"type\":\"message\", \"data\":\""+chattext.value+"\", \"from\":\""+"this"+"\"}");
+        var chattext = document.getElementById("chatbox");
+        dataChannel.send("{\"type\":\"message\",
+\"data\":\""+chattext.value+"\", \"from\":\""+"this"+"\"}");
 }
 
 window.onload=pageReady;
 
 function search()
 {
-	localVideo.play()
-	serverConnection.send("{\"type\":\"ENTERQUEUE\"}");
+        localVideo.play()
+        serverConnection.send("{\"type\":\"ENTERQUEUE\"}");
 }
 
 function addFriend() {
-	
+
 }
 
 function nextCard(card) {
-	console.log(card);
-	sendChannel.send("{\"type\":\"nextCard\", \"data\":\""+card+"\"}");
+        console.log(card);
+        sendChannel.send("{\"type\":\"nextCard\", \"data\":\""+card+"\"}");
 }
 
 function showAnswer(ans) {
-	sendChannel.send("{\"type\":\"showAns\", \"data\":\""+ans+"\"}")
+        sendChannel.send("{\"type\":\"showAns\", \"data\":\""+ans+"\"}")
 }
 
 function playvideo() {
-	  var video = document.getElementById('video');
-	  var vendorUrl = window.URL || window.webkitURL;
-	  
-	  navigator.getMedia = navigator.getUserMedia || 
-	  					   navigator.webkitGetUserMedia ||
-	  					   navigator.mozGetUserMedia || 
-	  					   navigator.msGetUserMedia;
-	  
-	  // Capture video
-	  navigator.getMedia({
-		  video: true,
-		  audio: false,		  
-	  },  function(stream) {
-		  video.src = vendorUrl.srcObject = stream;
-		  video.play();
-	  },  function(error) {
-		  // An error occured
-		  // error.cod
-	  });
+          var video = document.getElementById('video');
+          var vendorUrl = window.URL || window.webkitURL;
+
+          navigator.getMedia = navigator.getUserMedia ||
+                                                   navigator.webkitGetUserMedia ||
+                                                   navigator.mozGetUserMedia ||
+                                                   navigator.msGetUserMedia;
+
+          // Capture video
+          navigator.getMedia({
+                  video: true,
+                  audio: false,         
+          },  function(stream) {
+                  video.src = vendorUrl.srcObject = stream;
+                  video.play();
+          },  function(error) {
+                  // An error occured
+                  // error.cod
+          });
  }
- 
+
 function pageReady() {
-	
+
     localVideo = document.getElementById('localVideo');
     remoteVideo = document.getElementById('remoteVideo');
-	console.log("Begin Connection");
-    serverConnection = new WebSocket('wss://127.0.0.1:30001');
+        console.log("Begin Connection");
+    serverConnection = new
+WebSocket('wss://studybuddy.pittsburgsteel.com:30001');
     console.log("Connecting");
     serverConnection.onmessage = gotMessageFromServer;
-    
+
     var constraints = {
         video: true,
         audio: true,
     };
 
     if(navigator.getUserMedia) {
-        navigator.getUserMedia(constraints, getUserMediaSuccess, getUserMediaError);
+        navigator.getUserMedia(constraints, getUserMediaSuccess,
+getUserMediaError);
     } else {
         alert('Your browser does not support getUserMedia API');
     }
@@ -315,24 +211,24 @@ function getUserMediaError(error) {
 }
 function start(isCaller) {
     peerConnection = new RTCPeerConnection();
-    
+
     peerConnection.onicecandidate = gotIceCandidate;
     peerConnection.onaddstream = gotRemoteStream;
     peerConnection.ondatachannel = gotRemoteDataChannel;
     peerConnection.addStream(localStream);
-    
+
     sendChannel = peerConnection.createDataChannel("sendChannel");
     sendChannel.onopen = sendChannelStatus;
     sendChannel.onclose = sendChannelStatus;
-    
+
     if(isCaller) {
         peerConnection.createOffer(gotDescription, createOfferError);
     }
 }
 
 function sendChannelStatus(event) {
-	console.log("Send Channel Change");
-	console.log(event);
+        console.log("Send Channel Change");
+        console.log(event);
 }
 
 function gotDescription(description) {
@@ -340,36 +236,36 @@ function gotDescription(description) {
     peerConnection.setLocalDescription(description, function () {
         serverConnection.send(JSON.stringify({'sdp': description}));
     }, function() {console.log('set description error')});
-    
+
 }
 
 function openChat(event) {
-	console.log("CHHHHHATTTTT");
+        console.log("CHHHHHATTTTT");
 }
 
 function chatMessage(event) {
-	var message = JSON.parse(event.data);
-	console.log(message)
-	if(message.type == "draw") {
-		addClick(message.mouseX, message.mouseY, message.paint);
-		draw();
-	}
-	if(message.type == "message") {
-		var thisMes = new Object();
-		thisMes.data = message.data;
-		thisMes.from = message.from;
-		app.messages.push(thisMes);
-	}
-	if(message.type == "release") {
-		paint = false;
-		draw();
-	}
-	if(message.type == "nextCard") {
-		console.log(message.data.innerHTML);
-	}
-	if(message.type == "showAns") {
-		console.log(message.data.innerHTML);
-	}
+        var message = JSON.parse(event.data);
+        console.log(message)
+        if(message.type == "draw") {
+                addClick(message.mouseX, message.mouseY, message.paint);
+                draw();
+        }
+        if(message.type == "message") {
+                var thisMes = new Object();
+                thisMes.data = message.data;
+                thisMes.from = message.from;
+                app.messages.push(thisMes);
+        }
+        if(message.type == "release") {
+                paint = false;
+                draw();
+        }
+        if(message.type == "nextCard") {
+                console.log(message.data.getElementsByTagName('p')[0].innerHTML)
+        }
+        if(message.type == "showAns") {
+                console.log(message.data.getElementsByTagName('p')[0].innerHTML)
+        }
 }
 function gotIceCandidate(event) {
     if(event.candidate != null) {
@@ -381,13 +277,13 @@ function gotRemoteStream(event) {
     console.log('got remote stream');
     remoteVideo.srcObject  = event.stream;
     remoteVideo.play()
-   
+
     dataChannel = peerConnection.createDataChannel("Chat")
     dataChannel.onopen = openChat;
 }
 
 function gotRemoteDataChannel(event) {
-	console.log(event)
+        console.log(event)
     recvChannel = event.channel;
     recvChannel.onmessage = chatMessage;
     recvChannel.onopen = sendChannelStatus;
@@ -398,30 +294,31 @@ function createOfferError(error) {
     console.log(error);
 }
 function gotMessageFromServer(message) {
-	
-    console.log(message);
-    
-	if(message.data == "INITCALL") {
-		start(true);
-		return;
-	}
-	else if(message.data == "CALLREADY") {
-		
-		return;
-	}
-	else if(message.data.startsWith("SETROOM")) {
-		roomNumber = parseInt(message.data.substring(7))
-		return
-	}
-	
-	
-	console.log(message);
 
-	if(!peerConnection) start(false);
+    console.log(message);
+
+        if(message.data == "INITCALL") {
+                start(true);
+                return;
+        }
+        else if(message.data == "CALLREADY") {
+
+                return;
+        }
+        else if(message.data.startsWith("SETROOM")) {
+                roomNumber = parseInt(message.data.substring(7))
+                return
+        }
+
+
+        console.log(message);
+
+        if(!peerConnection) start(false);
 
     var signal = JSON.parse(message.data);
     if(signal.sdp) {
-        peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp), function() {
+        peerConnection.setRemoteDescription(new
+RTCSessionDescription(signal.sdp), function() {
             if(signal.sdp.type == 'offer') {
                 peerConnection.createAnswer(gotDescription, createAnswerError);
             }
@@ -431,8 +328,7 @@ function gotMessageFromServer(message) {
     }
 }
 function createAnswerError(error) {
-	console.log(error);
+        console.log(error);
 }
 </script>
-
 </html>
