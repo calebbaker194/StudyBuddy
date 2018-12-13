@@ -2,107 +2,12 @@
 <html>
 
 <head> 
+<link rel='stylesheet' type='text/css' href='css/chat.css'/>
+<!--   <link rel='stylesheet' type='text/css' href='css/stylesheet.css'/> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!--  <script src="/js/vue.js"></script> -->
 </head>
-	<style>
-	#remoteVideo, #canvas {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-	}
-	
-	#remoteVideo{
-		z-index: 0;
-	}
-	
-	#canvas {
-		z-index: 5;
-	}
-	
-	ul {
-	    list-style-type: none;
-	    margin: 0;
-	    padding: 0;
-	    overflow: hidden;
-	    background-color: #f3f3f3;
-	    border: 1px solid #e7e7e7;
-	    width = 100%;
-	}
-	li {
-	    float: left;
-	}
-	li a {
-	    display: block;
-	    color: #666;
-	    text-align: center;
-	    padding: 14px 16px;
-	    text-decoration: none;
-	}
-	li a:hover:not(.active) {
-	    background-color: #ddd;
-	}
-	li a.active {
-	    color: white;
-	    background-color: #85929E;
-	}
-	h1 {
-		color: #666;
-	}
-	
-	#left {
-      background-color: gray;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 15%;
-    }
-    
-    video {
-      width: 100%;
-      height: 100%;
-    }
-    
-	#right {
-      background-color: gray;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 15%;
-    }
-    
-	#bottom {
-      background-color: gray;
-      height: 10%;
-      position: absolute;
-      bottom: 0;
-	  left: 15%;
-      width: 70%;
-    }
-    
-	#main {
-      background-color: light-gray;
-      height: 90%;
-      position: absolute;
-      top: 0;
-	  left: 15%;
-      width: 70%;
-	}
-	
-	#remote {
-      background-color: white;
-      height: 200px;
-      position: absolute;
-      bottom: 15%;
-	  left: 60%;
-      width: 290px;
-	 }
-	
-	</style>
 <body>
 	<ul>
 	  <li><a href="/">Home</a></li>
@@ -155,6 +60,11 @@
 		</div>
 	</div>
 	<div id="right">
+		<div class="message-holder">
+		<div v-for="message in messages" class="message">{{message}}</div>
+		</div>
+		<input type="text" id="chatbox">
+		<input type="submit" onclick="sendChat()" value="Send">
 	</div>
 	<div id="bottom">
 		<button onclick="search()">Search</button>
@@ -171,12 +81,28 @@
 </body>
 <script src="js/drawtool.js"></script> 
 <script>
+/*
+const app = new Vue({
+	el: '#right',
+	data: {
+		messages: [],
+	},
+	created () {
+	},
+	
+})*/
 
 var localVideo;
+var sendChannel;
 var localStream;
 var serverConnection;
 var peerConnection;
 var roomNumber = -1;
+
+function sendChat() {
+	var chattext = document.getElementById("chatbox");
+	dataChannel.send(chattext.value);
+}
 
 window.onload=pageReady;
 
@@ -184,16 +110,6 @@ function search()
 {
 	localVideo.play()
 	serverConnection.send("{\"type\":\"ENTERQUEUE\"}");
-}
-
-function getRoom()
-{
-	serverConnection.send("{\"type\":\"GETROOM\"}");
-}
-
-function enterRoom()
-{
-	serverConnection.send("{\"type\":\"ENTERROOM\",\"value\":"+document.getElementById("roomnumber").value+"}");	
 }
 
 function playvideo() {
@@ -219,10 +135,12 @@ function playvideo() {
  }
  
 function pageReady() {
+	
     localVideo = document.getElementById('localVideo');
     remoteVideo = document.getElementById('remoteVideo');
-
+	console.log("Begin Connection");
     serverConnection = new WebSocket('wss://studybuddy.pittsburgsteel.com:30001');
+    console.log("Connecting");
     serverConnection.onmessage = gotMessageFromServer;
     
     var constraints = {
@@ -246,13 +164,24 @@ function getUserMediaError(error) {
 }
 function start(isCaller) {
     peerConnection = new RTCPeerConnection();
+    
     peerConnection.onicecandidate = gotIceCandidate;
     peerConnection.onaddstream = gotRemoteStream;
+    peerConnection.ondatachannel = gotRemoteDataChannel;
     peerConnection.addStream(localStream);
-
+    
+    sendChannel = peerConnection.createDataChannel("sendChannel");
+    sendChannel.onopen = sendChannelStatus;
+    sendChannel.onclose = sendChannelStatus;
+    
     if(isCaller) {
         peerConnection.createOffer(gotDescription, createOfferError);
     }
+}
+
+function sendChannelStatus(event) {
+	console.log("Send Channel Change");
+	console.log(event);
 }
 
 function gotDescription(description) {
@@ -260,8 +189,17 @@ function gotDescription(description) {
     peerConnection.setLocalDescription(description, function () {
         serverConnection.send(JSON.stringify({'sdp': description}));
     }, function() {console.log('set description error')});
+    
 }
 
+function openChat(event) {
+	console.log("CHHHHHATTTTT");
+}
+
+function chatMessage(event) {
+	console.log(event.data);
+	app.messages.push(event.data);
+}
 function gotIceCandidate(event) {
     if(event.candidate != null) {
         serverConnection.send(JSON.stringify({'ice': event.candidate}));
@@ -272,6 +210,17 @@ function gotRemoteStream(event) {
     console.log('got remote stream');
     remoteVideo.src = window.URL.createObjectURL(event.stream);
     remoteVideo.play()
+   
+    dataChannel = peerConnection.createDataChannel("Chat")
+    dataChannel.onopen = openChat;
+}
+
+function gotRemoteDataChannel(event) {
+	console.log(event)
+    recvChannel = event.channel;
+    recvChannel.onmessage = chatMessage;
+    recvChannel.onopen = sendChannelStatus;
+    recvChannel.onclose = sendChannelStatus;
 }
 
 function createOfferError(error) {
@@ -279,6 +228,8 @@ function createOfferError(error) {
 }
 function gotMessageFromServer(message) {
 	
+    console.log(message);
+    
 	if(message.data == "INITCALL") {
 		start(true);
 		return;
