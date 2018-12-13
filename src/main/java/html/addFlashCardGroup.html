@@ -17,6 +17,7 @@
 				
 				var para = document.getElementById("card");
 				var list = document.createElement("li");
+				list.classList.add("card")
 				var br = document.createElement("br");
 				list.setAttribute("id", "card1");
 				
@@ -32,8 +33,8 @@
 				answer.setAttribute("name", ansName);
 				list.appendChild(question);
 				list.appendChild(answer);
-				list.appendChild(br);
 				para.appendChild(list);
+				para.appendChild(br);
 				
 			});
 			
@@ -110,32 +111,32 @@
 		
 		<ul class="header">
 		  <li class="header"><a href="/">Home</a></li>
-		  <li class="header"><a href="#about">About</a></li>
+		  <li class="header"><a href="/about">About</a></li>
 		  <li class="header" style="float:right"><a class ="active" href="/login">Account</a></li>
 		</ul>
 		
 		<center>
 			<topbarimage><img src="/media/topbarlogo4.jpg"></topbarimage><br/>
-			<input class="button big" id="submit" type="submit" name="Create Flashcard" value="Create"/>
-			<br><br>
 			
+			<a href="/$!{uid}/home/"><button class="returnButton">Return to Account</button></a>
+			<button style="position:relative; top:110px" class="button" onclick="#" id="addCard">Add card</button>
+			
+			
+			<form method="post">
 			<div class="box">
 				<input type="text" style="font-size: 16px" size="20" name="group" placeholder="Title"/>
 				<input type="text" style="font-size: 16px" size="45" name="description" placeholder="Description"/>
 			</div>
 			<br><br><br>
-		
-			<a href="/$!{uid}/home/"><button class="returnButton">Return to Account</button></a>
+
 			
 			#if($result)
-				<p>group successfully added</p>
+				<p style="color:white">group successfully added</p>
 			#end
 			
-			
-			<button class="button" id="addCard">Add card</button>
 			<br><br>
 			
-			<form method="post">
+			
 				<!--
 				<select name="course">
 					#foreach($course in $courses)
@@ -146,22 +147,23 @@
 				
 				<div id="cardInput">
 					<ul id="card" 
-					style="list-style-type: none;
-					margin: 0;
-					padding: 0;
-					overflow: hidden;
-					background-color: #4c4c4c;
-				   
-					width = 100%;
-					float: none;">
+						style="list-style-type: none;
+						margin: 0;
+						padding: 0;
+						overflow: hidden;
+						background-color: #4c4c4c;
+					   
+						width = 100%;
+						float: none;">
 					
-						<li class="card" style="width:100%">
+						<li class="card">
 							<input type="text" name="question0" placeholder="Question"/>
 							<input type="text" name="answer0" placeholder="Answer"/>
 						</li>
 					</ul>
 				</div>
-				
+				<br>
+				<input  class="button big" id="submit" type="submit" name="Create Flashcard" value="Create"/>
 			</form>
 		</center>
 		
