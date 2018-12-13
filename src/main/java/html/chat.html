@@ -6,6 +6,22 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 	<style>
+	#remoteVideo, #canvas {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+	
+	#remoteVideo{
+		z-index: 0;
+	}
+	
+	#canvas {
+		z-index: 5;
+	}
+	
 	ul {
 	    list-style-type: none;
 	    margin: 0;
@@ -97,6 +113,46 @@
 	
 	
 	<div id="left">
+		<div id="toolbar"> 
+			<ul id="tools"> 
+				<li> 
+					<button id="flash-card-bttn">Flash Cards</button> 
+				</li> 
+				<li> 
+					<button id="draw-tool-bttn">Draw Tool</button> 
+				</li> 
+				<li class="color-bttn">
+					<button class="color" value="#ff3300">Red</button>
+				</li>
+				<li class="color-bttn">
+					<button class="color" value="#ffffff">White</button>
+				</li>
+				<li class="color-bttn">
+					<button class="color" value="#ff9933">Orange</button>
+				</li>
+				<li class="color-bttn">
+					<button class="color" value="#ffff00">Yellow</button>
+				</li>
+				<li class="color-bttn">
+					<button class="color" value="#00cc00">Green</button>
+				</li>
+				<li class="color-bttn">
+					<button class="color" value="#9900cc">Purple</button>
+				</li>
+				<li class="color-bttn">
+					<button class="color" value="eraser">Clear</button>
+				</li>
+				<li> 
+					<button id="document-view-bttn">Documents</button> 
+				</li> 
+				
+			</ul> 
+		</div> 
+		 
+		<div id="flash-card-div" class="ui-widget-content"> 
+		</div> 
+		<div id="canvasDiv">
+		</div>
 	</div>
 	<div id="right">
 	</div>
@@ -105,6 +161,7 @@
 	</div>
 	<div id="main">
 		<video id="remoteVideo"></video>
+		<canvas id="canvas"></canvas>
 	</div>
 	<div id="remote">
 		<video id="localVideo"></video>
@@ -112,6 +169,7 @@
 	<div>
 	</div>
 </body>
+<script src="js/drawtool.js"></script> 
 <script>
 
 var localVideo;
