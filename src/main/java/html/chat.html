@@ -132,8 +132,7 @@ var roomNumber = -1;
 
 function sendChat() {
         var chattext = document.getElementById("chatbox");
-        dataChannel.send("{\"type\":\"message\",
-\"data\":\""+chattext.value+"\", \"from\":\""+"this"+"\"}");
+        dataChannel.send("{\"type\":\"message\",\"data\":\""+chattext.value+"\", \"from\":\""+"this"+"\"}");
 }
 
 window.onload=pageReady;
