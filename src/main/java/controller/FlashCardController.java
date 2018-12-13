@@ -130,7 +130,7 @@ public class FlashCardController {
 		String groupName = req.queryParams("group");
 		req.session().attribute("groupName", groupName);
 		String userid = req.session().attribute("currentUser");
-		res.redirect(userid + "/home/flashcardwizard/view/" + groupName);
+		res.redirect("view/" + groupName);
 		return null;
 	};
 	

@@ -6,7 +6,35 @@
 <!--   <link rel='stylesheet' type='text/css' href='css/stylesheet.css'/> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script src="/js/vue.js"></script>
+<script> 
+			$(document).ready(function() { 				 
+				$("#flash-card-div").hide(); 
+				$("#canvasDiv").hide();
+				$(".color-bttn").hide();
+				$("#close-draw").hide();
+				
+				$("#draw-tool-bttn").click(function() {
+					$("#canvasDiv").show();
+					$(".color-bttn").show();
+					$("#close-draw").show();
+				});
+				 
+				$("#flash-card-bttn").click(function(event) { 
+					$("#flash-card-div").show(); 
+					$("#flash-card-div").load("/toolbarcardviewer") 
+				}); 
+				
+				$("#close-draw").click(function(event) {
+					$("#canvasDiv").hide();
+					$(".color-bttn").hide();
+					$("#close-draw").hide();
+				});
+				
+				$("#flash-card-div").draggable().resizable();
+			}); 
+		</script> 
 </head>
 <body>
 	<ul>
@@ -48,7 +76,7 @@
 					<button class="color" value="eraser">Clear</button>
 				</li>
 				<li> 
-					<button id="document-view-bttn">Documents</button> 
+					<button id="close-draw">Close Draw</button> 
 				</li> 
 				
 			</ul> 
