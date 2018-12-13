@@ -22,7 +22,8 @@ public class UserPageController {
 		
 		Map<String, Object> model = new HashMap<>();
 		
-		model.put("uid", username);
+		model.put("username", username);
+		model.put("uid", userid);
 		
 		String getFriendRequestsQuery = "SELECT username FROM public.\"UserAccount\" AS ua " + 
 				"INNER JOIN public.\"Friend\" AS f ON ua.userid = f.friend_request_sender " + 

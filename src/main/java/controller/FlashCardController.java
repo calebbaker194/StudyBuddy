@@ -118,7 +118,7 @@ public class FlashCardController {
 		} while(question != null && answer != null);
 		
 		req.session().attribute("addFlashCardResult", true);
-		res.redirect(userid + "/home/flashcardwizard/addnewgroup");
+		res.redirect("addnewgroup");
 		return res;
 		
 	};
